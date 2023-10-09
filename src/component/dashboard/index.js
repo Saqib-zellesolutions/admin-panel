@@ -48,7 +48,7 @@ function Dasboard() {
   };
   return (
     <main className="main-dashbaord">
-      <div style={{ width: "5%" }}>
+      <div className="naviation-main-container">
         <nav className="navigation">
           <div className="logo-div">
             <img

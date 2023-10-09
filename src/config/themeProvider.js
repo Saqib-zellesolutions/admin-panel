@@ -5,11 +5,9 @@ export const ThemeContext = createContext((_themeName) => {});
 
 const ThemeProviderWrapper = (props) => {
   return (
-    // <StylesProvider injectFirst>
     <ThemeContext.Provider value={DarkSpacesTheme}>
       <ThemeProvider theme={DarkSpacesTheme}>{props.children}</ThemeProvider>
     </ThemeContext.Provider>
-    // </StylesProvider>
   );
 };
 

@@ -65,7 +65,7 @@ export default function LineCharts({ summedSales, dates }) {
         options={options}
         series={series}
         type="line"
-        width={420}
+        // width={420}
         height={250}
       />
     </div>

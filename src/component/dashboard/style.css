@@ -10,6 +10,9 @@
   justify-content: space-between;
   width: 100%;
 }
+.naviation-main-container {
+  width: 5px;
+}
 .navigation {
   position: fixed;
   width: 80px;
@@ -351,8 +354,17 @@
   .method-container {
     flex-direction: column;
   }
+  .naviation-main-container {
+    width: 10%;
+  }
 }
 @media (max-width: 600px) {
+  .line-chart-container {
+    width: 400px;
+  }
+  .naviation-main-container {
+    width: 15%;
+  }
   .title {
     font-size: 10px;
   }
@@ -368,6 +380,9 @@
   }
 }
 @media (max-width: 500px) {
+  .main-dashboard-content {
+    width: 85%;
+  }
   .main-container {
     display: none;
   }
@@ -376,6 +391,16 @@
   }
 }
 @media (max-width: 400px) {
+  .main-dashboard-content {
+    width: 80%;
+    padding-right: 0;
+  }
+  .line-chart-container {
+    width: 100%;
+  }
+  .report-filter-div {
+    width: 100%;
+  }
   .heading-subheading-div h1 {
     font-size: 26px;
   }

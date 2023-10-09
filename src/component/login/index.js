@@ -1,7 +1,12 @@
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { IconButton, InputAdornment, OutlinedInput } from "@mui/material";
+import {
+  CircularProgress,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
+} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -31,7 +36,7 @@ export default function Login() {
   ]);
   const [selectedBranch, setSelectedBranch] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
+  const [isloading, setLoader] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleChange = (event) => {
     setSelectedBranch(event.target.value);
@@ -42,6 +47,7 @@ export default function Login() {
     event.preventDefault();
   };
   const login = () => {
+    setLoader(true);
     // if ((!email, !password, !selectedBranch)) {
     //   alert("please fill the input");
     // } else {
@@ -66,6 +72,7 @@ export default function Login() {
         setEmail("");
         setPassword("");
         setSelectedBranch("");
+        setLoader(false);
         if (result.data) {
           localStorage.setItem("token", result.data.token);
           navigate("/dashboard");
@@ -110,30 +117,6 @@ export default function Login() {
           }}
         >
           <TextField
-            sx={{
-              "& .MuiInputLabel-root": {
-                color: "#A1A1A1", // Change the label color to green
-              },
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "#A1A1A1",
-                  color: "#A1A1A1",
-                },
-                "&:hover fieldset": {
-                  borderColor: "#A1A1A1",
-                  color: "#A1A1A1",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "#A1A1A1", // Change the border color when focused to green
-                },
-                "& .MuiInputBase-input": {
-                  color: "#A1A1A1",
-                  "&::placeholder": {
-                    color: "#A1A1A1", // Change the placeholder color to green
-                  },
-                },
-              },
-            }}
             margin="normal"
             required
             fullWidth
@@ -146,34 +129,7 @@ export default function Login() {
             value={email}
             variant="outlined"
           />
-          <FormControl
-            sx={{
-              "& .MuiInputLabel-root": {
-                color: "#A1A1A1", // Change the label color to green
-              },
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "#A1A1A1",
-                  color: "#A1A1A1",
-                },
-                "&:hover fieldset": {
-                  borderColor: "#A1A1A1",
-                  color: "#A1A1A1",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "#A1A1A1", // Change the border color when focused to green
-                },
-                "& .MuiInputBase-input": {
-                  color: "#A1A1A1",
-                  "&::placeholder": {
-                    color: "#A1A1A1", // Change the placeholder color to green
-                  },
-                },
-              },
-            }}
-            fullWidth
-            variant="outlined"
-          >
+          <FormControl fullWidth variant="outlined">
             {/* <InputLabel htmlFor="outlined-adornment-password">
               Password
             </InputLabel> */}
@@ -213,35 +169,7 @@ export default function Login() {
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             /> */}
-          <FormControl
-            sx={{
-              "& .MuiInputLabel-root": {
-                color: "#A1A1A1", // Change the label color to green
-              },
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "#A1A1A1",
-                  color: "#A1A1A1",
-                },
-                "&:hover fieldset": {
-                  borderColor: "#A1A1A1",
-                  color: "#A1A1A1",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "#A1A1A1", // Change the border color when focused to green
-                },
-                "& .MuiInputBase-input": {
-                  color: "#A1A1A1",
-                  "&::placeholder": {
-                    color: "#A1A1A1", // Change the placeholder color to green
-                  },
-                },
-              },
-            }}
-            fullWidth
-            margin="normal"
-            variant="outlined"
-          >
+          <FormControl fullWidth margin="normal" variant="outlined">
             <InputLabel id="demo-simple-select-label">Branch Name</InputLabel>
             <Select
               required
@@ -264,17 +192,14 @@ export default function Login() {
             type="submit"
             fullWidth
             variant="outlined"
-            // color="secondary"
+            color="secondary"
             sx={{
               mt: 3,
               mb: 2,
-              // background: "#A1A1A1",
-              borderColor: "#A1A1A1",
-              color: "#A1A1A1",
             }}
             onClick={() => login()}
           >
-            Sign In
+            {isloading ? <CircularProgress color="secondary" /> : "Sign In"}
           </Button>
         </Box>
       </Box>
