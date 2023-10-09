@@ -97,7 +97,6 @@ function Content() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
         setContent(result);
       })
       .catch((error) => console.log("error", error));
@@ -136,11 +135,9 @@ function Content() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
         window.location.reload();
       })
       .catch((error) => {
-        console.log("error", error);
         toast.error(error);
       });
   };
@@ -158,11 +155,9 @@ function Content() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
         window.location.reload();
       })
       .catch((error) => {
-        console.log("error", error);
         toast.error(error);
       });
   };

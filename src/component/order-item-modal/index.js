@@ -18,6 +18,7 @@ import {
   TableHead,
   TableRow,
   Typography,
+  useTheme,
 } from "@mui/material";
 import React from "react";
 
@@ -28,10 +29,6 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: "60%",
   height: "80%",
-  // backdropFilter: "blur(10px)",
-  // backgroundColor: "rgba(255, 255, 255, 0.1)", // Adjust the background color and transparency as needed
-  // border: "2px solid rgba(255, 255, 255, 0.4)", // Adjust border color and transparency
-  // boxShadow: "0px 0px 20px rgba(140, 124, 240, 0.4)",
   padding: 4,
   borderRadius: "10px",
   backgroundColor: "#111633",
@@ -47,6 +44,7 @@ export default function OrderItemModal({
   modalId,
   status,
 }) {
+  const theme = useTheme();
   return (
     <Modal
       open={open}
@@ -54,7 +52,25 @@ export default function OrderItemModal({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
+      <Box
+        sx={{
+          ...style,
+          [theme.breakpoints.down("md")]: {
+            // Style for screens smaller than or equal to small breakpoint (e.g., mobile devices)
+            width: "90%",
+            height: "90%",
+            // Add other styles for small screens here
+          },
+          [theme.breakpoints.down("sm")]: {
+            // Style for screens smaller than or equal to small breakpoint (e.g., mobile devices)
+            paddingLeft: "10px",
+            paddingRight: "10px",
+            width: "90%",
+            height: "90%",
+            // Add other styles for small screens here
+          },
+        }}
+      >
         <CloseIcon
           onClick={() => handleClose()}
           style={{
@@ -184,101 +200,6 @@ export default function OrderItemModal({
             </Grid>
           </Grid>
         </Container>
-        {/* <TableContainer
-          // component={Paper}
-          className="modal-table"
-          style={{
-            width: "100%",
-            margin: "auto",
-            height: "80%",
-            overflowY: "scroll",
-          }}
-        >
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell
-                  align="left"
-                  className="table-heading-and-data"
-                >
-                  Name
-                </StyledTableCell>
-                <StyledTableCell
-                  align="left"
-                  className="table-heading-and-data"
-                >
-                  Description
-                </StyledTableCell>
-                <StyledTableCell
-                  align="left"
-                  className="table-heading-and-data"
-                >
-                  Image
-                </StyledTableCell>
-                <StyledTableCell
-                  align="left"
-                  className="table-heading-and-data"
-                >
-                  Sku
-                </StyledTableCell>
-                <StyledTableCell
-                  align="left"
-                  className="table-heading-and-data"
-                >
-                  Price
-                </StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {modalData &&
-                modalData.map((e, index) => (
-                  <React.Fragment key={index}>
-                    <StyledTableRow key={e.email}>
-                      <StyledTableCell
-                        align="left"
-                        className="table-heading-and-data"
-                      >
-                        {e.name}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        align="left"
-                        className="table-heading-and-data"
-                      >
-                        {e.description}
-                      </StyledTableCell>
-                      <StyledTableCell align="left">
-                        <div style={{ display: "flex" }}>
-                          {e?.images &&
-                            e?.images?.map((image, i) => (
-                              // console.log(e,"renderImage")
-                              <img
-                                key={i}
-                                src={image}
-                                width={50}
-                                height={50}
-                                style={{ marginRight: 10 }}
-                              />
-                            ))}
-                        </div>
-                      </StyledTableCell>
-                      <StyledTableCell
-                        align="left"
-                        className="table-heading-and-data"
-                      >
-                        {e.sku}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        align="left"
-                        className="table-heading-and-data"
-                      >
-                        Rs {e.price}
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  </React.Fragment>
-                ))}
-            </TableBody>
-          </Table>
-        </TableContainer> */}
         <FormControl style={{ marginTop: 10, color: "white" }}>
           <FormLabel sx={{ color: "white" }}>Status</FormLabel>
           <RadioGroup

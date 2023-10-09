@@ -1,18 +1,3 @@
-// import * as React from "react";
-// import { BarChart } from "@mui/x-charts/BarChart";
-
-// export default function ItemPurchaseChart({ data, labels }) {
-//   return (
-//     <div style={{ width: "100%" }}>
-//       <BarChart
-//         xAxis={[{ scaleType: "band", data: labels }]}
-//         series={[{ data: data }]}
-//         width={300}
-//         height={240}
-//       />
-//     </div>
-//   );
-// }
 import { alpha, useTheme } from "@mui/material/styles";
 import React from "react";
 import ApexCharts from "react-apexcharts";

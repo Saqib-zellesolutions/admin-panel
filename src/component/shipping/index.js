@@ -49,10 +49,8 @@ function Shipping() {
       )
         .then((response) => response.json())
         .then((result) => {
-          console.log(result);
           //
           if (!result.shipping) {
-            console.log(delivery_charges, area);
             toast.error(result.message);
           } else if (result.shipping) {
             setArea("");
@@ -61,7 +59,6 @@ function Shipping() {
           }
         })
         .catch((error) => {
-          console.log("error", error);
           toast.error(error.message);
         });
     }
@@ -80,7 +77,6 @@ function Shipping() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
         setAllShipping(result);
       })
       .catch((error) => console.log("error", error));
@@ -99,14 +95,12 @@ function Shipping() {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
         window.location.reload();
         toast.success("Successfully category delete");
       })
       .catch((error) => console.log("error", error));
   };
   const edit = (data) => {
-    console.log(data);
     setEditingId(data._id);
     setArea(data.value);
     setDelivery_charges(data.delivery_charges);
@@ -136,7 +130,6 @@ function Shipping() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
         // window.location.reload();
         if (result.updatedShipping) {
           window.location.reload();

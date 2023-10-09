@@ -61,13 +61,11 @@ function AddCategory() {
       )
         .then((response) => response.json())
         .then((result) => {
-          console.log(result);
           window.location.reload();
           setName("");
           setImageData("");
         })
         .catch((error) => {
-          console.log("error", error);
           toast.error(error.message);
         });
     }
@@ -75,10 +73,8 @@ function AddCategory() {
   const ImageUploader = async (e) => {
     toast.success("wait for the upload image");
     const formData = new FormData();
-    console.log(e);
     formData.append("file", e);
-    formData.append("upload_preset", "htjxlrii"); // Replace with your Cloudinary upload preset name
-    console.log(formData);
+    formData.append("upload_preset", "htjxlrii"); 
     // setLoading(true);
     // Make an API call to Cloudinary using fetch or axios
     fetch("https://api.cloudinary.com/v1_1/dnwbw493d/image/upload", {
@@ -87,11 +83,8 @@ function AddCategory() {
     })
       .then((response) => response.json())
       .then((data) => {
-        // Handle the response from Cloudinary
-        console.log("Upload success:", data.url);
         if (data.url) {
           setFileurl(data?.url);
-          console.log(data.url, "img url");
           // setLoading(false);
           toast.success("Image uploaded successfully");
           // return data.url;
@@ -103,13 +96,11 @@ function AddCategory() {
       .catch((error) => {
         // Handle error
         setLoading(false);
-        console.error("Upload error:", error);
         // setIsLoading(false);
         toast.error("Upload error");
       });
   };
   const handleImageChange = (e) => {
-    console.log("handleImageChange");
     // setIsLoading(true);
     const file = e.target.files[0];
     setImageData(URL.createObjectURL(file));
@@ -119,10 +110,8 @@ function AddCategory() {
   const BannerImageUploader = async (e) => {
     toast.success("wait for the upload image");
     const formData = new FormData();
-    console.log(e);
     formData.append("file", e);
     formData.append("upload_preset", "htjxlrii"); // Replace with your Cloudinary upload preset name
-    console.log(formData);
     // setLoading(true);
     // Make an API call to Cloudinary using fetch or axios
     fetch("https://api.cloudinary.com/v1_1/dnwbw493d/image/upload", {
@@ -132,10 +121,8 @@ function AddCategory() {
       .then((response) => response.json())
       .then((data) => {
         // Handle the response from Cloudinary
-        console.log("Upload success:", data.url);
         if (data.url) {
           setBannerFileUrl(data?.url);
-          console.log(data.url, "img url");
           // setLoading(false);
           toast.success(" uploaded Banner Image successfully");
           // return data.url;
@@ -147,13 +134,11 @@ function AddCategory() {
       .catch((error) => {
         // Handle error
         setLoading(false);
-        console.error("Upload error:", error);
         // setIsLoading(false);
         toast.error("Upload error");
       });
   };
   const handleBannerImageChange = (e) => {
-    console.log("handleBannerImageChange");
     // setIsLoading(true);
     const file = e.target.files[0];
     setBanner(URL.createObjectURL(file));
@@ -163,10 +148,8 @@ function AddCategory() {
   const sliderImageUploader = async (e) => {
     toast.success("wait for the upload image");
     const formData = new FormData();
-    console.log(e);
     formData.append("file", e);
     formData.append("upload_preset", "htjxlrii"); // Replace with your Cloudinary upload preset name
-    console.log(formData);
     // setLoading(true);
     // Make an API call to Cloudinary using fetch or axios
     fetch("https://api.cloudinary.com/v1_1/dnwbw493d/image/upload", {
@@ -176,10 +159,8 @@ function AddCategory() {
       .then((response) => response.json())
       .then((data) => {
         // Handle the response from Cloudinary
-        console.log("Upload success:", data.url);
         if (data.url) {
           setSliderFileUrl(data?.url);
-          console.log(data.url, "img url");
           // setLoading(false);
           toast.success(" uploaded Slider Image successfully");
           // return data.url;
@@ -191,13 +172,11 @@ function AddCategory() {
       .catch((error) => {
         // Handle error
         setLoading(false);
-        console.error("Upload error:", error);
         // setIsLoading(false);
         toast.error("Upload error");
       });
   };
   const handleSliderImageChange = (e) => {
-    console.log("handleBannerImageChange");
     // setIsLoading(true);
     const file = e.target.files[0];
     setSlider(URL.createObjectURL(file));
@@ -219,7 +198,6 @@ function AddCategory() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
         setAllCategory(result);
       })
       .catch((error) => console.log("error", error));
@@ -238,14 +216,12 @@ function AddCategory() {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
         window.location.reload();
         toast.success("Successfully category delete");
       })
       .catch((error) => console.log("error", error));
   };
   const edit = (id) => {
-    console.log(id);
     setEditingId(id._id);
     setFileurl(id.image);
     setName(id.name);
@@ -279,7 +255,6 @@ function AddCategory() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
         window.location.reload();
         setEditingId("");
         setName("");

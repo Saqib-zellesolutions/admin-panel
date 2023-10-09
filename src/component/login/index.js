@@ -18,14 +18,12 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { createTheme } from "@mui/material/styles";
 import * as React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { LocalUrl } from "../../config/env";
 import "./style.css";
-const theme = createTheme();
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -81,7 +79,6 @@ export default function Login() {
         }
       })
       .catch((error) => {
-        console.log("error", error);
         toast.error("Your Connection failed");
         setEmail("");
         setPassword("");
@@ -130,9 +127,6 @@ export default function Login() {
             variant="outlined"
           />
           <FormControl fullWidth variant="outlined">
-            {/* <InputLabel htmlFor="outlined-adornment-password">
-              Password
-            </InputLabel> */}
             <OutlinedInput
               required
               id="outlined-adornment-password"
@@ -143,7 +137,6 @@ export default function Login() {
                     color="#A1A1A1"
                     aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
-                    // onMouseDown={handleMouseDownPassword}
                     edge="end"
                     style={{ color: "#A1A1A1" }}
                   >
@@ -157,18 +150,6 @@ export default function Login() {
               value={password}
             />
           </FormControl>
-          {/* <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-            /> */}
           <FormControl fullWidth margin="normal" variant="outlined">
             <InputLabel id="demo-simple-select-label">Branch Name</InputLabel>
             <Select

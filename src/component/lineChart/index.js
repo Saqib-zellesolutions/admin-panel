@@ -1,17 +1,3 @@
-// import * as React from "react";
-// import { LineChart } from "@mui/x-charts/LineChart";
-
-// export default function LineCharts({ summedSales, dates }) {
-//   return (
-//     <LineChart
-//       width={420}
-//       height={300}
-//       series={[{ data: summedSales, yAxisKey: "leftAxisId" }]} // Use totalSaleAmounts as data
-//       xAxis={[{ scaleType: "point", data: dates }]} // Use dates as data
-//       yAxis={[{ id: "leftAxisId" }]}
-//     />
-//   );
-// }
 import React from "react";
 import Chart from "react-apexcharts";
 

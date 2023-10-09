@@ -56,7 +56,6 @@ export default function UserTable() {
 
   const Delete = (e) => {
     setId(e);
-    console.log(e);
     var requestOptions = {
       method: "DELETE",
       redirect: "follow",
@@ -71,7 +70,6 @@ export default function UserTable() {
   };
 
   const edit = (e) => {
-    console.log(e);
     setEditingId(e);
     const userToEdit = data.find((user) => user._id === e);
     if (userToEdit) {
@@ -99,7 +97,6 @@ export default function UserTable() {
     fetch(`${LocalUrl}/authentictaion/edit-user/${editingId}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
         window.location.reload();
       })
       .catch((error) => console.log("error", error));

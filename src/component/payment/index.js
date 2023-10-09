@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { CliftonLocalUrl, LocalUrl } from "../../config/env";
-import { toast } from "react-toastify";
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
@@ -30,7 +29,6 @@ function Payment() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
         setMethod(result);
         setLoading(false); // Set loading to false when data is fetched
       })
@@ -58,7 +56,6 @@ function Payment() {
       body: raw,
       redirect: "follow",
     };
-    console.log(updatedMethod[index]._id);
     fetch(
       `${
         branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
@@ -66,9 +63,7 @@ function Payment() {
       requestOptions
     )
       .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-      })
+      .then((result) => {})
       .catch((error) => console.log("error", error));
   };
 

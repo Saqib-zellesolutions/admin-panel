@@ -49,7 +49,6 @@ export default function Signup() {
         fetch(`${LocalUrl}/authentictaion/signup`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
-            console.log(result);
             setConfirmPassword("");
             setEmail("");
             setFullName("");
@@ -61,7 +60,6 @@ export default function Signup() {
             setEmail("");
             setFullName("");
             setPassword("");
-            console.log("error", error);
           });
       }
     }

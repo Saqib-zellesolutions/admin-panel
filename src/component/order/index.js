@@ -1,37 +1,25 @@
-import CloseIcon from "@mui/icons-material/Close";
 import {
-  Box,
   Button,
   Card,
-  CardHeader,
   CircularProgress,
   Container,
   Divider,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
   Grid,
-  Modal,
-  Paper,
-  Radio,
-  RadioGroup,
-  Typography,
+  Typography
 } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { styled } from "@mui/material/styles";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "../../App.css";
 import { CliftonLocalUrl, LocalUrl } from "../../config/env";
-import { Scrollbar } from "../scrollbar";
-import { SeverityPill } from "../severity-pill.js";
 import OrderItemModal from "../order-item-modal";
+import { SeverityPill } from "../severity-pill.js";
 
 function Order() {
   const [order, setOrder] = useState([]);
@@ -53,7 +41,6 @@ function Order() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result.length);
         setOrder(result);
       })
       .catch((error) => console.log("error", error));
@@ -92,7 +79,6 @@ function Order() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
         toast.success("status updated");
         setStatus("");
         window.location.reload();
@@ -369,8 +355,8 @@ function Order() {
         </Grid>
       </Container>
       <OrderItemModal
-      status={status}
-      modalId={modalId}
+        status={status}
+        modalId={modalId}
         modalData={modalData}
         open={open}
         handleClose={handleClose}

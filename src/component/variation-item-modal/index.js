@@ -13,6 +13,7 @@ import {
   TableHead,
   TableRow,
   Typography,
+  useTheme,
 } from "@mui/material";
 import React from "react";
 
@@ -24,10 +25,6 @@ export default function Variation({ data, open, handleClose }) {
     transform: "translate(-50%, -50%)",
     width: "60%",
     height: "80%",
-    // backdropFilter: "blur(10px)",
-    // backgroundColor: "rgba(255, 255, 255, 0.1)", // Adjust the background color and transparency as needed
-    // border: "2px solid rgba(255, 255, 255, 0.4)", // Adjust border color and transparency
-    // boxShadow: "0px 0px 20px rgba(140, 124, 240, 0.4)",
     padding: 4,
     borderRadius: "10px",
     backgroundColor: "#111633",
@@ -35,6 +32,7 @@ export default function Variation({ data, open, handleClose }) {
     boxShadow: " 0px 0px 2px #6a7199",
     transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms !important",
   };
+  const theme = useTheme();
   return (
     <Modal
       open={open}
@@ -42,7 +40,25 @@ export default function Variation({ data, open, handleClose }) {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
+      <Box
+        sx={{
+          ...style,
+          [theme.breakpoints.down("md")]: {
+            // Style for screens smaller than or equal to small breakpoint (e.g., mobile devices)
+            width: "90%",
+            height: "90%",
+            // Add other styles for small screens here
+          },
+          [theme.breakpoints.down("sm")]: {
+            // Style for screens smaller than or equal to small breakpoint (e.g., mobile devices)
+            paddingLeft: "10px",
+            paddingRight: "10px",
+            width: "90%",
+            height: "90%",
+            // Add other styles for small screens here
+          },
+        }}
+      >
         <CloseIcon
           onClick={() => handleClose()}
           style={{
@@ -68,7 +84,9 @@ export default function Variation({ data, open, handleClose }) {
                 }}
               >
                 <Divider />
-                <TableContainer sx={{ height: "100%", overflow: "auto",pb:3 }}>
+                <TableContainer
+                  sx={{ height: "100%", overflow: "auto", pb: 3 }}
+                >
                   <Table>
                     <TableHead>
                       <TableRow>
@@ -113,7 +131,6 @@ export default function Variation({ data, open, handleClose }) {
                               >
                                 {e?.images &&
                                   e?.images?.map((image, i) => (
-                                    // console.log(e,"renderImage")
                                     <img
                                       key={i}
                                       src={image}

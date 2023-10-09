@@ -34,7 +34,6 @@ function OrderDetail() {
     )
       .then((response) => response.json())
       .then((result) => {
-        // console.log(result);
         setTotalOrder(result);
         setFilterTotalOrder(result);
       })
@@ -97,42 +96,31 @@ function OrderDetail() {
     return e.orderLength.map((e) => e.total_amount);
   });
   function filterOrders(days, startDate, endDate) {
-    // console.log(startDate, endDate);
     setValue([startDate, endDate]);
     const currentDate = dayjs(); // Use dayjs for consistent date handling
 
     if (days === "7") {
       // Filter for 7 days (default)
-      console.log("Filtering for 7 days");
       const filteredOrder = totalOrder.filter((order) =>
         dayjs(order.order_Date).isAfter(currentDate.subtract(7, "day"))
       );
-      console.log(filteredOrder); // Log filtered orders
       setFilterTotalOrder(filteredOrder);
     } else if (days === "3") {
       // Filter for 3 days
-      console.log("Filtering for 3 days");
       const filteredOrder = totalOrder.filter((order) =>
         dayjs(order.order_Date).isAfter(currentDate.subtract(3, "day"))
       );
-      console.log(filteredOrder); // Log filtered orders
       setFilterTotalOrder(filteredOrder);
     } else if (days === "today") {
-      console.log("Filtering for today");
       const filteredOrder = totalOrder.filter((order) =>
         dayjs(order.order_Date).isSame(currentDate, "day")
       );
-      console.log(filteredOrder); // Log filtered orders
       setFilterTotalOrder(filteredOrder);
     } else if (days === "custom") {
       const filteredOrder = totalOrder.filter((order) => {
         const orderDate = dayjs(order.order_Date);
-        console.log(orderDate);
         return orderDate.isAfter(startDate) && orderDate.isBefore(endDate);
-        // return orderDate.isBetween(startDate, endDate, null, "[]");
       });
-
-      // Update the totalOrder state with the filtered orders
       setFilterTotalOrder(filteredOrder);
     }
   }

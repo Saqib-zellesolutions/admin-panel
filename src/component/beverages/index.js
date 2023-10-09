@@ -13,36 +13,14 @@ import {
   RadioGroup,
   Select,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableRow from "@mui/material/TableRow";
-import { styled } from "@mui/material/styles";
 import { useTheme } from "@mui/material/styles";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { CliftonLocalUrl, LocalUrl } from "../../config/env";
 import NewTable from "../newtable";
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
 function AddProduct() {
   const theme = useTheme();
   const [categories, setCategories] = useState();
@@ -75,7 +53,6 @@ function AddProduct() {
       )
         .then((response) => response.json())
         .then((result) => {
-          // console.log(result);
           setCategories(result);
         })
         .catch((error) => console.log("error", error));
@@ -95,7 +72,6 @@ function AddProduct() {
       )
         .then((response) => response.json())
         .then((result) => {
-          console.log(result, "prodyuct");
           setallBeverages(result);
         })
         .catch((error) => console.log("error", error));
@@ -114,17 +90,14 @@ function AddProduct() {
   };
   const uploadImages = async (e) => {
     const formData = new FormData();
-    // console.log(e);
     formData.append("file", e);
     formData.append("upload_preset", "htjxlrii");
-    // console.log(formData);
     fetch("https://api.cloudinary.com/v1_1/dnwbw493d/image/upload", {
       method: "POST",
       body: formData,
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Upload success:", data);
         setCloudImage((prevArray) => [...prevArray, data.url]);
       })
       .catch((error) => {
@@ -150,7 +123,6 @@ function AddProduct() {
     } else {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-      console.log(cloudImage, "cloud");
       var raw = JSON.stringify({
         name: name,
         description: description,
@@ -176,7 +148,6 @@ function AddProduct() {
         .then((response) => response.json())
         .then((result) => {
           toast.success("successfully product add");
-          console.log(result);
           window.location.reload();
           setName("");
           setDescription("");
@@ -187,7 +158,6 @@ function AddProduct() {
         })
         .catch((error) => {
           toast.error(error);
-          console.log("error", error);
         });
     }
   };
@@ -205,7 +175,6 @@ function AddProduct() {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
         window.location.reload();
       })
       .catch((error) => console.log("error", error));
@@ -251,7 +220,6 @@ function AddProduct() {
       .then((response) => response.json())
       .then((result) => {
         window.location.reload();
-        console.log(result);
         setCategoryId("");
         setName("");
         setDescription("");

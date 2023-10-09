@@ -133,7 +133,6 @@ function VariableProduct() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
         setCategories(result);
       })
       .catch((error) => console.log("error", error));
@@ -166,7 +165,6 @@ function VariableProduct() {
       )
         .then((response) => response.json())
         .then((result) => {
-          console.log(result);
           setName("");
           setImageData("");
           setDescription("");
@@ -178,7 +176,6 @@ function VariableProduct() {
       setVariation(!variation);
     };
     if (cloudImage && !editData._id) {
-      console.log(variationCloudImage, "variationcloud");
       if (
         (!name,
         !description,
@@ -191,7 +188,6 @@ function VariableProduct() {
         addVariableProduct();
       }
     } else if (cloudImage && editData._id) {
-      console.log(editData._id, cloudImage, "neww");
       let updateEdit = () => {
         const updatedVariation = {
           _id: variationId,
@@ -215,7 +211,6 @@ function VariableProduct() {
           image: cloudImage ? cloudImage : editData.image,
           variation: newUpdatedVariation,
         });
-        console.log(cloudImage);
         var requestOptions = {
           method: "PUT",
           headers: myHeaders,
@@ -231,7 +226,6 @@ function VariableProduct() {
         )
           .then((response) => response.json())
           .then((result) => {
-            console.log(result);
             window.location.reload();
             setName("");
             setDescription("");
@@ -244,7 +238,6 @@ function VariableProduct() {
           })
           .catch((error) => {
             toast.error(error.message);
-            console.log("error", error);
           });
       };
       updateEdit();
@@ -252,17 +245,13 @@ function VariableProduct() {
   }, [cloudImage]);
   useEffect(() => {
     if (variationCloudImage.length === variationImageData.length) {
-      console.log(variationCloudImage.length === variationImageData.length);
       setLoading(false);
     }
-    console.log(variationCloudImage.length, variationImageData);
   }, [variationCloudImage]);
 
   const handleGalleryImageChange = (e) => {
-    // console.log(name);
     const files = Array.from(e.target.files);
     const gFiles = e.target.files[0];
-    console.log(gFiles);
     setVariationImageData((gallery) => [...gallery, gFiles]);
     const images = files.map((file) => ({
       file,
@@ -277,23 +266,18 @@ function VariableProduct() {
     setImageFile(file);
   };
   const uploadImages = async (e, name) => {
-    console.log(e, "img");
     setLoading(true);
 
     const formData = new FormData();
-    // console.log(e);
     formData.append("file", e);
     formData.append("upload_preset", "htjxlrii");
-    // console.log(formData);
     fetch("https://api.cloudinary.com/v1_1/dnwbw493d/image/upload", {
       method: "POST",
       body: formData,
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("name", name);
         if (name === "multipleImage") {
-          console.log("hell");
           setVariationCloudImage((prevArray) => [...prevArray, data.url]);
         } else {
           setLoading(false);
@@ -302,17 +286,10 @@ function VariableProduct() {
         }
       })
       .catch((error) => {
-        // Handle error
-        // console.error("Upload error:", error);
-        // setIsLoading(false);
-
         toast.error("image is not uploaded");
       });
   };
   const SaveImages = (e, imgData) => {
-    // if()
-    console.log(e, "e");
-    console.log(imgData);
     let newUrl = [];
     for (let i of imgData) {
       newUrl.push(uploadImages(i, e));
@@ -341,7 +318,6 @@ function VariableProduct() {
       .then((response) => response.json())
       .then((result) => {
         setAllProduct(result);
-        console.log(result);
       })
       .catch((error) => console.log("error", error));
   }, []);
@@ -359,7 +335,6 @@ function VariableProduct() {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
         window.location.reload();
       })
       .catch((error) => console.log("error", error));
@@ -374,7 +349,6 @@ function VariableProduct() {
     setSelectedGalleryImages([]);
     setVariation(false);
   };
-  console.log(multipleVariation, "mul");
   const theme = useTheme();
   return !categories && !allProduct ? (
     <div

@@ -16,9 +16,6 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableRow from "@mui/material/TableRow";
-import { styled } from "@mui/material/styles";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -77,7 +74,6 @@ function AddProduct() {
       )
         .then((response) => response.json())
         .then((result) => {
-          console.log(result, "prodyuct");
           setAllProduct(result);
         })
         .catch((error) => console.log("error", error));
@@ -96,24 +92,17 @@ function AddProduct() {
   };
   const uploadImages = async (e) => {
     const formData = new FormData();
-    // console.log(e);
     formData.append("file", e);
     formData.append("upload_preset", "htjxlrii");
-    // console.log(formData);
     fetch("https://api.cloudinary.com/v1_1/dnwbw493d/image/upload", {
       method: "POST",
       body: formData,
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Upload success:", data);
         setCloudImage((prevArray) => [...prevArray, data.url]);
       })
       .catch((error) => {
-        // Handle error
-        // console.error("Upload error:", error);
-        // setIsLoading(false);
-
         toast.error("image is not uploaded");
       });
   };
@@ -136,7 +125,6 @@ function AddProduct() {
     } else {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-      console.log(cloudImage, "cloud");
       var raw = JSON.stringify({
         name: name,
         description: description,
@@ -162,7 +150,6 @@ function AddProduct() {
         .then((response) => response.json())
         .then((result) => {
           toast.success("successfully product add");
-          console.log(result);
           window.location.reload();
           setName("");
           setDescription("");
@@ -173,7 +160,6 @@ function AddProduct() {
         })
         .catch((error) => {
           toast.error(error);
-          console.log("error", error);
         });
     }
   };
@@ -191,7 +177,6 @@ function AddProduct() {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
         window.location.reload();
       })
       .catch((error) => console.log("error", error));
@@ -237,7 +222,6 @@ function AddProduct() {
       .then((response) => response.json())
       .then((result) => {
         window.location.reload();
-        console.log(result);
         setCategoryId("");
         setName("");
         setDescription("");
