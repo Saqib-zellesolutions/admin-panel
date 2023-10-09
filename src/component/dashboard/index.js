@@ -1,0 +1,232 @@
+import React, { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import DashboardRoutes from "../../config/dashboardRoutes";
+import { LocalUrl } from "../../config/env";
+import {
+  Coffee,
+  CreditCard,
+  Dashboard,
+  DeliveryTruck,
+  Layer,
+  Logout,
+  Product,
+  Profile,
+  Square,
+  Variable,
+  Writer,
+} from "../../config/icon";
+import "./style.css";
+
+function Dasboard() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const isActive = (path) => location.pathname === path;
+  let token = localStorage.getItem("token");
+  useEffect(() => {
+    if (!token) {
+      navigate("/");
+    }
+  }, []);
+  let logout = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
+    var requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    fetch(`${LocalUrl}/authentictaion/logout`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        localStorage.removeItem("token");
+        navigate("/");
+      })
+      .catch((error) => console.log("error", error));
+  };
+  return (
+    <main className="main-dashbaord">
+      <div style={{ width: "5%" }}>
+        <nav className="navigation">
+          <div className="logo-div">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbU1IK9aZSLEhdjfimG48GaU6RKmKxGp7UlaNBYMnN-g&s"
+              alt=""
+              width={60}
+              height={60}
+              style={{ borderRadius: "50%" }}
+            />
+          </div>
+          <div className="main-nav">
+            <div className="active-border-div">
+              <div
+                className="nav-tab-div"
+                onClick={() => navigate("/dashboard")}
+              >
+                <img src={Dashboard} alt="" className="navigation-icon" />
+                <p>Dashboard</p>
+              </div>
+              <div
+                className={`${
+                  isActive("/dashboard") ? "active-border" : "active-border-2"
+                }`}
+              ></div>
+            </div>
+            <div className="active-border-div2">
+              <div
+                className="nav-tab-div-2"
+                onClick={() => navigate("/dashboard/order")}
+              >
+                <img src={Layer} alt="" className="navigation-icon" />
+                <p>Order</p>
+              </div>
+              <div
+                className={`${
+                  isActive("/dashboard/order")
+                    ? "active-border"
+                    : "active-border-2"
+                }`}
+              ></div>
+            </div>
+            <div className="active-border-div2">
+              <div
+                className="nav-tab-div-2"
+                onClick={() => navigate("/dashboard/simple-product")}
+              >
+                <img src={Product} alt="" className="navigation-icon" />
+                <p>Simple</p>
+              </div>
+              <div
+                className={`${
+                  isActive("/dashboard/simple-product")
+                    ? "active-border"
+                    : "active-border-2"
+                }`}
+              ></div>
+            </div>
+            <div className="active-border-div2">
+              <div
+                className="nav-tab-div-2"
+                onClick={() => navigate("/dashboard/variable-product")}
+              >
+                <img src={Variable} alt="" className="navigation-icon" />
+                <p>Variable</p>
+              </div>
+              <div
+                className={`${
+                  isActive("/dashboard/variable-product")
+                    ? "active-border"
+                    : "active-border-2"
+                }`}
+              ></div>
+            </div>
+            <div className="active-border-div2">
+              <div
+                className="nav-tab-div-2"
+                onClick={() => navigate("/dashboard/category")}
+              >
+                <img src={Square} alt="" className="navigation-icon" />
+                <p>Category</p>
+              </div>
+              <div
+                className={`${
+                  isActive("/dashboard/category")
+                    ? "active-border"
+                    : "active-border-2"
+                }`}
+              ></div>
+            </div>
+            <div className="active-border-div2">
+              <div
+                className="nav-tab-div-2"
+                onClick={() => navigate("/dashboard/beverages")}
+              >
+                <img src={Coffee} alt="" className="navigation-icon" />
+                <p>Beverages</p>
+              </div>
+              <div
+                className={`${
+                  isActive("/dashboard/beverages")
+                    ? "active-border"
+                    : "active-border-2"
+                }`}
+              ></div>
+            </div>
+            <div className="active-border-div2">
+              <div
+                className="nav-tab-div-2"
+                onClick={() => navigate("/dashboard/shipping")}
+              >
+                <img src={DeliveryTruck} alt="" className="navigation-icon" />
+                <p>Shipping</p>
+              </div>
+              <div
+                className={`${
+                  isActive("/dashboard/shipping")
+                    ? "active-border"
+                    : "active-border-2"
+                }`}
+              ></div>
+            </div>
+            <div className="active-border-div2">
+              <div
+                className="nav-tab-div-2"
+                onClick={() => navigate("/dashboard/payment")}
+              >
+                <img src={CreditCard} alt="" className="navigation-icon" />
+                <p>payment</p>
+              </div>
+              <div
+                className={`${
+                  isActive("/dashboard/payment")
+                    ? "active-border"
+                    : "active-border-2"
+                }`}
+              ></div>
+            </div>
+            <div className="active-border-div2">
+              <div
+                className="nav-tab-div-2"
+                onClick={() => navigate("/dashboard/content")}
+              >
+                <img src={Writer} alt="" className="navigation-icon" />
+                <p>Content</p>
+              </div>
+              <div
+                className={`${
+                  isActive("/dashboard/content")
+                    ? "active-border"
+                    : "active-border-2"
+                }`}
+              ></div>
+            </div>
+          </div>
+          <div className="logout-div" onClick={() => logout()}>
+            <img src={Logout} alt="" className="navigation-icon" />
+            <p>Logout</p>
+          </div>
+        </nav>
+      </div>
+      <section className="main-dashboard-content">
+        <header className="dashboard-header">
+          <div className="heading-subheading-div">
+            <h1>Dashboard</h1>
+            <p>You Are On Dashboard </p>
+          </div>
+          <div className="profile-container">
+            <p className="hello">Hello!</p>
+            <div className="name-title-div">
+              <p className="name">Saqib</p>
+              <p className="title"> Manager</p>
+            </div>
+            <img src={Profile} alt="" />
+          </div>
+        </header>
+        <DashboardRoutes />
+      </section>
+    </main>
+  );
+}
+export default Dasboard;
