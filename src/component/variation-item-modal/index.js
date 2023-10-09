@@ -95,6 +95,7 @@ export default function Variation({ data, open, handleClose }) {
                         <TableCell align="left">image</TableCell>
                         <TableCell align="left">sku</TableCell>
                         <TableCell align="left">price</TableCell>
+                        <TableCell align="left">stock</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody sx={{ overflowY: "scroll" }}>
@@ -161,6 +162,17 @@ export default function Variation({ data, open, handleClose }) {
                                 className="product-table-text"
                               >
                                 Rs {e.price}
+                              </Typography>
+                            </TableCell>
+                            <TableCell align="left">
+                              {" "}
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                noWrap
+                                className="product-table-text"
+                              >
+                                {e.instock.toString()}
                               </Typography>
                             </TableCell>
                           </TableRow>
