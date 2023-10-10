@@ -130,7 +130,7 @@ function Order() {
           alignItems="stretch"
           spacing={3}
         >
-          <Grid item xs={12}>
+          <Grid item xs={12} sx={{ padding: "unset !important" }}>
             <Grid
               container
               style={{
