@@ -45,50 +45,52 @@ export default function Login() {
     event.preventDefault();
   };
   const login = () => {
-    setLoader(true);
-    // if ((!email, !password, !selectedBranch)) {
-    //   alert("please fill the input");
-    // } else {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+    if ((!email, !password, !selectedBranch)) {
+      alert("please fill the input");
+    } else {
+      setLoader(true);
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({
-      email: email,
-      password: password,
-    });
-
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
-
-    fetch(`${LocalUrl}/authentictaion/login`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        setEmail("");
-        setPassword("");
-        setSelectedBranch("");
-        setLoader(false);
-        if (result.data) {
-          localStorage.setItem("token", result.data.token);
-          navigate("/dashboard");
-        } else {
-          toast.error(result.message);
-        }
-      })
-      .catch((error) => {
-        toast.error("Your Connection failed");
-        setEmail("");
-        setPassword("");
-        setSelectedBranch("");
+      var raw = JSON.stringify({
+        email: email,
+        password: password,
       });
-    // }
+
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      fetch(`${LocalUrl}/authentictaion/login`, requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          setEmail("");
+          setPassword("");
+          setSelectedBranch("");
+          setLoader(false);
+          if (result.data) {
+            localStorage.setItem("token", result.data.token);
+            navigate("/dashboard");
+          } else {
+            toast.error(result.message);
+          }
+        })
+        .catch((error) => {
+          toast.error("Your Connection failed");
+          setEmail("");
+          setPassword("");
+          setSelectedBranch("");
+          setLoader(false);
+        });
+    }
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    // <div style={{width:"100%",height:"100%"}} className="login-wrapper">
+    <Container component="main" maxWidth="md" sx={{ margin: "0 auto " }}>
       <CssBaseline />
       <Box
         sx={{
@@ -96,12 +98,24 @@ export default function Login() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          width: "50%",
+          marginLeft: "auto",
+          marginRight: "auto",
         }}
         className="main-login glass-morphism"
       >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbU1IK9aZSLEhdjfimG48GaU6RKmKxGp7UlaNBYMnN-g&s"
+          style={{
+            width: "80px",
+            height: "80px",
+            margin: "10px",
+            borderRadius: "50%",
+          }}
+        />
+        {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
           <LockOutlinedIcon />
-        </Avatar>
+        </Avatar> */}
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
@@ -184,6 +198,33 @@ export default function Login() {
           </Button>
         </Box>
       </Box>
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          width: "70%",
+          marginLeft: "auto",
+          marginRight: "auto",
+          padding: "20px ",
+        }}
+        className="main-login glass-morphism"
+      >
+        <Typography component="p" variant="h5">
+          Design And Managed By{" "}
+          <Typography
+            component="a"
+            variant="h5"
+            href="https://zellesolutions.com/"
+            target="_blank"
+          >
+            {" "}
+            ZelleSolutions
+          </Typography>
+        </Typography>
+      </Box>
     </Container>
+    // </div>
   );
 }

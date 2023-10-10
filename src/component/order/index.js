@@ -5,7 +5,7 @@ import {
   Container,
   Divider,
   Grid,
-  Typography
+  Typography,
 } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -20,13 +20,17 @@ import "../../App.css";
 import { CliftonLocalUrl, LocalUrl } from "../../config/env";
 import OrderItemModal from "../order-item-modal";
 import { SeverityPill } from "../severity-pill.js";
+import CustomerModal from "../customer-modal";
 
 function Order() {
   const [order, setOrder] = useState([]);
-  const [modalData, setModalData] = useState([]);
+  const [modalData, setModalData] = useState({});
   const [modalId, setModalId] = useState("");
   const [open, setOpen] = useState(false);
   const branch = localStorage.getItem("branchName");
+  const [status, setStatus] = React.useState("");
+  const [customerDetailModal, setCustomerDetailModal] = useState(false);
+  const [customerDetailData, setCustomerDetailData] = useState({});
   useEffect(() => {
     var requestOptions = {
       method: "GET",
@@ -52,16 +56,25 @@ function Order() {
     setStatus(order.status);
     setOpen(true);
   };
+  const handleCustomModalOpen = (e, order) => {
+    console.log(e);
+    setCustomerDetailData(e);
+    setModalId(order._id);
+    setStatus(order.status);
+    setCustomerDetailModal(true);
+  };
   const handleClose = () => setOpen(false);
-  const [status, setStatus] = React.useState("");
-  const handleChange = (event, id) => {
-    setStatus(event.target.value);
+  const handleCustomDeatilModalClose = () => setCustomerDetailModal(false);
+
+  // const handleChange = (event, id) => {
+  const handleChange = (id) => {
+    // setStatus(event.target.value);
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
       ...order,
-      status: event.target.value,
+      status: status,
     });
 
     var requestOptions = {
@@ -133,7 +146,7 @@ function Order() {
               sx={{ padding: "unset !important", mt: 3 }}
             >
               <Divider />
-              <TableContainer>
+              <TableContainer className="table-scroll">
                 <Table>
                   <TableHead>
                     <TableRow>
@@ -144,7 +157,7 @@ function Order() {
                         Order Date
                       </TableCell>
                       <TableCell className="table-heading-and-data">
-                        Title
+                        Order Time
                       </TableCell>
                       <TableCell className="table-heading-and-data">
                         Name
@@ -153,37 +166,13 @@ function Order() {
                         Mobile Number
                       </TableCell>
                       <TableCell className="table-heading-and-data">
-                        Alternate Number
-                      </TableCell>
-                      <TableCell className="table-heading-and-data">
-                        email
-                      </TableCell>
-                      <TableCell className="table-heading-and-data">
-                        Total Amount
-                      </TableCell>
-                      <TableCell className="table-heading-and-data">
-                        Nearest landmark
-                      </TableCell>
-                      <TableCell className="table-heading-and-data">
-                        Delivery Instruction
-                      </TableCell>
-                      <TableCell className="table-heading-and-data">
-                        Payment
-                      </TableCell>
-                      <TableCell className="table-heading-and-data">
-                        tax
-                      </TableCell>
-                      <TableCell className="table-heading-and-data">
-                        Delivery Charges
-                      </TableCell>
-                      <TableCell className="table-heading-and-data">
-                        location
-                      </TableCell>
-                      <TableCell className="table-heading-and-data">
                         Status
                       </TableCell>
-                      <TableCell className="table-heading-and-data">
-                        View Product
+                      <TableCell
+                        className="table-heading-and-data"
+                        align="center"
+                      >
+                        Action
                       </TableCell>
                     </TableRow>
                   </TableHead>
@@ -207,7 +196,7 @@ function Order() {
                               color="text.secondary"
                               noWrap
                             >
-                              {e.order_Date}
+                              {new Date(e.order_Date).toLocaleDateString()}
                             </Typography>
                           </TableCell>
                           <TableCell>
@@ -216,7 +205,7 @@ function Order() {
                               color="text.secondary"
                               noWrap
                             >
-                              {e.title}
+                              {new Date(e.order_Date).toLocaleTimeString()}
                             </Typography>
                           </TableCell>
                           <TableCell>
@@ -243,87 +232,6 @@ function Order() {
                               color="text.secondary"
                               noWrap
                             >
-                              {e.alternate_number}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              noWrap
-                            >
-                              {e.email}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              noWrap
-                            >
-                              {e.total_amount}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              noWrap
-                            >
-                              {e.nearest_landmark}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              noWrap
-                            >
-                              {e.delivery_instructions}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              noWrap
-                            >
-                              {e.payment}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              noWrap
-                            >
-                              {e.tax}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              noWrap
-                            >
-                              {e.delivery_charges}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              noWrap
-                            >
-                              {e.address.location}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              noWrap
-                            >
                               <SeverityPill color={statusMap[e.status]}>
                                 {e.status}
                               </SeverityPill>
@@ -334,13 +242,22 @@ function Order() {
                               variant="body2"
                               color="text.secondary"
                               noWrap
+                              gap="5px"
                             >
+                              {/* <Button
+                                variant="outlined"
+                                color="secondary"
+                                onClick={() => handleCustomModalOpen(e, e)}
+                                sx={{ marginRight: 3 }}
+                              >
+                                Customer Detail
+                              </Button> */}
                               <Button
                                 variant="outlined"
                                 color="secondary"
-                                onClick={() => handleOpen(e.ProductOrder, e)}
+                                onClick={() => handleOpen(e, e)}
                               >
-                                View Order Product
+                                View
                               </Button>
                             </Typography>
                           </TableCell>
@@ -360,6 +277,15 @@ function Order() {
         modalData={modalData}
         open={open}
         handleClose={handleClose}
+        handleChange={handleChange}
+        setStatus={setStatus}
+      />
+      <CustomerModal
+        status={status}
+        modalId={modalId}
+        modalData={customerDetailData}
+        open={customerDetailModal}
+        handleClose={handleCustomDeatilModalClose}
         handleChange={handleChange}
       />
     </div>
