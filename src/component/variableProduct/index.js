@@ -170,7 +170,7 @@ function VariableProduct() {
           setDescription("");
           setSku(0);
           setMultipleVariation([]);
-          window.location.reload();
+          // window.location.reload();
         })
         .catch((error) => console.log("error", error));
       setVariation(!variation);
