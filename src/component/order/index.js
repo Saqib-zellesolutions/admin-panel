@@ -105,16 +105,16 @@ function Order() {
     cancled: "error",
   };
   return order.length == 0 ? (
-    <div
-      style={{
+    <Box
+      sx={{
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         width: "100%",
       }}
     >
-      <CircularProgress />
-    </div>
+      <CircularProgress sx={{ color: "#797C8C" }}/>
+    </Box>
   ) : (
     <div
       style={{

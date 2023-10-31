@@ -354,16 +354,16 @@ function VariableProduct() {
   };
   const theme = useTheme();
   return !categories && !allProduct ? (
-    <div
-      style={{
+    <Box
+      sx={{
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         width: "100%",
       }}
     >
-      <CircularProgress />
-    </div>
+      <CircularProgress sx={{ color: "#797C8C" }} />
+    </Box>
   ) : loader == true ? (
     <div
       style={{
