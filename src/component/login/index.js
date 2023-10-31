@@ -90,7 +90,19 @@ export default function Login() {
 
   return (
     // <div style={{width:"100%",height:"100%"}} className="login-wrapper">
-    <Container component="main" maxWidth="md" sx={{ margin: "0 auto " }}>
+    <Container
+      component="main"
+      maxWidth="md"
+      sx={{
+        margin: "0 auto ",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        height: "100vh",
+        flexDirection: "column",
+        padding:"10px"
+      }}
+    >
       <CssBaseline />
       <Box
         sx={{
@@ -200,14 +212,14 @@ export default function Login() {
       </Box>
       <Box
         sx={{
-          marginTop: 8,
+          // marginTop: 8,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           width: "70%",
           marginLeft: "auto",
           marginRight: "auto",
-          padding: "20px ",
+          padding: "20px !important",
         }}
         className="main-login glass-morphism"
       >

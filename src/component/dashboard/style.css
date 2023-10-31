@@ -11,7 +11,7 @@
   width: 100%;
 }
 .naviation-main-container {
-  width: 4%;
+  width: 6%;
 }
 .navigation {
   position: fixed;
@@ -42,6 +42,13 @@
   font-weight: 600;
   line-height: normal;
 }
+.main-nav {
+  display: flex;
+  max-height: 80%;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+}
 .active-border {
   border-radius: 9px 0px 0px 9px;
   background: #f07a2a;
@@ -55,7 +62,7 @@
 .active-border-div2 {
   display: flex;
   width: 80px;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 .nav-tab-div {
   display: flex;
@@ -225,12 +232,9 @@
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background-image: none;
-  /* padding: 0 20px; */
   box-shadow: 0px 0px 2px #6a7199;
-  /* background: rgba(255, 255, 255, 0.34);
-  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.15); */
-  width: 310.894px;
-  /* height: 233px; */
+  width: 30%;
+  /* width: 310.894px; */
   margin: 20px 0;
   padding: 10px 0px;
 }
@@ -251,12 +255,9 @@
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background-image: none;
-  /* padding: 0 20px; */
   box-shadow: 0px 0px 2px #6a7199;
-  /* background: rgba(255, 255, 255, 0.34);
-  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.15); */
-  width: 445px;
-  /* height: 230px; */
+  width: 100%;
+  /* width: 445px; */
   margin: 20px 0px;
   padding: 10px 20px;
 }
@@ -270,7 +271,7 @@
 }
 .main-order-detail-and-chart {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   margin-top: 36px;
   /* padding: 18px; */
   flex-wrap: wrap;
@@ -286,7 +287,7 @@
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin-left: 6.6px;
+  /* margin-left: 6.6px; */
 }
 .completed-dot {
   display: flex;
@@ -300,7 +301,7 @@
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin-left: 6.6px;
+  /* margin-left: 6.6px; */
 }
 .days-filter-div {
   display: flex;
@@ -359,9 +360,6 @@
   }
 }
 @media (max-width: 600px) {
-  .line-chart-container {
-    width: 400px;
-  }
   .naviation-main-container {
     width: 15%;
   }
@@ -377,6 +375,9 @@
   }
   .main-container {
     margin-right: 15px;
+  }
+  .total-chart-container {
+    width: 100%;
   }
 }
 @media (max-width: 500px) {

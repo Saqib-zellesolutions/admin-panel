@@ -23,21 +23,23 @@ import { useTheme } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { CliftonLocalUrl, LocalUrl } from "../../config/env";
+import CategoryUpdateModal from "../categoryUpdateModal";
 function AddCategory() {
   const [name, setName] = useState("");
   const [imageData, setImageData] = useState("");
   const [allCategory, setAllCategory] = useState("");
   const [fileurl, setFileurl] = useState("");
-  const [editingId, setEditingId] = useState("");
   const [loader, setLoading] = useState(false);
   const [banner, setBanner] = useState("");
   const [bannerFileUrl, setBannerFileUrl] = useState("");
-  const [slider, setSlider] = useState("");
-  const [sliderFileUrl, setSliderFileUrl] = useState("");
+  const [open, setOpen] = useState(false);
+  const [isloading, setIsLoading] = useState(true);
+  const handleClose = () => setOpen(false);
+
   const branch = localStorage.getItem("branchName");
   const addCategory = () => {
-    if (!name || !fileurl || !sliderFileUrl || !bannerFileUrl) {
-      toast.success("Please fill the input");
+    if (!name || !fileurl || !bannerFileUrl) {
+      toast.error("Please fill the input");
     } else {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -45,7 +47,6 @@ function AddCategory() {
         name: name,
         image: fileurl,
         banner_image: bannerFileUrl,
-        slider_image: sliderFileUrl,
       });
       var requestOptions = {
         method: "POST",
@@ -74,8 +75,7 @@ function AddCategory() {
     toast.success("wait for the upload image");
     const formData = new FormData();
     formData.append("file", e);
-    formData.append("upload_preset", "htjxlrii"); 
-    // setLoading(true);
+    formData.append("upload_preset", "htjxlrii");
     // Make an API call to Cloudinary using fetch or axios
     fetch("https://api.cloudinary.com/v1_1/dnwbw493d/image/upload", {
       method: "POST",
@@ -85,18 +85,15 @@ function AddCategory() {
       .then((data) => {
         if (data.url) {
           setFileurl(data?.url);
-          // setLoading(false);
           toast.success("Image uploaded successfully");
           // return data.url;
         } else {
-          // setLoading(false);
           toast.error("image is not uploaded");
         }
       })
       .catch((error) => {
         // Handle error
         setLoading(false);
-        // setIsLoading(false);
         toast.error("Upload error");
       });
   };
@@ -112,7 +109,6 @@ function AddCategory() {
     const formData = new FormData();
     formData.append("file", e);
     formData.append("upload_preset", "htjxlrii"); // Replace with your Cloudinary upload preset name
-    // setLoading(true);
     // Make an API call to Cloudinary using fetch or axios
     fetch("https://api.cloudinary.com/v1_1/dnwbw493d/image/upload", {
       method: "POST",
@@ -123,11 +119,9 @@ function AddCategory() {
         // Handle the response from Cloudinary
         if (data.url) {
           setBannerFileUrl(data?.url);
-          // setLoading(false);
           toast.success(" uploaded Banner Image successfully");
           // return data.url;
         } else {
-          // setLoading(false);
           toast.error("Banner Image is not uploaded");
         }
       })
@@ -145,44 +139,6 @@ function AddCategory() {
     // setFile(file)
     BannerImageUploader(file);
   };
-  const sliderImageUploader = async (e) => {
-    toast.success("wait for the upload image");
-    const formData = new FormData();
-    formData.append("file", e);
-    formData.append("upload_preset", "htjxlrii"); // Replace with your Cloudinary upload preset name
-    // setLoading(true);
-    // Make an API call to Cloudinary using fetch or axios
-    fetch("https://api.cloudinary.com/v1_1/dnwbw493d/image/upload", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Handle the response from Cloudinary
-        if (data.url) {
-          setSliderFileUrl(data?.url);
-          // setLoading(false);
-          toast.success(" uploaded Slider Image successfully");
-          // return data.url;
-        } else {
-          // setLoading(false);
-          toast.error("Slider Image is not uploaded");
-        }
-      })
-      .catch((error) => {
-        // Handle error
-        setLoading(false);
-        // setIsLoading(false);
-        toast.error("Upload error");
-      });
-  };
-  const handleSliderImageChange = (e) => {
-    // setIsLoading(true);
-    const file = e.target.files[0];
-    setSlider(URL.createObjectURL(file));
-    // setFile(file)
-    sliderImageUploader(file);
-  };
 
   useEffect(() => {
     var requestOptions = {
@@ -198,9 +154,13 @@ function AddCategory() {
     )
       .then((response) => response.json())
       .then((result) => {
+        setIsLoading(false);
         setAllCategory(result);
       })
-      .catch((error) => console.log("error", error));
+      .catch((error) => {
+        console.log("error", error);
+        setIsLoading(false);
+      });
   }, []);
   const Delete = (id) => {
     var requestOptions = {
@@ -221,54 +181,13 @@ function AddCategory() {
       })
       .catch((error) => console.log("error", error));
   };
-  const edit = (id) => {
-    setEditingId(id._id);
-    setFileurl(id.image);
-    setName(id.name);
-    setBannerFileUrl(id.banner_image);
-    setSliderFileUrl(id.slider_image);
-  };
-
-  const handleEditSubmit = () => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    var raw = JSON.stringify({
-      name: name,
-      image: fileurl,
-      banner_image: bannerFileUrl,
-      slider_image: sliderFileUrl,
-    });
-
-    var requestOptions = {
-      method: "PUT",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
-
-    fetch(
-      `${
-        branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
-      }/category/edit-category/${editingId}`,
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        window.location.reload();
-        setEditingId("");
-        setName("");
-        setImageData([]);
-      })
-      .catch((error) => console.log("error", error));
-  };
-  const cancelEdit = () => {
-    setEditingId(null); // Exit edit mode
-    setName("");
-    setImageData([]);
+  const [editData, setEditData] = useState({});
+  const edit = (e) => {
+    setEditData(e);
+    setOpen(true);
   };
   const theme = useTheme();
-  return !allCategory ? (
+  return isloading ? (
     <div
       style={{
         display: "flex",
@@ -277,7 +196,7 @@ function AddCategory() {
         width: "100%",
       }}
     >
-      <CircularProgress />
+      <CircularProgress sx={{ color: "#797C8C" }} />
     </div>
   ) : (
     <div
@@ -352,19 +271,22 @@ function AddCategory() {
                     onChange={handleBannerImageChange}
                   />
                 </Grid>
-                <Grid xs={6} item>
-                  <Typography component="p">Slider Image</Typography>
-                  <TextField
-                    id="outlined-basic"
-                    variant="outlined"
-                    fullWidth
-                    type="file"
-                    onChange={handleSliderImageChange}
-                    // value={imageData}
-                  />
-                </Grid>
               </Grid>
-              {editingId && editingId ? (
+              <Grid
+                container
+                spacing={2}
+                style={{ marginTop: 10, paddingLeft: "15px" }}
+              >
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  fullWidth
+                  onClick={addCategory}
+                >
+                  Add category
+                </Button>
+              </Grid>
+              {/* {editingId && editingId ? (
                 <Grid
                   container
                   spacing={2}
@@ -407,7 +329,7 @@ function AddCategory() {
                     Add category
                   </Button>
                 </Grid>
-              )}
+              )} */}
             </Box>
             <Card
               className="main-order-table glass-morphism"
@@ -421,12 +343,11 @@ function AddCategory() {
                       <TableCell align="left">name</TableCell>
                       <TableCell align="left">image</TableCell>
                       <TableCell align="left">Banner Image</TableCell>
-                      <TableCell align="left">Slider Image</TableCell>
                       <TableCell align="left">Action</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {allCategory &&
+                    {allCategory.length ? (
                       allCategory?.map((e, index) => (
                         <TableRow hover key={e?._id}>
                           <TableCell align="left">{e.name}</TableCell>
@@ -461,24 +382,10 @@ function AddCategory() {
                             </Typography>
                           </TableCell>
                           <TableCell align="left">
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              noWrap
-                              className="product-table-text"
-                            >
-                              <img
-                                src={e.slider_image}
-                                alt=""
-                                width={50}
-                                height={50}
-                              />
-                            </Typography>
-                          </TableCell>
-                          <TableCell align="left">
                             <Tooltip title="Edit Product" arrow>
                               <IconButton
                                 onClick={() => edit(e)}
+                                // onClick={() => setOpen(true)}
                                 sx={{
                                   "&:hover": {
                                     background: theme.colors.primary.lighter,
@@ -507,32 +414,32 @@ function AddCategory() {
                               </IconButton>
                             </Tooltip>
                           </TableCell>
-                          {/* <TableCell align="left">
-                            <Button
-                              variant="contained"
-                              color="error"
-                              onClick={() => Delete(e._id)}
-                              style={{ marginTop: 5 }}
-                            >
-                              Delete
-                            </Button>
-                          </TableCell> */}
-                          {/* <StyledTableCell align="left">
-                              <Button
-                                variant="contained"
-                                color="success"
-                                onClick={() => edit(e)}
-                                style={{ marginTop: 5, marginLeft: 20 }}
-                              >
-                                Edit
-                              </Button>
-                            </StyledTableCell> */}
                         </TableRow>
-                      ))}
+                      ))
+                    ) : (
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          mt: 3,
+                        }}
+                      >
+                        <Typography component="h1" variant="h4">
+                          Data Not Found
+                        </Typography>
+                      </Box>
+                    )}
                   </TableBody>
                 </Table>
               </TableContainer>
             </Card>
+            <CategoryUpdateModal
+              open={open}
+              handleClose={handleClose}
+              editData={editData}
+              setEditData={setEditData}
+            />
           </Grid>
         </Grid>
       </Container>

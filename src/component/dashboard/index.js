@@ -14,6 +14,8 @@ import {
   Square,
   Variable,
   Writer,
+  Sliders,
+  TaxIcon,
 } from "../../config/icon";
 import "./style.css";
 
@@ -192,7 +194,7 @@ function Dasboard() {
                 onClick={() => navigate("/dashboard/content")}
               >
                 <img src={Writer} alt="" className="navigation-icon" />
-                <p>Content</p>
+                <p>Description</p>
               </div>
               <div
                 className={`${
@@ -202,6 +204,38 @@ function Dasboard() {
                 }`}
               ></div>
             </div>
+            <div className="active-border-div2">
+              <div
+                className="nav-tab-div-2"
+                onClick={() => navigate("/dashboard/slider")}
+              >
+                <img src={Sliders} alt="" className="navigation-icon" />
+                <p>Slider</p>
+              </div>
+              <div
+                className={`${
+                  isActive("/dashboard/slider")
+                    ? "active-border"
+                    : "active-border-2"
+                }`}
+              ></div>
+            </div>
+            {/* <div className="active-border-div2">
+              <div
+                className="nav-tab-div-2"
+                onClick={() => navigate("/dashboard/tax")}
+              >
+                <img src={TaxIcon} alt="" className="navigation-icon" />
+                <p>Tax</p>
+              </div>
+              <div
+                className={`${
+                  isActive("/dashboard/tax")
+                    ? "active-border"
+                    : "active-border-2"
+                }`}
+              ></div>
+            </div> */}
           </div>
           <div className="logout-div" onClick={() => logout()}>
             <img src={Logout} alt="" className="navigation-icon" />

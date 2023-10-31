@@ -45,42 +45,13 @@ export default function OrderItemModal({
   modalId,
   status,
   setStatus,
+  setModalData,
 }) {
   const theme = useTheme();
-  let numbers;
-  if (modalData && Object.keys(modalData).length > 0) {
-    console.log("modalData is not empty and has properties");
-    numbers = modalData?.payment?.match(/\d+/g);
-    console.log("Numbers in the string:", numbers);
-  } else {
-    console.log("modalData is empty or null");
-  }
-  // `modalData?.payment` ko string mein convert karo
-  // const paymentString = modalData?.payment.toString();
-
-  // Agar `paymentString` ek valid string hai
-  // if (
-  //   paymentString &&
-  //   typeof paymentString === "string" &&
-  //   paymentString.length > 0
-  // ) {
-  //   // Regex ka use karke numbers ko nikalo
-  //   const numbers = paymentString.match(/\d+/g);
-
-  //   if (numbers && numbers.length > 0) {
-  //     // Numbers mil gaye hain
-  //     console.log("Payment Method:", paymentString);
-  //     console.log("Numbers in the string:", numbers);
-  //   } else {
-  //     // Koi numbers nahi mile
-  //     console.log("Payment Method:", paymentString);
-  //     console.log("No numbers found in the string.");
-  //   }
-  // } else {
-  //   // Yeh kuchh bhi valid nahi hai
-  //   console.log("Payment Method not found or not a valid string.");
-  // }
-
+  const CloseModal = () => {
+    setModalData("");
+    handleClose();
+  };
   return (
     <Modal
       open={open}
@@ -108,10 +79,10 @@ export default function OrderItemModal({
         }}
       >
         <Typography sx={{ textAlign: "center" }} component="h1" variant="h5">
-          Customer Detail And Order Product
+          Order Status
         </Typography>
         <CloseIcon
-          onClick={() => handleClose()}
+          onClick={() => CloseModal()}
           sx={{
             float: "right",
             margin: "10px 0",
@@ -148,161 +119,7 @@ export default function OrderItemModal({
                     component="h1"
                     variant="h5"
                   >
-                    Customer Detail
-                  </Typography>
-                  <Box
-                    className="table-scroll"
-                    sx={{
-                      padding: "0 15px",
-                      display: "flex",
-                      alignItems: "center",
-                      flexWrap: "wrap",
-                      // justifyContent:"space-evenly"
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        gap: "5px",
-                        mt: 1,
-                        alignItems: "center",
-                        mr: 2,
-                      }}
-                    >
-                      <Typography component="h1" variant="h5">
-                        Name :{" "}
-                      </Typography>
-                      <Typography component="p" variant="p">
-                        {" "}
-                        {modalData.name}
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        gap: "5px",
-                        mt: 1,
-                        alignItems: "center",
-                        mr: 2,
-                      }}
-                    >
-                      <Typography component="h1" variant="h5">
-                        Email :{" "}
-                      </Typography>
-                      <Typography component="p" variant="p">
-                        {" "}
-                        {modalData.email}
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        gap: "5px",
-                        mt: 1,
-                        alignItems: "center",
-                        mr: 2,
-                      }}
-                    >
-                      <Typography component="h1" variant="h5">
-                        Mobile Number :{" "}
-                      </Typography>
-                      <Typography component="p" variant="p">
-                        {" "}
-                        {modalData.mobile_number}
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        gap: "5px",
-                        mt: 1,
-                        alignItems: "center",
-                        mr: 2,
-                      }}
-                    >
-                      <Typography component="h1" variant="h5">
-                        Alternate Name :{" "}
-                      </Typography>
-                      <Typography component="p" variant="p">
-                        {" "}
-                        {modalData.alternate_number}
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        gap: "5px",
-                        mt: 1,
-                        alignItems: "center",
-                        mr: 2,
-                      }}
-                    >
-                      <Typography component="h1" variant="h5">
-                        Area:{" "}
-                      </Typography>
-                      <Typography component="p" variant="p">
-                        {" "}
-                        {modalData.address?.location}
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        gap: "5px",
-                        mt: 1,
-                        alignItems: "center",
-                        mr: 2,
-                      }}
-                    >
-                      <Typography component="h1" variant="h5">
-                        Delivery Address:{" "}
-                      </Typography>
-                      <Typography component="p" variant="p">
-                        {" "}
-                        {modalData?.address?.complete}
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        gap: "5px",
-                        mt: 1,
-                        alignItems: "center",
-                        mr: 2,
-                      }}
-                    >
-                      <Typography component="h1" variant="h5">
-                        Nearest Landmark:{" "}
-                      </Typography>
-                      <Typography component="p" variant="p">
-                        {" "}
-                        {modalData?.nearest_landmark}
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        gap: "5px",
-                        mt: 1,
-                        alignItems: "center",
-                        mr: 2,
-                      }}
-                    >
-                      <Typography component="h1" variant="h5">
-                        Delivery Insturction:{" "}
-                      </Typography>
-                      <Typography component="p" variant="p">
-                        {" "}
-                        {modalData?.delivery_instructions}
-                      </Typography>
-                    </Box>
-                  </Box>
-                  <Typography
-                    sx={{ textAlign: "center", mt: 3, mb: 3 }}
-                    component="h1"
-                    variant="h5"
-                  >
-                    Order Product
+                    Product Detail
                   </Typography>
                   <TableContainer className="table-scroll">
                     <Table>
@@ -337,7 +154,8 @@ export default function OrderItemModal({
                                     noWrap
                                     className="product-table-text"
                                   >
-                                    {e?.name}
+                                    {e.name} {e.variation && "-"}{" "}
+                                    {e.variation ? e.variation.name : ""}
                                   </Typography>
                                 </TableCell>
                                 <TableCell>
@@ -346,15 +164,25 @@ export default function OrderItemModal({
                                     color="text.secondary"
                                     noWrap
                                   >
-                                    {e?.images?.map((image, i) => (
-                                      <img
-                                        key={i}
-                                        src={image}
-                                        width={50}
-                                        height={50}
-                                        style={{ marginRight: 10 }}
-                                      />
-                                    ))}
+                                    {e.variation
+                                      ? e.variation.images.map((image, i) => (
+                                          <img
+                                            key={i}
+                                            src={image}
+                                            width={50}
+                                            height={50}
+                                            style={{ marginRight: 10 }}
+                                          />
+                                        ))
+                                      : e?.images?.map((image, i) => (
+                                          <img
+                                            key={i}
+                                            src={image}
+                                            width={50}
+                                            height={50}
+                                            style={{ marginRight: 10 }}
+                                          />
+                                        ))}
                                   </Typography>
                                 </TableCell>
                                 <TableCell>
@@ -363,7 +191,8 @@ export default function OrderItemModal({
                                     color="text.secondary"
                                     noWrap
                                   >
-                                    Rs {e?.price}
+                                    Rs{" "}
+                                    {e.variation ? e.variation.price : e?.price}
                                   </Typography>
                                 </TableCell>
                                 <TableCell>
@@ -393,61 +222,303 @@ export default function OrderItemModal({
                   <Box
                     className="table-scroll"
                     sx={{
-                      padding: "27px 15px",
-                      pt: 0,
+                      padding: "0 15px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
                     }}
                   >
                     <Box
                       sx={{
-                        display: "flex",
-                        gap: "5px",
-                        mt: 1,
-                        alignItems: "center",
-                        mr: 2,
+                        width: "58%",
+                        border: "3px dotted #8196cf",
+                        padding: "10px",
+                        paddingLeft: "13px",
+                        paddingBottom: "19px",
+                        borderTopRightRadius: "15px",
+                        borderBottomLeftRadius: "15px",
+                        marginTop: 3,
+                        marginBottom: 3,
                       }}
                     >
-                      <Typography component="h1" variant="h5">
-                        Sub Total :{" "}
+                      <Typography
+                        sx={{ textAlign: "center" }}
+                        component="h1"
+                        variant="h4"
+                      >
+                        Customer Detail
                       </Typography>
-                      <Typography component="p" variant="p">
-                        {" "}
-                        Rs {modalData.total_amount}
-                      </Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: "5px",
+                          mt: 1,
+                          alignItems: "center",
+                          mr: 2,
+                        }}
+                      >
+                        <Typography component="h1" variant="h5">
+                          Name :{" "}
+                        </Typography>
+                        <Typography component="p" variant="p">
+                          {" "}
+                          {modalData.name}
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: "5px",
+                          mt: 1,
+                          alignItems: "center",
+                          mr: 2,
+                        }}
+                      >
+                        <Typography component="h1" variant="h5">
+                          Email :{" "}
+                        </Typography>
+                        <Typography component="p" variant="p">
+                          {" "}
+                          {modalData.email}
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: "5px",
+                          mt: 1,
+                          alignItems: "center",
+                          mr: 2,
+                        }}
+                      >
+                        <Typography component="h1" variant="h5">
+                          Mobile Number :{" "}
+                        </Typography>
+                        <Typography component="p" variant="p">
+                          {" "}
+                          {modalData.mobile_number}
+                        </Typography>
+                      </Box>
+                      {modalData.alternate_number ? (
+                        <Box
+                          sx={{
+                            display: "flex",
+                            gap: "5px",
+                            mt: 1,
+                            alignItems: "center",
+                            mr: 2,
+                          }}
+                        >
+                          <Typography component="h1" variant="h5">
+                            Alternate Name :{" "}
+                          </Typography>
+                          <Typography component="p" variant="p">
+                            {" "}
+                            {modalData.alternate_number}
+                          </Typography>
+                        </Box>
+                      ) : (
+                        ""
+                      )}
+
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: "5px",
+                          mt: 1,
+                          alignItems: "center",
+                          mr: 2,
+                        }}
+                      >
+                        <Typography component="h1" variant="h5">
+                          Area:{" "}
+                        </Typography>
+                        <Typography component="p" variant="p">
+                          {" "}
+                          {modalData.address?.location}
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: "5px",
+                          mt: 1,
+                          alignItems: "center",
+                          mr: 2,
+                        }}
+                      >
+                        <Typography component="h1" variant="h5">
+                          Delivery Address:{" "}
+                        </Typography>
+                        <Typography component="p" variant="p">
+                          {" "}
+                          {modalData?.address?.complete}
+                        </Typography>
+                      </Box>
+                      {modalData.nearest_landmark ? (
+                        <Box
+                          sx={{
+                            display: "flex",
+                            gap: "5px",
+                            mt: 1,
+                            alignItems: "center",
+                            mr: 2,
+                          }}
+                        >
+                          <Typography component="h1" variant="h5">
+                            Nearest Landmark:{" "}
+                          </Typography>
+                          <Typography component="p" variant="p">
+                            {" "}
+                            {modalData?.nearest_landmark}
+                          </Typography>
+                        </Box>
+                      ) : (
+                        ""
+                      )}
+
+                      {modalData.delivery_instructions ? (
+                        <Box
+                          sx={{
+                            display: "flex",
+                            gap: "5px",
+                            mt: 1,
+                            alignItems: "center",
+                            mr: 2,
+                          }}
+                        >
+                          <Typography component="h1" variant="h5">
+                            Delivery Insturction:{" "}
+                          </Typography>
+                          <Typography component="p" variant="p">
+                            {" "}
+                            {modalData?.delivery_instructions}
+                          </Typography>
+                        </Box>
+                      ) : (
+                        ""
+                      )}
                     </Box>
                     <Box
                       sx={{
-                        display: "flex",
-                        gap: "5px",
-                        mt: 1,
-                        alignItems: "center",
-                        mr: 2,
+                        width: "40%",
+                        border: "3px dotted #8196cf",
+                        padding: "15px",
+                        paddingLeft: "13px",
+                        paddingBottom: "19px",
+                        borderTopLeftRadius: "15px",
+                        borderBottomRightRadius: "15px",
                       }}
                     >
-                      <Typography component="h1" variant="h5">
-                        Shipping :{" "}
-                      </Typography>
-                      <Typography component="p" variant="p">
-                        {" "}
-                        Rs {modalData.delivery_charges}
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        gap: "5px",
-                        mt: 1,
-                        alignItems: "center",
-                        mr: 2,
-                      }}
-                    >
-                      <Typography component="h1" variant="h5">
-                        Payment Method:{" "}
-                      </Typography>
-                      <Typography component="p" variant="p">
-                        {numbers && numbers.length > 0
-                          ? "cash on Delivery"
-                          : modalData?.payment}{" "}
-                      </Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: "5px",
+                          mt: 1,
+                          alignItems: "center",
+                          mr: 2,
+                        }}
+                      >
+                        <Typography component="h1" variant="h5">
+                          Sub Total :{" "}
+                        </Typography>
+                        <Typography component="p" variant="p">
+                          {" "}
+                          Rs {modalData.total_amount}
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: "5px",
+                          mt: 1,
+                          alignItems: "center",
+                          mr: 2,
+                        }}
+                      >
+                        <Typography component="h1" variant="h5">
+                          Shipping :{" "}
+                        </Typography>
+                        <Typography component="p" variant="p">
+                          {" "}
+                          Rs {modalData.delivery_charges}
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: "5px",
+                          mt: 1,
+                          alignItems: "center",
+                          mr: 2,
+                        }}
+                      >
+                        <Typography component="h1" variant="h5">
+                          Tax :{" "}
+                        </Typography>
+                        <Typography component="p" variant="p">
+                          {" "}
+                          Rs {Math.round(modalData.tax)}
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: "5px",
+                          mt: 1,
+                          alignItems: "center",
+                          mr: 2,
+                        }}
+                      >
+                        <Typography component="h1" variant="h5">
+                          Grand Total :{" "}
+                        </Typography>
+                        <Typography component="p" variant="p">
+                          {" "}
+                          Rs{" "}
+                          {Math.round(
+                            modalData.total_amount +
+                              modalData.tax +
+                              modalData.delivery_charges
+                          )}
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: "5px",
+                          mt: 1,
+                          alignItems: "center",
+                          mr: 2,
+                        }}
+                      >
+                        <Typography component="h1" variant="h5">
+                          Payment Method:{" "}
+                        </Typography>
+                        <Typography component="p" variant="p">
+                          {modalData?.payment}{" "}
+                        </Typography>
+                      </Box>
+                      {modalData.change_cash ? (
+                        <Box
+                          sx={{
+                            display: "flex",
+                            gap: "5px",
+                            mt: 1,
+                            alignItems: "center",
+                            mr: 2,
+                          }}
+                        >
+                          <Typography component="h1" variant="h5">
+                            Change Request:{" "}
+                          </Typography>
+                          <Typography component="p" variant="p">
+                            {modalData?.change_cash}{" "}
+                          </Typography>
+                        </Box>
+                      ) : (
+                        ""
+                      )}
                     </Box>
                   </Box>
                 </Box>
@@ -501,7 +572,7 @@ export default function OrderItemModal({
                 color="secondary"
                 onClick={() => handleChange(modalId)}
               >
-                change status
+                Change status
               </Button>
             </Box>
           </FormControl>

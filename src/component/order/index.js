@@ -69,11 +69,12 @@ function Order() {
   // const handleChange = (event, id) => {
   const handleChange = (id) => {
     // setStatus(event.target.value);
+    console.log(order);
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
-      ...order,
+      order: modalData,
       status: status,
     });
 
@@ -279,6 +280,7 @@ function Order() {
         handleClose={handleClose}
         handleChange={handleChange}
         setStatus={setStatus}
+        setModalData={setModalData}
       />
       <CustomerModal
         status={status}

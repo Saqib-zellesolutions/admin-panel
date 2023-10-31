@@ -111,12 +111,13 @@ function Payment() {
         <Box className="method-container">
           {method.length &&
             method.map((e, index) => (
-              <div
+              <Box
                 key={e._id}
-                style={{
+                sx={{
                   display: "flex",
                   alignItems: "center",
-                  width: "200px",
+                  width: "25%",
+                  // width: "200px",
                   justifyContent: "space-between",
                   padding: "5px 10px",
                   boxShadow:
@@ -125,14 +126,24 @@ function Payment() {
                   borderRadius: "50px",
                 }}
               >
-                <Typography variant="body2">{e.method}</Typography>
+                <Typography
+                  sx={{
+                    width: "50%",
+                    padding: "3px",
+                    borderRadius: "5px",
+                    border: "1px solid grey",
+                  }}
+                  variant="body2"
+                >
+                  {e.method}
+                </Typography>
                 <Switch
                   color="secondary"
                   {...label}
                   checked={e.enable}
                   onChange={() => handleSwitchChange(index)} // Call handleSwitchChange with index
                 />
-              </div>
+              </Box>
             ))}
         </Box>
       </Box>

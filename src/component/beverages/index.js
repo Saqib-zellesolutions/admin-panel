@@ -21,6 +21,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { CliftonLocalUrl, LocalUrl } from "../../config/env";
 import NewTable from "../newtable";
+import BevergesUpdateModal from "../beveragesUpdateModal";
 function AddProduct() {
   const theme = useTheme();
   const [categories, setCategories] = useState();
@@ -37,7 +38,10 @@ function AddProduct() {
   const priceVariable = Number(price);
   const skuVariable = Number(sku);
   const [editData, setEditData] = useState({});
+  const [isloading, setloading] = useState(true);
+  const [open, setOpen] = useState(false);
   const branch = localStorage.getItem("branchName");
+  const handleClose = () => setOpen(false);
   useEffect(() => {
     const getCategory = () => {
       var requestOptions = {
@@ -54,8 +58,12 @@ function AddProduct() {
         .then((response) => response.json())
         .then((result) => {
           setCategories(result);
+          setloading(false);
         })
-        .catch((error) => console.log("error", error));
+        .catch((error) => {
+          setloading(false);
+          console.log("error", error);
+        });
     };
     getCategory();
     const getProduct = () => {
@@ -72,9 +80,13 @@ function AddProduct() {
       )
         .then((response) => response.json())
         .then((result) => {
+          setloading(false);
           setallBeverages(result);
         })
-        .catch((error) => console.log("error", error));
+        .catch((error) => {
+          setloading(false);
+          console.log("error", error);
+        });
     };
     getProduct();
   }, []);
@@ -182,66 +194,10 @@ function AddProduct() {
 
   let edit = (e) => {
     // setEditData()
-    setCategoryId(e.parent_id);
-    setName(e.name);
-    setDescription(e.description);
-    setPrice(e.price);
-    setSku(e.sku);
-    setStock(e.stock);
     setEditData(e);
+    setOpen(true);
   };
-
-  let saveEdit = () => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    var raw = JSON.stringify({
-      name: name,
-      description: description,
-      sku: skuVariable,
-      images: [...editData.images, ...cloudImage],
-      price: priceVariable,
-      instock: stock,
-    });
-
-    var requestOptions = {
-      method: "PUT",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
-
-    fetch(
-      `${
-        branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
-      }/beverages/edit-Beverage/${editData._id}`,
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        window.location.reload();
-        setCategoryId("");
-        setName("");
-        setDescription("");
-        setPrice("");
-        setSku("");
-        setStock("");
-        setImageData([]);
-        setEditData({});
-      })
-      .catch((error) => console.log("error", error));
-  };
-  const cancelEdit = () => {
-    setEditData({});
-    setCategoryId("");
-    setName("");
-    setDescription("");
-    setPrice("");
-    setSku("");
-    setStock("");
-    setImageData([]);
-  };
-  return !categories && !allBeverages ? (
+  return isloading ? (
     <div
       style={{
         display: "flex",
@@ -250,7 +206,7 @@ function AddProduct() {
         width: "100%",
       }}
     >
-      <CircularProgress />
+      <CircularProgress sx={{ color: "#797C8C" }} />
     </div>
   ) : (
     <div
@@ -467,332 +423,48 @@ function AddProduct() {
                 spacing={2}
                 style={{ marginTop: 10, paddingLeft: "15px" }}
               >
-                {!editData._id ? (
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={addProduct}
-                    fullWidth
-                  >
-                    Add Beverages
-                  </Button>
-                ) : (
-                  <Grid
-                    container
-                    spacing={2}
-                    style={{ marginTop: 10, paddingLeft: "15px" }}
-                  >
-                    <Grid xs={6} item>
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={saveEdit}
-                        fullWidth
-                      >
-                        Save
-                      </Button>
-                    </Grid>
-                    <Grid xs={6} item>
-                      <Button
-                        variant="contained"
-                        color="error"
-                        fullWidth
-                        onClick={() => cancelEdit()}
-                      >
-                        Cancel
-                      </Button>
-                    </Grid>
-                  </Grid>
-                )}
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={addProduct}
+                  fullWidth
+                >
+                  Add Beverages
+                </Button>
               </Grid>
             </Box>
-            {allBeverages.length && (
+            {allBeverages.length ? (
               <NewTable
                 data={allBeverages}
                 theme={theme}
                 edit={edit}
                 Delete={Delete}
               />
+            ) : (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  mt: 3,
+                }}
+              >
+                <Typography component="h1" variant="h4">
+                  Data Not Found
+                </Typography>
+              </Box>
             )}
+            <BevergesUpdateModal
+              handleClose={handleClose}
+              open={open}
+              editData={editData}
+              setEditData={setEditData}
+              categories={categories}
+            />
           </Grid>
         </Grid>
       </Container>
     </div>
-    // <div
-    //   style={{
-    //     display: "flex",
-    //     alignItems: "center",
-    //     justifyContent: "center",
-    //     marginTop: 20,
-    //     flexDirection: "column",
-    //   }}
-    // >
-    //   <Box
-    //     component={Paper}
-    //     rowrpacing={1}
-    //     columnspacing={{ xs: 1, sm: 2, md: 3 }}
-    //     style={{ width: "80%", padding: 10 }}
-    //   >
-    //     <Grid
-    //       container
-    //       style={{
-    //         display: "flex",
-    //         alignItems: "center",
-    //         justifyContent: "center",
-    //         marginBottom: "20px",
-    //       }}
-    //     >
-    //       <Typography variant="h4">Beverages</Typography>
-    //     </Grid>
-    //     <Grid container spacing={2} style={{ paddingLeft: "15px" }}>
-    //       <FormControl fullWidth>
-    //         <Typography component="p">Select Category</Typography>
-    //         <InputLabel id="demo-simple-select-label">
-    //           Select Category
-    //         </InputLabel>
-    //         <Select
-    //           labelId="demo-simple-select-label"
-    //           id="demo-simple-select"
-    //           value={categoryId}
-    //           label="Categories"
-    //           onChange={(e) => setCategoryId(e.target.value)}
-    //         >
-    //           {categories &&
-    //             categories.map((e, i) => (
-    //               <MenuItem value={e.uniqueId} key={i}>
-    //                 {e.name}
-    //               </MenuItem>
-    //             ))}
-    //         </Select>
-    //       </FormControl>
-    //     </Grid>
-    //     <Grid container spacing={2} style={{ marginTop: 10 }}>
-    //       <Grid xs={6} item>
-    //         <Typography component="p">Beverages Name</Typography>
-    //         <TextField
-    //           id="outlined-basic"
-    //           placeholder="Beverages Name"
-    //           variant="outlined"
-    //           fullWidth
-    //           onChange={(e) => setName(e.target.value)}
-    //           value={name}
-    //         />
-    //       </Grid>
-    //       <Grid xs={6} item>
-    //         <Typography component="p">Beverages Description</Typography>
-    //         <TextField
-    //           id="outlined-basic"
-    //           placeholder="Beverages Description"
-    //           variant="outlined"
-    //           fullWidth
-    //           onChange={(e) => setDescription(e.target.value)}
-    //           value={description}
-    //         />
-    //       </Grid>
-    //     </Grid>
-    //     <Grid container spacing={2} style={{ marginTop: 10 }}>
-    //       <Grid xs={6} item>
-    //         <Typography component="p">Sku</Typography>
-    //         <TextField
-    //           id="outlined-basic"
-    //           placeholder="Sku"
-    //           variant="outlined"
-    //           fullWidth
-    //           type="number"
-    //           onChange={(e) => setSku(e.target.value)}
-    //           value={sku}
-    //         />
-    //       </Grid>
-    //       <Grid xs={6} item>
-    //         <Typography component="p">Price</Typography>
-    //         <TextField
-    //           id="outlined-basic"
-    //           placeholder="Price"
-    //           type="number"
-    //           variant="outlined"
-    //           fullWidth
-    //           onChange={(e) => setPrice(e.target.value)}
-    //           value={price}
-    //         />
-    //       </Grid>
-    //     </Grid>
-    //     <Grid container spacing={2} style={{ marginTop: 10 }}>
-    //       <Grid xs={6} item>
-    //         <FormGroup>
-    //           <RadioGroup
-    //             aria-labelledby="demo-radio-buttons-group-label"
-    //             defaultValue="female"
-    //             name="radio-buttons-group"
-    //             style={{
-    //               display: "flex",
-    //               alignItems: "center",
-    //               justifyContent: "center",
-    //               flexDirection: "row",
-    //             }}
-    //           >
-    //             <FormControlLabel
-    //               value="true"
-    //               control={<Radio />}
-    //               label="instock"
-    //               onChange={(e) => setStock(e.target.value)}
-    //             />
-    //             <FormControlLabel
-    //               value="false"
-    //               control={<Radio />}
-    //               label="outstock"
-    //               onChange={(e) => setStock(e.target.value)}
-    //             />
-    //           </RadioGroup>
-    //         </FormGroup>
-    //       </Grid>
-    //       <Grid xs={6} item>
-    //         <Typography component="p">Product Image</Typography>
-    //         <TextField
-    //           id="outlined-basic"
-    //           variant="outlined"
-    //           fullWidth
-    //           type="file"
-    //           inputProps={{
-    //             multiple: true,
-    //             accept: "image/*",
-    //           }}
-    //           onChange={handleGalleryImageChange}
-    //         />
-    //         {selectedGalleryImages &&
-    //           selectedGalleryImages.map((image, index) => (
-    //             <span key={index} style={{ marginTop: "10px" }}>
-    //               <img
-    //                 src={image.url}
-    //                 alt={`Selected ${index + 1}`}
-    //                 style={{
-    //                   maxWidth: "100px",
-    //                   height: "50px",
-    //                   marginRight: "10px",
-    //                 }}
-    //               />
-    //             </span>
-    //           ))}
-    //         <div>
-    //           {selectedGalleryImages && selectedGalleryImages.length ? (
-    //             <Button variant="contained" onClick={SaveImages}>
-    //               Save Images
-    //             </Button>
-    //           ) : null}
-    //         </div>
-    //       </Grid>
-    //     </Grid>
-    //     <Grid
-    //       container
-    //       spacing={2}
-    //       style={{ marginTop: 10, paddingLeft: "15px" }}
-    //     >
-    //       {!editData._id ? (
-    //         <Button variant="contained" onClick={addProduct} fullWidth>
-    //           Add Beveages
-    //         </Button>
-    //       ) : (
-    //         <Grid
-    //           container
-    //           spacing={2}
-    //           style={{ marginTop: 10, paddingLeft: "15px" }}
-    //         >
-    //           <Grid xs={6} item>
-    //             <Button variant="contained" onClick={saveEdit} fullWidth>
-    //               Save
-    //             </Button>
-    //           </Grid>
-    //           <Grid xs={6} item>
-    //             <Button
-    //               variant="contained"
-    //               color="error"
-    //               fullWidth
-    //               onClick={() => cancelEdit()}
-    //               style={{ marginTop: 5 }}
-    //             >
-    //               Cancel
-    //             </Button>
-    //           </Grid>
-    //         </Grid>
-    //       )}
-    //     </Grid>
-    //   </Box>
-    //   <TableContainer component={Paper} style={{ width: "95%", marginTop: 40 }}>
-    //     <Table sx={{ minWidth: 700 }} aria-label="customized table">
-    //       <TableHead>
-    //         <TableRow>
-    //           <StyledTableCell>id</StyledTableCell>
-    //           <StyledTableCell align="left">name</StyledTableCell>
-    //           <StyledTableCell align="left">description</StyledTableCell>
-    //           <StyledTableCell align="left">image</StyledTableCell>
-    //           <StyledTableCell align="left">price</StyledTableCell>
-    //           <StyledTableCell align="left">sku</StyledTableCell>
-    //           <StyledTableCell align="left">stock</StyledTableCell>
-    //           <StyledTableCell align="left"></StyledTableCell>
-    //           <StyledTableCell align="left"></StyledTableCell>
-    //         </TableRow>
-    //       </TableHead>
-    //       <TableBody>
-    //         {allBeverages &&
-    //           allBeverages.map((e, index) => (
-    //             <React.Fragment key={index}>
-    //               <StyledTableRow>
-    //                 <StyledTableCell component="th" scope="row">
-    //                   {e._id}
-    //                 </StyledTableCell>
-    //                 <StyledTableCell sx={{ whiteSpace: "nowrap" }} align="left">
-    //                   {e.name}
-    //                 </StyledTableCell>
-    //                 <StyledTableCell sx={{ whiteSpace: "nowrap" }} align="left">
-    //                   {e.description}
-    //                 </StyledTableCell>
-    //                 <StyledTableCell align="left">
-    //                   <div style={{ display: "flex" }}>
-    //                     {e?.images?.map((image, i) => (
-    //                       <img
-    //                         src={image}
-    //                         width={50}
-    //                         height={50}
-    //                         style={{ marginRight: 10 }}
-    //                       />
-    //                     ))}
-    //                   </div>
-    //                 </StyledTableCell>
-    //                 <StyledTableCell sx={{ whiteSpace: "nowrap" }} align="left">
-    //                   Rs {e.price}
-    //                 </StyledTableCell>
-    //                 <StyledTableCell sx={{ whiteSpace: "nowrap" }} align="left">
-    //                   {e.sku}
-    //                 </StyledTableCell>
-    //                 <StyledTableCell align="left">
-    //                   {e.instock.toString()}
-    //                 </StyledTableCell>
-    //                 <StyledTableCell align="left">
-    //                   <Button
-    //                     variant="contained"
-    //                     color="error"
-    //                     onClick={() => Delete(e._id)}
-    //                     style={{ marginTop: 5 }}
-    //                   >
-    //                     Delete
-    //                   </Button>
-    //                 </StyledTableCell>
-    //                 <StyledTableCell align="left">
-    //                   <Button
-    //                     variant="contained"
-    //                     color="success"
-    //                     onClick={() => edit(e)}
-    //                     style={{ marginTop: 5, marginLeft: 20 }}
-    //                   >
-    //                     Edit
-    //                   </Button>
-    //                 </StyledTableCell>
-    //               </StyledTableRow>
-    //             </React.Fragment>
-    //           ))}
-    //       </TableBody>
-    //     </Table>
-    //   </TableContainer>
-    // </div>
   );
 }
 export default AddProduct;

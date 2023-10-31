@@ -33,6 +33,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { CliftonLocalUrl, LocalUrl } from "../../config/env";
 import VariationItemModal from "../variation-item-modal";
+import VariationUpdateModal from "../VariableUpdateModal";
 
 function VariableProduct() {
   const [categories, setCategories] = useState();
@@ -58,6 +59,7 @@ function VariableProduct() {
   const [loader, setLoading] = useState(false);
   const [multipleVariation, setMultipleVariation] = useState([]);
   const [open, setOpen] = useState(false);
+  const [updateModal, setUpdateModal] = useState(false);
   const [modalData, setModalData] = useState([]);
   const [allProduct, setAllProduct] = useState([]);
   const [variationId, setVariationId] = useState("");
@@ -67,6 +69,7 @@ function VariableProduct() {
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
+  const handleCloseUpdateModal = () => setUpdateModal(false);
   const [editData, setEditData] = useState({});
   let edit = (e) => {
     setCategoryId(e.parent_id);
@@ -183,7 +186,7 @@ function VariableProduct() {
         !cloudImage.length,
         !multipleVariation.length)
       ) {
-        return;
+        toast.error("Please Fill Input");
       } else {
         addVariableProduct();
       }
@@ -737,7 +740,16 @@ function VariableProduct() {
                             variant="contained"
                             fullWidth
                             onClick={async () => {
-                              SaveImages("single", [imageFile]);
+                              if (
+                                !name ||
+                                !description ||
+                                !sku ||
+                                !multipleVariation.length
+                              ) {
+                                toast.error("Please Fill Input");
+                              } else {
+                                SaveImages("single", [imageFile]);
+                              }
                               // addVariableProduct();
                             }}
                             color="secondary"
@@ -840,6 +852,10 @@ function VariableProduct() {
                 open={open}
                 handleClose={handleClose}
               />
+              {/* <VariationUpdateModal
+                open={updateModal}
+                handleClose={handleCloseUpdateModal}
+              /> */}
             </Grid>
           </Grid>
         </Container>

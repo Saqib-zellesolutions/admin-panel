@@ -81,7 +81,7 @@ function ItemPurchaseChart({ data, labels }) {
         options={options}
         series={options.series}
         type="bar"
-        width={300}
+        // width={300}
         height={240}
       />
     </div>

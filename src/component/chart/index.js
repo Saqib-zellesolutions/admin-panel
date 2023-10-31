@@ -25,7 +25,7 @@ export default function Chart({
           },
         ]}
         margin={{ right: 5 }}
-        width={175}
+        // width={175}
         height={175}
         legend={{ hidden: true }}
       />

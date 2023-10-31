@@ -13,7 +13,9 @@ import Order from "../assets/order.svg";
 import ProcessingDot from "../assets/processing-dot.svg";
 import Product from "../assets/product.png";
 import Profile from "../assets/profile.svg";
+import Sliders from "../assets/slider.png";
 import Square from "../assets/square.png";
+import TaxIcon from "../assets/tax.png";
 import Variable from "../assets/variable.png";
 import Writer from "../assets/writer.png";
 export {
@@ -22,7 +24,9 @@ export {
   CompletedDot,
   CreditCard,
   Dashboard,
-  DeliveryTruck, EditIcon, Email,
+  DeliveryTruck,
+  EditIcon,
+  Email,
   Layer,
   Logo,
   Logout,
@@ -30,8 +34,8 @@ export {
   ProcessingDot,
   Product,
   Profile,
-  Square,
-  Variable,
+  Sliders,
+  Square, TaxIcon, Variable,
   Writer
 };
 

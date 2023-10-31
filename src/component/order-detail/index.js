@@ -180,20 +180,6 @@ function OrderDetail() {
         </span>
       </div>
       <main className="main-order-detail-and-chart">
-        <div style={{ margin: "20px 0px" }}>
-          <div className="cancel-dot">
-            <img src={CancelDot} alt="" />
-            <p>Cancel</p>
-          </div>
-          <div className="completed-dot">
-            <img src={CompletedDot} alt="" />
-            <p>Completed</p>
-          </div>
-          <div className="completed-dot">
-            <img src={ProcessingDot} alt="" />
-            <p>Processing</p>
-          </div>
-        </div>
         <div className="total-chart-container glass-morphism">
           <p>Total Order</p>
           {Object.keys(dateWiseOrder).length > 0 ? (
@@ -205,6 +191,20 @@ function OrderDetail() {
           ) : (
             <p>No data available.</p>
           )}
+          <div style={{ margin: "20px 10px" }}>
+            <div className="cancel-dot">
+              <img src={CancelDot} alt="" />
+              <p>Cancel</p>
+            </div>
+            <div className="completed-dot">
+              <img src={CompletedDot} alt="" />
+              <p>Completed</p>
+            </div>
+            <div className="completed-dot">
+              <img src={ProcessingDot} alt="" />
+              <p>Processing</p>
+            </div>
+          </div>
         </div>
         <div className="total-chart-container glass-morphism">
           <p>Order Placed</p>
@@ -234,8 +234,8 @@ function OrderDetail() {
           <p>Gross Sale</p>
           {Object.keys(dateWiseOrder).length > 0 ? (
             <LineCharts
-              summedSales={summedSales.slice(0, 3)}
-              dates={dates.slice(0, 3)}
+              summedSales={summedSales.slice(0, 10)}
+              dates={dates.slice(0, 10)}
             />
           ) : (
             <p>No data available.</p>
@@ -245,8 +245,8 @@ function OrderDetail() {
           <p>Net Sale</p>
           {Object.keys(dateWiseOrder).length > 0 ? (
             <LineCharts
-              summedSales={paymentSales.slice(0, 3)}
-              dates={dates.slice(0, 5)}
+              summedSales={paymentSales.slice(0, 10)}
+              dates={dates.slice(0, 10)}
             />
           ) : (
             <p>No data available.</p>

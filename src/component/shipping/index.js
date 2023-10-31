@@ -27,7 +27,7 @@ function Shipping() {
   const deliveryNumber = Number(delivery_charges);
   const addShipping = () => {
     if ((!area, !delivery_charges)) {
-      toast.success("Please fill the input");
+      toast.error("Please fill the input");
     } else {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");

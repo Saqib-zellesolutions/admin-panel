@@ -10,6 +10,8 @@ import OrderDetail from "../component/order-detail";
 import Payment from "../component/payment";
 import Shipping from "../component/shipping";
 import VariableProduct from "../component/variableProduct";
+import Slider from "../component/slider";
+import Tax from "../component/tax";
 
 function DashboardRoutes() {
   return (
@@ -24,6 +26,8 @@ function DashboardRoutes() {
         <Route path="shipping" element={<Shipping />} />
         <Route path="payment" element={<Payment />} />
         <Route path="content" element={<Content />} />
+        <Route path="slider" element={<Slider />} />
+        {/* <Route path="tax" element={<Tax />} /> */}
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

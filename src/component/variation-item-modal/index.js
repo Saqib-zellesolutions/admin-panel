@@ -85,7 +85,7 @@ export default function Variation({ data, open, handleClose }) {
               >
                 <Divider />
                 <TableContainer
-                  sx={{ height: "100%", overflow: "auto", pb: 3 }}
+                  sx={{ maxHeight: "100%", overflow: "auto", pb: 3 }}
                 >
                   <Table>
                     <TableHead>

@@ -21,6 +21,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { CliftonLocalUrl, LocalUrl } from "../../config/env";
 import NewTable from "../newtable";
+import SimpleUpdateModal from "../simpleProductUpdateModal";
 function AddProduct() {
   const theme = useTheme();
   const [categories, setCategories] = useState();
@@ -37,8 +38,10 @@ function AddProduct() {
   const priceVariable = Number(price);
   const skuVariable = Number(sku);
   const [editData, setEditData] = useState({});
-
+  const [isloading, setloading] = useState(true);
+  const [open, setOpen] = useState(false);
   const branch = localStorage.getItem("branchName");
+  const handleClose = () => setOpen(false);
   useEffect(() => {
     const getCategory = () => {
       var requestOptions = {
@@ -55,9 +58,13 @@ function AddProduct() {
         .then((response) => response.json())
         .then((result) => {
           // console.log(result);
+          setloading(false);
           setCategories(result);
         })
-        .catch((error) => console.log("error", error));
+        .catch((error) => {
+          setloading(false);
+          console.log("error", error);
+        });
     };
     getCategory();
     const getProduct = () => {
@@ -75,8 +82,12 @@ function AddProduct() {
         .then((response) => response.json())
         .then((result) => {
           setAllProduct(result);
+          setloading(false);
         })
-        .catch((error) => console.log("error", error));
+        .catch((error) => {
+          setloading(false);
+          console.log("error", error);
+        });
     };
     getProduct();
   }, []);
@@ -121,7 +132,7 @@ function AddProduct() {
     if (
       (!name, !description, !skuVariable, !priceVariable, !cloudImage.length)
     ) {
-      return;
+      toast.error("Please Fill Inputs")
     } else {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -175,76 +186,19 @@ function AddProduct() {
       }/SimpleProduct/delete-product/${id}`,
       requestOptions
     )
-      .then((response) => response.text())
-      .then((result) => {
-        window.location.reload();
-      })
-      .catch((error) => console.log("error", error));
-  };
-
-  let edit = (e) => {
-    // setEditData()
-    setCategoryId(e.parent_id);
-    setName(e.name);
-    setDescription(e.description);
-    setPrice(e.price);
-    setSku(e.sku);
-    setStock(e.stock);
-    setEditData(e);
-  };
-
-  let saveEdit = () => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    var raw = JSON.stringify({
-      name: name,
-      description: description,
-      sku: skuVariable,
-      images: [...editData.images, ...cloudImage],
-      price: priceVariable,
-      instock: stock,
-    });
-
-    var requestOptions = {
-      method: "PUT",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
-
-    fetch(
-      `${
-        branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
-      }/SimpleProduct/edit-product/${editData._id}`,
-      requestOptions
-    )
       .then((response) => response.json())
       .then((result) => {
         window.location.reload();
-        setCategoryId("");
-        setName("");
-        setDescription("");
-        setPrice("");
-        setSku("");
-        setStock("");
-        setImageData([]);
-        setEditData({});
       })
       .catch((error) => console.log("error", error));
   };
-  const cancelEdit = () => {
-    setEditData({});
-    setCategoryId("");
-    setName("");
-    setDescription("");
-    setPrice("");
-    setSku("");
-    setStock("");
-    setImageData([]);
+  let edit = (e) => {
+    // setEditData()
+    setEditData(e);
+    setOpen(true);
   };
 
-  return !categories && !allProduct ? (
+  return isloading ? (
     <div
       style={{
         display: "flex",
@@ -253,7 +207,7 @@ function AddProduct() {
         width: "100%",
       }}
     >
-      <CircularProgress />
+      <CircularProgress sx={{ color: "#797C8C" }} />
     </div>
   ) : (
     <div
@@ -470,16 +424,16 @@ function AddProduct() {
                 spacing={2}
                 style={{ marginTop: 10, paddingLeft: "15px" }}
               >
-                {!editData._id ? (
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={addProduct}
-                    fullWidth
-                  >
-                    Add Product
-                  </Button>
-                ) : (
+                {/* {!editData._id ? ( */}
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={addProduct}
+                  fullWidth
+                >
+                  Add Product
+                </Button>
+                {/* ) : (
                   <Grid
                     container
                     spacing={2}
@@ -506,17 +460,37 @@ function AddProduct() {
                       </Button>
                     </Grid>
                   </Grid>
-                )}
+                )} */}
               </Grid>
             </Box>
-            {allProduct.length && (
+            {allProduct.length ? (
               <NewTable
                 data={allProduct}
                 theme={theme}
                 edit={edit}
                 Delete={Delete}
               />
+            ) : (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  mt: 3,
+                }}
+              >
+                <Typography component="h1" variant="h4">
+                  Data Not Found
+                </Typography>
+              </Box>
             )}
+            <SimpleUpdateModal
+              handleClose={handleClose}
+              open={open}
+              editData={editData}
+              setEditData={setEditData}
+              categories={categories}
+            />
           </Grid>
         </Grid>
       </Container>

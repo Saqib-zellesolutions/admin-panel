@@ -1,7 +1,9 @@
-import { TextareaAutosize } from "@mui/base/TextareaAutosize";
+import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
+import DoDisturbOnIcon from "@mui/icons-material/DoDisturbOn";
+import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
+import SaveAsIcon from "@mui/icons-material/SaveAs";
 import {
   Box,
-  Button,
   CircularProgress,
   Grid,
   IconButton,
@@ -11,79 +13,18 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { styled } from "@mui/system";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { CliftonLocalUrl, LocalUrl } from "../../config/env";
-import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
-import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
-import SaveAsIcon from "@mui/icons-material/SaveAs";
-import DoDisturbOnIcon from "@mui/icons-material/DoDisturbOn";
-const blue = {
-  100: "#DAECFF",
-  200: "#b6daff",
-  400: "#3399FF",
-  500: "#007FFF",
-  600: "#0072E5",
-  900: "#003A75",
-};
 
-const grey = {
-  50: "#f6f8fa",
-  100: "#eaeef2",
-  200: "#d0d7de",
-  300: "#afb8c1",
-  400: "#8c959f",
-  500: "#6e7781",
-  600: "#57606a",
-  700: "#424a53",
-  800: "#32383f",
-  900: "#24292f",
-};
-
-const StyledTextarea = styled(TextareaAutosize)(
-  ({ theme }) => `
-  margin:10px 0px;
-  width: 97%;
-  font-family: IBM Plex Sans, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 400;
-  line-height: 1.5;
-  padding: 12px;
-  border-radius: 12px 12px 0 12px;
-  color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
-  background: ${theme.palette.mode === "dark" ? grey[900] : "#fff"};
-  border: 1px solid ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
-  box-shadow: 0px 2px 2px ${
-    theme.palette.mode === "dark" ? grey[900] : grey[50]
-  };
-
-  &:hover {
-    border-color: ${blue[400]};
-  }
-
-  &:focus {
-    border-color: ${blue[400]};
-    box-shadow: 0 0 0 3px ${
-      theme.palette.mode === "dark" ? blue[500] : blue[200]
-    };
-  }
-
-  // firefox
-  &:focus-visible {
-    outline: 0;
-  }
-`
-);
-
-function Content() {
+function Tax() {
   const theme = useTheme();
-  const [content, setContent] = useState([]);
-  const [heading, setHeading] = useState("");
-  const [sub_heading, setSub_Heading] = useState("");
+  const [taxData, setTaxData] = useState([]);
+  const [value, setValue] = useState("");
   const [editIndex, setEditIndex] = useState("");
   const [isloading, setIsLoading] = useState(true);
   const branch = localStorage.getItem("branchName");
+  const valueNumber = Number(value);
   useEffect(() => {
     var requestOptions = {
       method: "GET",
@@ -91,15 +32,13 @@ function Content() {
     };
 
     fetch(
-      `${
-        branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
-      }/content/get-content`,
+      `${branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl}/tax/get-tax`,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
         setIsLoading(false);
-        setContent(result);
+        setTaxData(result);
       })
       .catch((error) => {
         console.log("error", error);
@@ -108,21 +47,18 @@ function Content() {
   }, []);
   const handleEditClick = (item) => {
     setEditIndex(item._id);
-    setHeading(item.heading);
-    setSub_Heading(item.sub_heading);
+    setValue(item.value);
   };
   const CancleEdit = () => {
     setEditIndex("");
-    setHeading("");
-    setSub_Heading("");
+    setValue("");
   };
   const handleSaveClick = (e) => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
-      heading: heading,
-      sub_heading: sub_heading,
+      value: valueNumber,
     });
 
     var requestOptions = {
@@ -135,7 +71,7 @@ function Content() {
     fetch(
       `${
         branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
-      }/content/edit-content/${editIndex}`,
+      }/tax/edit-tax/${editIndex}`,
       requestOptions
     )
       .then((response) => response.json())
@@ -155,7 +91,7 @@ function Content() {
     fetch(
       `${
         branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
-      }/content/delete-content/${e._id}`,
+      }/tax/delete-tax/${e._id}`,
       requestOptions
     )
       .then((response) => response.json())
@@ -205,14 +141,14 @@ function Content() {
             marginBottom: "20px",
           }}
         >
-          <Typography variant="h4">Page Description</Typography>
+          <Typography variant="h4">Tax</Typography>
         </Grid>
-        {!content.length ? (
+        {!taxData.length ? (
           <Box>
             <Typography component="h4">Data Not Found</Typography>
           </Box>
         ) : (
-          content.map((e) => (
+          taxData.map((e) => (
             <Grid
               key={e._id}
               component={Paper}
@@ -221,21 +157,13 @@ function Content() {
             >
               {editIndex === e._id ? (
                 <>
-                  {/* <Typography component="p">Heading</Typography> */}
                   <TextField
-                    placeholder="Heading"
+                    placeholder="Value"
                     variant="outlined"
                     fullWidth
-                    value={heading}
-                    onChange={(e) => setHeading(e.target.value)}
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
                     // Add onChange to update the heading
-                  />
-
-                  <StyledTextarea
-                    maxRows={4}
-                    aria-label="Sub Heading"
-                    value={sub_heading}
-                    onChange={(e) => setSub_Heading(e.target.value)}
                   />
                   <Box>
                     <Tooltip title="Save Edit" arrow>
@@ -272,15 +200,12 @@ function Content() {
                 </>
               ) : (
                 <>
-                  <Typography component="h1" fontSize="30px" fontWeight={600}>
-                    {e.heading}
-                  </Typography>
                   <Typography
                     component="p"
                     style={{ margin: "10px 0px" }}
                     fontWeight={400}
                   >
-                    {e.sub_heading}
+                    {e.value}%
                   </Typography>
                   <Box>
                     <Tooltip title="Edit Content" arrow>
@@ -298,13 +223,6 @@ function Content() {
                         <EditTwoToneIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
-                    {/* <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => handleEditClick(e)}
-                    >
-                      Edit
-                    </Button> */}
                     <Tooltip title="Delete Content" arrow>
                       <IconButton
                         onClick={() => handleDeleteClick(e)}
@@ -320,14 +238,6 @@ function Content() {
                         <DeleteTwoToneIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
-                    {/* <Button
-                      style={{ marginLeft: "12px" }}
-                      variant="contained"
-                      color="error"
-                      onClick={() => handleDeleteClick(e)}
-                    >
-                      Delete
-                    </Button> */}
                   </Box>
                 </>
               )}
@@ -338,4 +248,4 @@ function Content() {
     </div>
   );
 }
-export default Content;
+export default Tax;
