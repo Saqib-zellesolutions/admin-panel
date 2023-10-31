@@ -33,7 +33,6 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { CliftonLocalUrl, LocalUrl } from "../../config/env";
 import VariationItemModal from "../variation-item-modal";
-import VariationUpdateModal from "../VariableUpdateModal";
 
 function VariableProduct() {
   const [categories, setCategories] = useState();

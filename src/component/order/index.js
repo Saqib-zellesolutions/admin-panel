@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Card,
   CircularProgress,
@@ -18,9 +19,9 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "../../App.css";
 import { CliftonLocalUrl, LocalUrl } from "../../config/env";
+import CustomerModal from "../customer-modal";
 import OrderItemModal from "../order-item-modal";
 import { SeverityPill } from "../severity-pill.js";
-import CustomerModal from "../customer-modal";
 
 function Order() {
   const [order, setOrder] = useState([]);
@@ -113,7 +114,7 @@ function Order() {
         width: "100%",
       }}
     >
-      <CircularProgress sx={{ color: "#797C8C" }}/>
+      <CircularProgress sx={{ color: "#797C8C" }} />
     </Box>
   ) : (
     <div
