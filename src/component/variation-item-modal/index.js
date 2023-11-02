@@ -80,7 +80,7 @@ export default function Variation({ data, open, handleClose }) {
                 className="main-order-table glass-morphism"
                 sx={{
                   padding: "unset !important",
-                  height: "80%",
+                  maxHeight: "80%",
                 }}
               >
                 <Divider />

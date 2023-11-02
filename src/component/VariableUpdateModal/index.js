@@ -3,24 +3,69 @@ import {
   Box,
   Button,
   Container,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
   Grid,
+  InputLabel,
+  MenuItem,
   Modal,
+  Radio,
+  RadioGroup,
+  Select,
   TextField,
   Typography,
   useTheme,
 } from "@mui/material";
 import React from "react";
+import { toast } from "react-toastify";
 function VariationUpdateModal({
   open,
   handleClose,
+  setCategoryId,
+  categoryId,
+  setName,
+  name,
+  setDescription,
+  description,
+  setSku,
+  sku,
+  setEditData,
+  editData,
+  setMultipleVariation,
+  multipleVariation,
+  setVariationId,
+  variationId,
+  setVariation,
+  variation,
+  variationEdit,
+  setVariationName,
+  variationName,
+  setVariationDescription,
+  variationDescription,
+  setVariationSku,
+  variationSku,
+  setVariationPrice,
+  variationPrice,
+  setStock,
+  stock,
+  cancelEdit,
+  handleImageChange,
+  imageData,
+  handleGalleryImageChange,
+  selectedGalleryImages,
+  SaveImages,
+  variationImageData,
+  imageFile,
+  setCloudImage
 }) {
   const style = {
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: "60%",
-    height: "63%",
+    width: "80%",
+    height: "100%",
     padding: 4,
     borderRadius: "10px",
     backgroundColor: "#111633",
@@ -72,92 +117,294 @@ function VariationUpdateModal({
             spacing={3}
           >
             <Grid item xs={12}>
-              <Grid container spacing={2} style={{ marginTop: 10 }}>
-                <Grid xs={6} item>
-                  <Typography component="p">Title</Typography>
-                  <TextField
-                    required
-                    id="outlined-basic"
-                    placeholder="Title"
-                    variant="outlined"
-                    fullWidth
-                    // onChange={(e) => setTitle(e.target.value)}
-                    // value={title}
-                  />
+              <Box
+                component="form"
+                rowrpacing={1}
+                columnspacing={{ xs: 1, sm: 2, md: 3 }}
+                sx={{ maxHeight: "80%", overflow: "hidden", overflowY: "scroll" }}
+                className="main-order-table glass-morphism"
+              >
+                <Grid
+                  container
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mb: "30px",
+                  }}
+                >
+                  <Typography variant="h4">Edit Variable Product</Typography>
                 </Grid>
-                <Grid xs={6} item>
-                  <Typography component="p">Image</Typography>
-                  <TextField
-                    sx={{
-                      "& .MuiInputLabel-root": {
-                        color: "#A1A1A1", // Change the label color to green
-                      },
-                      "& .MuiOutlinedInput-root": {
-                        "& fieldset": {
-                          borderColor: "#A1A1A1",
-                          color: "#A1A1A1",
-                        },
-                        "&:hover fieldset": {
-                          borderColor: "#A1A1A1",
-                          color: "#A1A1A1",
-                        },
-                        "&.Mui-focused fieldset": {
-                          borderColor: "#A1A1A1", // Change the border color when focused to green
-                        },
-                        "& .MuiInputBase-input": {
-                          color: "#A1A1A1",
-                          "&::placeholder": {
-                            color: "#A1A1A1", // Change the placeholder color to green
-                          },
-                        },
-                      },
-                    }}
-                    required
-                    id="outlined-basic"
-                    variant="outlined"
-                    fullWidth
-                    type="file"
-                    // onChange={handleImageChange}
-                  />
+                <Grid container spacing={2} style={{ marginTop: 10 }}>
+                  <Grid xs={6} item>
+                    <Typography component="p">Product Name</Typography>
+                    <TextField
+                      required
+                      id="outlined-basic"
+                      placeholder="Product Name"
+                      variant="outlined"
+                      fullWidth
+                      onChange={(e) => setName(e.target.value)}
+                      value={name}
+                    />
+                  </Grid>
+                  <Grid xs={6} item>
+                    <Typography component="p">Product Description</Typography>
+                    <TextField
+                      required
+                      id="outlined-basic"
+                      placeholder="Product Description"
+                      variant="outlined"
+                      fullWidth
+                      onChange={(e) => setDescription(e.target.value)}
+                      value={description}
+                    />
+                  </Grid>
                 </Grid>
-              </Grid>
-              <Grid container spacing={2} style={{ marginTop: 10 }}>
-                <Grid xs={6} item>
-                  <Typography component="p">Description</Typography>
-                  <TextField
-                    required
-                    id="outlined-basic"
-                    placeholder="Description"
-                    variant="outlined"
-                    fullWidth
-                    // value={description}
-                    // onChange={(e) => setDescription(e.target.value)}
-                  />
+                <Grid container spacing={2} style={{ marginTop: 10 }}>
+                  <Grid xs={6} item>
+                    <Typography component="p">Sku</Typography>
+                    <TextField
+                      required
+                      id="outlined-basic"
+                      placeholder="Sku"
+                      variant="outlined"
+                      fullWidth
+                      type="number"
+                      onChange={(e) => setSku(e.target.value)}
+                      value={sku}
+                    />
+                  </Grid>
+                  <Grid xs={6} item>
+                    <Typography component="p">Image</Typography>
+                    <TextField
+                      id="outlined-basic"
+                      variant="outlined"
+                      fullWidth
+                      type="file"
+                      onChange={handleImageChange}
+                      inputProps={{
+                        accept: "image/*",
+                      }}
+                    />
+                    {imageData ? (
+                      <span style={{ marginTop: "10px" }}>
+                        <img
+                          src={imageData}
+                          alt={`Selected `}
+                          style={{
+                            maxWidth: "100px",
+                            height: "50px",
+                            marginRight: "10px",
+                          }}
+                        />
+                      </span>
+                    ) : null}
+                  </Grid>
                 </Grid>
-              </Grid>
-              <Grid container spacing={2} style={{ marginTop: 10 }}>
-                <Grid xs={6} item>
-                  <Button
-                    variant="contained"
-                    fullWidth
-                    // onClick={handleEditSubmit}
-                    color="secondary"
-                  >
-                    save
-                  </Button>
+                <Grid
+                  container
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mt: 3,
+                  }}
+                >
+                  <Typography variant="h4">Variation</Typography>
                 </Grid>
-                <Grid xs={6} item>
-                  <Button
-                    variant="contained"
-                    color="error"
-                    fullWidth
-                    // onClick={() => cancelEdit()}
-                    style={{ marginTop: 5 }}
-                  >
-                    Cancel
-                  </Button>
+                <Grid container spacing={2} style={{ marginTop: 10 }}>
+                  <Grid xs={6} item>
+                    <Typography component="p">Variable Name</Typography>
+                    {editData._id ? (
+                      <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">
+                          Select name
+                        </InputLabel>
+                        <Select
+                          required
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={variationId}
+                          label="name"
+                          onChange={(e) => variationEdit(e.target.value)}
+                        >
+                          {multipleVariation &&
+                            multipleVariation.map((e, i) => (
+                              <MenuItem value={e._id} key={i}>
+                                {e.name}
+                              </MenuItem>
+                            ))}
+                        </Select>
+                      </FormControl>
+                    ) : (
+                      <TextField
+                        required
+                        id="outlined-basic"
+                        placeholder="Variation name"
+                        variant="outlined"
+                        fullWidth
+                        onChange={(e) => setVariationName(e.target.value)}
+                        value={variationName}
+                      />
+                    )}
+                  </Grid>
+                  <Grid xs={6} item>
+                    <Typography component="p">
+                      Variation Description
+                    </Typography>
+                    <TextField
+                      required
+                      id="outlined-basic"
+                      placeholder="Variation Description"
+                      variant="outlined"
+                      fullWidth
+                      onChange={(e) =>
+                        setVariationDescription(e.target.value)
+                      }
+                      value={variationDescription}
+                    />
+                  </Grid>
                 </Grid>
-              </Grid>
+                <Grid container spacing={2} style={{ marginTop: 10 }}>
+                  <Grid xs={6} item>
+                    <Typography component="p">Variation Sku</Typography>
+                    <TextField
+                      required
+                      id="outlined-basic"
+                      placeholder="Variation Sku"
+                      variant="outlined"
+                      fullWidth
+                      type="number"
+                      onChange={(e) => setVariationSku(e.target.value)}
+                      value={variationSku}
+                    />
+                  </Grid>
+                  <Grid xs={6} item>
+                    <Typography component="p">Variation Image</Typography>
+                    <TextField
+                      id="outlined-basic"
+                      variant="outlined"
+                      fullWidth
+                      type="file"
+                      inputProps={{
+                        multiple: true,
+                        accept: "image/*",
+                      }}
+                      onChange={handleGalleryImageChange}
+                    // multiple
+                    />
+                    {selectedGalleryImages &&
+                      selectedGalleryImages.map((image, index) => (
+                        <span key={index} style={{ marginTop: "10px" }}>
+                          <img
+                            src={image.url}
+                            alt={`Selected ${index + 1}`}
+                            style={{
+                              maxWidth: "100px",
+                              height: "50px",
+                              marginRight: "10px",
+                            }}
+                          />
+                        </span>
+                      ))}
+                    <div>
+                      {selectedGalleryImages &&
+                        selectedGalleryImages.length ? (
+                        <Button
+                          variant="contained"
+                          value=""
+                          onClick={() =>
+                            SaveImages("multipleImage", variationImageData)
+                          }
+                          color="secondary"
+                        >
+                          Save Images
+                        </Button>
+                      ) : null}
+                    </div>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2} style={{ marginTop: 10 }}>
+                  <Grid xs={6} item>
+                    <Typography component="p">Price</Typography>
+                    <TextField
+                      id="outlined-basic"
+                      variant="outlined"
+                      fullWidth
+                      type="number"
+                      onChange={(e) => setVariationPrice(e.target.value)}
+                      value={variationPrice}
+                    />
+                  </Grid>
+                  <Grid xs={6} item>
+                    <FormGroup>
+                      <RadioGroup
+                        aria-labelledby="demo-radio-buttons-group-label"
+                        defaultValue="female"
+                        name="radio-buttons-group"
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexDirection: "row",
+                        }}
+                      >
+                        <FormControlLabel
+                          value="true"
+                          control={<Radio />}
+                          label="instock"
+                          onChange={(e) => setStock(e.target.value)}
+                        />
+                        <FormControlLabel
+                          value="false"
+                          control={<Radio />}
+                          label="outstock"
+                          onChange={(e) => setStock(e.target.value)}
+                        />
+                      </RadioGroup>
+                    </FormGroup>
+                  </Grid>
+                </Grid>
+                <Grid
+                  container
+                  spacing={2}
+                  style={{ marginTop: 10, paddingLeft: "15px" }}
+                >
+                  <Grid xs={6} item>
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      onClick={async () => {
+                        if (!imageFile) {
+                          if (editData.image) {
+                            setCloudImage(editData.image);
+                          } else {
+                            toast.error("upload a product image");
+                            return;
+                          }
+                        }
+                        SaveImages("single", [imageFile]);
+                        // addVariableProduct();
+                      }}
+                      color="secondary"
+                    >
+                      save{" "}
+                    </Button>
+                  </Grid>
+                  <Grid xs={6} item>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      fullWidth
+                      onClick={() => cancelEdit()}
+                      style={{ marginTop: 5 }}
+                    >
+                      Cancel
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Box>
             </Grid>
           </Grid>
         </Container>

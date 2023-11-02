@@ -33,6 +33,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { CliftonLocalUrl, LocalUrl } from "../../config/env";
 import VariationItemModal from "../variation-item-modal";
+import VariationUpdateModal from "../VariableUpdateModal";
 
 function VariableProduct() {
   const [categories, setCategories] = useState();
@@ -71,6 +72,7 @@ function VariableProduct() {
   const handleCloseUpdateModal = () => setUpdateModal(false);
   const [editData, setEditData] = useState({});
   let edit = (e) => {
+    setUpdateModal(true)
     setCategoryId(e.parent_id);
     setName(e.name);
     setDescription(e.description);
@@ -84,14 +86,15 @@ function VariableProduct() {
   let saveVariation = () => {
     // const findImages=[]
     if (
-      (!variationName,
-      !variationDescription,
-      !variationSkuNumber,
-      !variationPriceNumber,
-      !variationCloudImage.length,
-      !stock)
+      (!variationName ||
+        !variationDescription ||
+        !variationSkuNumber ||
+        !variationPriceNumber ||
+        !variationCloudImage.length ||
+        !stock)
     ) {
-      return;
+      toast.error("Please Fill Variation Input")
+      return
     } else {
       const variationData = {
         name: variationName,
@@ -128,8 +131,7 @@ function VariableProduct() {
     };
 
     fetch(
-      `${
-        branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
+      `${branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
       }/category/get-category`,
       requestOptions
     )
@@ -160,8 +162,7 @@ function VariableProduct() {
       };
 
       fetch(
-        `${
-          branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
+        `${branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
         }/VariableProduct/addProduct/${categoryId}`,
         requestOptions
       )
@@ -180,16 +181,21 @@ function VariableProduct() {
     if (cloudImage && !editData._id) {
       if (
         (!name,
-        !description,
-        !skuNumber,
-        !cloudImage.length,
-        !multipleVariation.length)
+          !description ||
+          !skuNumber ||
+          !cloudImage.length ||
+          !stock ||
+          !multipleVariation.length)
       ) {
         toast.error("Please Fill Input");
       } else {
         addVariableProduct();
       }
     } else if (cloudImage && editData._id) {
+      if (!variationCloudImage.length || !stock || !variationName || !variationDescription || !variationPriceNumber || !variationSkuNumber) {
+        toast.error("Please Fill Input")
+        return
+      }
       let updateEdit = () => {
         const updatedVariation = {
           _id: variationId,
@@ -221,8 +227,7 @@ function VariableProduct() {
         };
 
         fetch(
-          `${
-            branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
+          `${branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
           }/VariableProduct/edit-product/${editData._id}`,
           requestOptions
         )
@@ -312,8 +317,7 @@ function VariableProduct() {
     };
 
     fetch(
-      `${
-        branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
+      `${branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
       }/VariableProduct/getProduct`,
       requestOptions
     )
@@ -330,8 +334,7 @@ function VariableProduct() {
     };
 
     fetch(
-      `${
-        branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
+      `${branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
       }/VariableProduct/delete-product/${id}`,
       requestOptions
     )
@@ -500,6 +503,32 @@ function VariableProduct() {
                     ) : null}
                   </Grid>
                 </Grid>
+                {multipleVariation.length === 1 ? <TableContainer sx={{ mt: 2 }}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell align="left">Name</TableCell>
+                        <TableCell align="left">Description</TableCell>
+                        <TableCell align="left">Image</TableCell>
+                        <TableCell align="left">Sku</TableCell>
+                        <TableCell align="left">Price</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {multipleVariation.map((e) => (
+                        <TableRow key={e._id}>
+                          <TableCell align="left">{e.name}</TableCell>
+                          <TableCell align="left">{e.description}</TableCell>
+                          <TableCell align="left">
+                            <img src={e.images[0]} width={50} height={50} style={{ borderRadius: "10px" }} />
+                          </TableCell>
+                          <TableCell align="left">{e.sku}</TableCell>
+                          <TableCell align="left">{e.price}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer> : <></>}
                 {variation ? (
                   <></>
                 ) : (
@@ -610,7 +639,7 @@ function VariableProduct() {
                             accept: "image/*",
                           }}
                           onChange={handleGalleryImageChange}
-                          // multiple
+                        // multiple
                         />
                         {selectedGalleryImages &&
                           selectedGalleryImages.map((image, index) => (
@@ -628,7 +657,7 @@ function VariableProduct() {
                           ))}
                         <div>
                           {selectedGalleryImages &&
-                          selectedGalleryImages.length ? (
+                            selectedGalleryImages.length ? (
                             <Button
                               variant="contained"
                               value=""
@@ -684,7 +713,7 @@ function VariableProduct() {
                         </FormGroup>
                       </Grid>
                     </Grid>
-                    {editData && editData._id ? (
+                    {/* {editData && editData._id ? (
                       <Grid
                         container
                         spacing={2}
@@ -720,44 +749,44 @@ function VariableProduct() {
                           </Button>
                         </Grid>
                       </Grid>
-                    ) : (
-                      <Grid container spacing={2} style={{ marginTop: 10 }}>
-                        <Grid xs={6} item>
-                          <Button
-                            variant="contained"
-                            fullWidth
-                            onClick={() => {
-                              saveVariation();
-                            }}
-                            color="secondary"
-                          >
-                            Save Variation
-                          </Button>
-                        </Grid>
-                        <Grid xs={6} item>
-                          <Button
-                            variant="contained"
-                            fullWidth
-                            onClick={async () => {
-                              if (
-                                !name ||
-                                !description ||
-                                !sku ||
-                                !multipleVariation.length
-                              ) {
-                                toast.error("Please Fill Input");
-                              } else {
-                                SaveImages("single", [imageFile]);
-                              }
-                              // addVariableProduct();
-                            }}
-                            color="secondary"
-                          >
-                            Add Variable Product
-                          </Button>
-                        </Grid>
+                    ) : ( */}
+                    <Grid container spacing={2} style={{ marginTop: 10 }}>
+                      <Grid xs={6} item>
+                        <Button
+                          variant="contained"
+                          fullWidth
+                          onClick={() => {
+                            saveVariation();
+                          }}
+                          color="secondary"
+                        >
+                          Save Variation
+                        </Button>
                       </Grid>
-                    )}
+                      <Grid xs={6} item>
+                        <Button
+                          variant="contained"
+                          fullWidth
+                          onClick={async () => {
+                            if (
+                              !name ||
+                              !description ||
+                              !sku ||
+                              !multipleVariation.length
+                            ) {
+                              toast.error("Please Fill Input");
+                            } else {
+                              SaveImages("single", [imageFile]);
+                            }
+                            // addVariableProduct();
+                          }}
+                          color="secondary"
+                        >
+                          Add Variable Product
+                        </Button>
+                      </Grid>
+                    </Grid>
+                    {/* )} */}
                   </>
                 ) : (
                   <></>
@@ -775,8 +804,8 @@ function VariableProduct() {
                         <TableCell align="left">name</TableCell>
                         <TableCell align="left">description</TableCell>
                         <TableCell align="left">image</TableCell>
-                        <TableCell align="left">sku</TableCell>
-                        <TableCell align="left">Variations</TableCell>
+                        <TableCell align="center">sku</TableCell>
+                        <TableCell align="center">Variations</TableCell>
                         <TableCell align="left">View Variation</TableCell>
                         <TableCell align="left">Actions</TableCell>
                       </TableRow>
@@ -790,8 +819,8 @@ function VariableProduct() {
                             <TableCell align="left">
                               <img src={e.image} width={50} height={50} />
                             </TableCell>
-                            <TableCell align="left">{e.sku}</TableCell>
-                            <TableCell align="left">
+                            <TableCell align="center">{e.sku}</TableCell>
+                            <TableCell align="center">
                               {e.variation.length}
                             </TableCell>
                             <TableCell align="left">
@@ -851,10 +880,45 @@ function VariableProduct() {
                 open={open}
                 handleClose={handleClose}
               />
-              {/* <VariationUpdateModal
+              <VariationUpdateModal
+                setCategoryId={setCategoryId}
+                categoryId={categoryId}
+                setName={setName}
+                name={name}
+                setDescription={setDescription}
+                description={description}
+                setSku={setSku}
+                sku={sku}
+                setEditData={setEditData}
+                editData={editData}
+                setMultipleVariation={setMultipleVariation}
+                multipleVariation={multipleVariation}
+                setVariationId={setVariationId}
+                variationId={variationId}
+                setVariation={setVariation}
+                variation={variation}
+                variationEdit={variationEdit}
+                setVariationName={setVariationName}
+                variationName={variationName}
+                setVariationDescription={setVariationDescription}
+                variationDescription={variationDescription}
+                setVariationSku={setVariationSku}
+                variationSku={variationSku}
+                setVariationPrice={setVariationPrice}
+                variationPrice={variationPrice}
+                setStock={setStock}
+                stock={stock}
                 open={updateModal}
                 handleClose={handleCloseUpdateModal}
-              /> */}
+                cancelEdit={cancelEdit}
+                imageData={imageData}
+                handleGalleryImageChange={handleGalleryImageChange}
+                selectedGalleryImages={selectedGalleryImages}
+                SaveImages={SaveImages}
+                variationImageData={variationImageData}
+                imageFile={imageFile}
+                setCloudImage={setCloudImage}
+              />
             </Grid>
           </Grid>
         </Container>
