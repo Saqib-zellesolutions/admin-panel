@@ -69,6 +69,10 @@ function VariableProduct() {
     setOpen(true);
   };
   const handleClose = () => {
+    setOpen(false);
+    // setCategoryId(e.parent_id);
+  };
+  const handleCloseUpdateModal = () => {
     setName("");
     setDescription("");
     setSku("");
@@ -77,13 +81,11 @@ function VariableProduct() {
     setEditData({});
     setSelectedGalleryImages([]);
     setVariation(false);
-    setUpdateModal(false)
-    // setCategoryId(e.parent_id);
+    setUpdateModal(false);
   };
-  const handleCloseUpdateModal = () => setUpdateModal(false);
   const [editData, setEditData] = useState({});
   let edit = (e) => {
-    setUpdateModal(true)
+    setUpdateModal(true);
     setCategoryId(e.parent_id);
     setName(e.name);
     setDescription(e.description);
@@ -97,15 +99,15 @@ function VariableProduct() {
   let saveVariation = () => {
     // const findImages=[]
     if (
-      (!variationName ||
-        !variationDescription ||
-        !variationSkuNumber ||
-        !variationPriceNumber ||
-        !variationCloudImage.length ||
-        !stock)
+      !variationName ||
+      !variationDescription ||
+      !variationSkuNumber ||
+      !variationPriceNumber ||
+      !variationCloudImage.length ||
+      !stock
     ) {
-      toast.error("Please Fill Variation Input")
-      return
+      toast.error("Please Fill Variation Input");
+      return;
     } else {
       const variationData = {
         name: variationName,
@@ -142,7 +144,8 @@ function VariableProduct() {
     };
 
     fetch(
-      `${branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
+      `${
+        branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
       }/category/get-category`,
       requestOptions
     )
@@ -173,7 +176,8 @@ function VariableProduct() {
       };
 
       fetch(
-        `${branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
+        `${
+          branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
         }/VariableProduct/addProduct/${categoryId}`,
         requestOptions
       )
@@ -192,7 +196,7 @@ function VariableProduct() {
     if (cloudImage && !editData._id) {
       if (
         (!name,
-          !description ||
+        !description ||
           !skuNumber ||
           !cloudImage.length ||
           !stock ||
@@ -203,9 +207,16 @@ function VariableProduct() {
         addVariableProduct();
       }
     } else if (cloudImage && editData._id) {
-      if (!variationCloudImage.length || !stock || !variationName || !variationDescription || !variationPriceNumber || !variationSkuNumber) {
-        toast.error("Please Fill Input")
-        return
+      if (
+        !variationCloudImage.length ||
+        !stock ||
+        !variationName ||
+        !variationDescription ||
+        !variationPriceNumber ||
+        !variationSkuNumber
+      ) {
+        toast.error("Please Fill Input");
+        return;
       }
       let updateEdit = () => {
         const updatedVariation = {
@@ -238,7 +249,8 @@ function VariableProduct() {
         };
 
         fetch(
-          `${branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
+          `${
+            branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
           }/VariableProduct/edit-product/${editData._id}`,
           requestOptions
         )
@@ -328,7 +340,8 @@ function VariableProduct() {
     };
 
     fetch(
-      `${branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
+      `${
+        branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
       }/VariableProduct/getProduct`,
       requestOptions
     )
@@ -345,7 +358,8 @@ function VariableProduct() {
     };
 
     fetch(
-      `${branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
+      `${
+        branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
       }/VariableProduct/delete-product/${id}`,
       requestOptions
     )
@@ -364,7 +378,7 @@ function VariableProduct() {
     setEditData({});
     setSelectedGalleryImages([]);
     setVariation(false);
-    setUpdateModal(false)
+    setUpdateModal(false);
   };
   const theme = useTheme();
   return !categories && !allProduct ? (
@@ -509,38 +523,49 @@ function VariableProduct() {
                             maxWidth: "100px",
                             height: "50px",
                             marginRight: "10px",
+                            borderRadius: "10px",
+                            marginTop: 5,
                           }}
                         />
                       </span>
                     ) : null}
                   </Grid>
                 </Grid>
-                {multipleVariation.length === 1 ? <TableContainer sx={{ mt: 2 }}>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell align="left">Name</TableCell>
-                        <TableCell align="left">Description</TableCell>
-                        <TableCell align="left">Image</TableCell>
-                        <TableCell align="left">Sku</TableCell>
-                        <TableCell align="left">Price</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {multipleVariation.map((e) => (
-                        <TableRow key={e._id}>
-                          <TableCell align="left">{e.name}</TableCell>
-                          <TableCell align="left">{e.description}</TableCell>
-                          <TableCell align="left">
-                            <img src={e.images && e.images[0]} width={50} height={50} style={{ borderRadius: "10px" }} />
-                          </TableCell>
-                          <TableCell align="left">{e.sku}</TableCell>
-                          <TableCell align="left">{e.price}</TableCell>
+                {multipleVariation.length === 1 ? (
+                  <TableContainer sx={{ mt: 2 }}>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell align="left">Name</TableCell>
+                          <TableCell align="left">Description</TableCell>
+                          <TableCell align="left">Image</TableCell>
+                          <TableCell align="left">Sku</TableCell>
+                          <TableCell align="left">Price</TableCell>
                         </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer> : <></>}
+                      </TableHead>
+                      <TableBody>
+                        {multipleVariation.map((e) => (
+                          <TableRow key={e._id}>
+                            <TableCell align="left">{e.name}</TableCell>
+                            <TableCell align="left">{e.description}</TableCell>
+                            <TableCell align="left">
+                              <img
+                                src={e.images && e.images[0]}
+                                width={50}
+                                height={50}
+                                style={{ borderRadius: "10px" }}
+                              />
+                            </TableCell>
+                            <TableCell align="left">{e.sku}</TableCell>
+                            <TableCell align="left">{e.price}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                ) : (
+                  <></>
+                )}
                 {variation ? (
                   <></>
                 ) : (
@@ -651,7 +676,7 @@ function VariableProduct() {
                             accept: "image/*",
                           }}
                           onChange={handleGalleryImageChange}
-                        // multiple
+                          // multiple
                         />
                         {selectedGalleryImages &&
                           selectedGalleryImages.map((image, index) => (
@@ -663,13 +688,15 @@ function VariableProduct() {
                                   maxWidth: "100px",
                                   height: "50px",
                                   marginRight: "10px",
+                                  borderRadius: "10px",
+                                  marginTop: 5,
                                 }}
                               />
                             </span>
                           ))}
                         <div>
                           {selectedGalleryImages &&
-                            selectedGalleryImages.length ? (
+                          selectedGalleryImages.length ? (
                             <Button
                               variant="contained"
                               value=""
@@ -829,7 +856,12 @@ function VariableProduct() {
                             <TableCell align="left">{e.name}</TableCell>
                             <TableCell align="left">{e.description}</TableCell>
                             <TableCell align="left">
-                              <img src={e.image} width={50} height={50} />
+                              <img
+                                src={e.image}
+                                width={50}
+                                height={50}
+                                style={{ borderRadius: "8px" }}
+                              />
                             </TableCell>
                             <TableCell align="center">{e.sku}</TableCell>
                             <TableCell align="center">

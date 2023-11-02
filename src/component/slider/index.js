@@ -32,7 +32,7 @@ function Slider() {
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [imageData, setImageData] = useState("");
-
+  const [isEditing, setIsEditing] = useState(false);
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
@@ -59,6 +59,7 @@ function Slider() {
       });
   }, []);
   const handleEdit = (e) => {
+    setIsEditing(true);
     setOpen(true);
     setEditData(e._id);
     setImageUrl(e.image);
@@ -66,9 +67,11 @@ function Slider() {
     setDescription(e.description);
   };
   const cancelEdit = () => {
-    setTitle(""); // Exit edit mode
+    setIsEditing(false);
+    setEditData(null);
+    setTitle("");
     setDescription("");
-    // setImageData([]);
+    setImageUrl("");
     setOpen(false);
   };
   const theme = useTheme();
@@ -109,6 +112,39 @@ function Slider() {
         toast.error("Upload error");
       });
   };
+  // const handleEditSubmit = () => {
+  //   var myHeaders = new Headers();
+  //   myHeaders.append("Content-Type", "application/json");
+
+  //   var raw = JSON.stringify({
+  //     title: title,
+  //     image: imageUrl,
+  //     description: description,
+  //   });
+
+  //   var requestOptions = {
+  //     method: "PUT",
+  //     headers: myHeaders,
+  //     body: raw,
+  //     redirect: "follow",
+  //   };
+
+  //   fetch(
+  //     `${
+  //       branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
+  //     }/slider/edit-slider/${editData}`,
+  //     requestOptions
+  //   )
+  //     .then((response) => response.json())
+  //     .then((result) => {
+  //       console.log(result);
+  //       window.location.reload();
+  //       setTitle("");
+  //       setDescription("");
+  //       setImageData([]);
+  //     })
+  //     .catch((error) => console.log("error", error));
+  // };
   const handleEditSubmit = () => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -134,14 +170,21 @@ function Slider() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
-        window.location.reload();
-        setTitle("");
-        setDescription("");
-        setImageData([]);
+        // Update the state with the edited data
+        if (result.product) {
+          setSliderData((prevData) =>
+            prevData.map((item) =>
+              item._id === editData ? { ...item, ...result.product } : item
+            )
+          );
+          cancelEdit();
+        } else {
+          toast.error(result.message);
+        }
       })
       .catch((error) => console.log("error", error));
   };
+
   return (
     <Box sx={{ width: "100%", mt: 5 }}>
       {loading ? (
@@ -224,6 +267,7 @@ function Slider() {
                                     alt=""
                                     width={50}
                                     height={50}
+                                    style={{ borderRadius: "8px" }}
                                   />
                                 </Typography>
                               </TableCell>
@@ -243,21 +287,6 @@ function Slider() {
                                     <EditTwoToneIcon fontSize="small" />
                                   </IconButton>
                                 </Tooltip>
-                                {/* <Tooltip title="Delete Product" arrow>
-                                  <IconButton
-                                    sx={{
-                                      "&:hover": {
-                                        background: theme.colors.error.lighter,
-                                      },
-                                      color: theme.palette.error.main,
-                                    }}
-                                    color="inherit"
-                                    size="small"
-                                    //   onClick={() => Delete(e._id)}
-                                  >
-                                    <DeleteTwoToneIcon fontSize="small" />
-                                  </IconButton>
-                                </Tooltip> */}
                               </TableCell>
                             </TableRow>
                           ))}

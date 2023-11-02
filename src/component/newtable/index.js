@@ -1,43 +1,20 @@
+import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
+import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 import {
-  Box,
   Card,
-  Container,
   Divider,
-  Grid,
   IconButton,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TablePagination,
   TableRow,
   Tooltip,
   Typography,
 } from "@mui/material";
-import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
-import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
-import { useState } from "react";
 export default function NewTable({ data, theme, edit, Delete }) {
-  const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(5);
-  const handlePageChange = (_event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleLimitChange = (event) => {
-    setLimit(parseInt(event.target.value));
-  };
   return (
-    // <Container sx={{ mt: 5 }} >
-    //   <Grid
-    //     container
-    //     direction="row"
-    //     justifyContent="center"
-    //     alignItems="stretch"
-    //     spacing={3}
-    //   >
-    //     <Grid item xs={12}>
     <Card
       className="main-order-table glass-morphism"
       sx={{ padding: "unset !important", mt: 3 }}
@@ -52,18 +29,10 @@ export default function NewTable({ data, theme, edit, Delete }) {
                 Description
               </TableCell>
               <TableCell className="table-heading-and-data">Image</TableCell>
-              <TableCell className="table-heading-and-data" align="right">
-                Price
-              </TableCell>
-              <TableCell className="table-heading-and-data" align="right">
-                Sku
-              </TableCell>
-              <TableCell className="table-heading-and-data" align="right">
-                Stock
-              </TableCell>
-              <TableCell className="table-heading-and-data" align="right">
-                Actions
-              </TableCell>
+              <TableCell className="table-heading-and-data">Price</TableCell>
+              <TableCell className="table-heading-and-data">Sku</TableCell>
+              <TableCell className="table-heading-and-data">Stock</TableCell>
+              <TableCell className="table-heading-and-data">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -94,27 +63,28 @@ export default function NewTable({ data, theme, edit, Delete }) {
                             src={image}
                             width={50}
                             height={50}
-                            style={{ marginRight: 10 }}
+                            style={{ marginRight: 10, borderRadius: "8px" }}
                           />
                         ))}
                       </Typography>
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell>
                       <Typography variant="body2" color="text.secondary" noWrap>
                         {e?.price}
                       </Typography>
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell>
                       <Typography variant="body2" color="text.secondary" noWrap>
                         {e?.sku}
                       </Typography>
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell>
                       <Typography variant="body2" color="text.secondary" noWrap>
-                        {e?.instock?.toString()}
+                        {/* {e?.instock?.toString()} */}
+                        {e?.instock ? "Available" : "Out of Stock "}
                       </Typography>
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell>
                       <Tooltip title="Edit Product" arrow>
                         <IconButton
                           onClick={() => edit(e)}

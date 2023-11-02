@@ -81,7 +81,7 @@ function SliderUpdateModal({
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: "60%",
-    height: "63%",
+    height: "70%",
     padding: 4,
     borderRadius: "10px",
     backgroundColor: "#111633",

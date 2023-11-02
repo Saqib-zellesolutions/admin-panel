@@ -170,10 +170,7 @@ function Order() {
                       <TableCell className="table-heading-and-data">
                         Status
                       </TableCell>
-                      <TableCell
-                        className="table-heading-and-data"
-                        align="center"
-                      >
+                      <TableCell className="table-heading-and-data">
                         Action
                       </TableCell>
                     </TableRow>

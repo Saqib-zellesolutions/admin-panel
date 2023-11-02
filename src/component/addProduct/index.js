@@ -132,7 +132,7 @@ function AddProduct() {
     if (
       (!name, !description, !skuVariable, !priceVariable, !cloudImage.length)
     ) {
-      toast.error("Please Fill Inputs")
+      toast.error("Please Fill Inputs");
     } else {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -399,6 +399,8 @@ function AddProduct() {
                             maxWidth: "100px",
                             height: "50px",
                             marginRight: "10px",
+                            borderRadius: "10px",
+                            marginTop: 5,
                           }}
                         />
                       </span>

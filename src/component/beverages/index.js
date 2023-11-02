@@ -191,12 +191,12 @@ function AddProduct() {
       })
       .catch((error) => console.log("error", error));
   };
-
   let edit = (e) => {
     // setEditData()
     setEditData(e);
     setOpen(true);
   };
+
   return isloading ? (
     <div
       style={{
@@ -398,6 +398,8 @@ function AddProduct() {
                             maxWidth: "100px",
                             height: "50px",
                             marginRight: "10px",
+                            borderRadius: "10px",
+                            marginTop: 5,
                           }}
                         />
                       </span>

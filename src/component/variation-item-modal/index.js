@@ -137,7 +137,10 @@ export default function Variation({ data, open, handleClose }) {
                                       src={image}
                                       width={50}
                                       height={50}
-                                      style={{ marginRight: 10 }}
+                                      style={{
+                                        marginRight: 10,
+                                        borderRadius: "8px",
+                                      }}
                                     />
                                   ))}
                               </Typography>
@@ -172,7 +175,8 @@ export default function Variation({ data, open, handleClose }) {
                                 noWrap
                                 className="product-table-text"
                               >
-                                {e.instock.toString()}
+                                {e.instock ? "Available" : "Out Of Stock"}
+                                {/* {e.instock.toString()} */}
                               </Typography>
                             </TableCell>
                           </TableRow>

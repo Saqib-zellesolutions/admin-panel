@@ -23,6 +23,7 @@ function Shipping() {
   const [allShipping, setAllShipping] = useState("");
   const [editingId, setEditingId] = useState("");
   const [delivery_charges, setDelivery_charges] = useState("");
+  const [loading, setLoading] = useState(true);
   const branch = localStorage.getItem("branchName");
   const deliveryNumber = Number(delivery_charges);
   const addShipping = () => {
@@ -55,7 +56,8 @@ function Shipping() {
           } else if (result.shipping) {
             setArea("");
             setDelivery_charges("");
-            window.location.reload();
+            setAllShipping([...allShipping, result.shipping]);
+            // window.location.reload();
           }
         })
         .catch((error) => {
@@ -78,8 +80,12 @@ function Shipping() {
       .then((response) => response.json())
       .then((result) => {
         setAllShipping(result);
+        setLoading(false);
       })
-      .catch((error) => console.log("error", error));
+      .catch((error) => {
+        setLoading(false);
+        console.log("error", error);
+      });
   }, []);
   const Delete = (id) => {
     var requestOptions = {
@@ -95,7 +101,8 @@ function Shipping() {
     )
       .then((response) => response.text())
       .then((result) => {
-        window.location.reload();
+        // window.location.reload();
+        setAllShipping(allShipping.filter((entry) => entry._id !== id));
         toast.success("Successfully category delete");
       })
       .catch((error) => console.log("error", error));
@@ -132,10 +139,27 @@ function Shipping() {
       .then((result) => {
         // window.location.reload();
         if (result.updatedShipping) {
-          window.location.reload();
-          setEditingId("");
-          setArea("");
-          setDelivery_charges("");
+          // window.location.reload();
+          // setEditingId("");
+          // setArea("");
+          // setDelivery_charges("");
+          if (result.updatedShipping) {
+            // Update the state with the edited data
+            const updatedAllShipping = allShipping.map((entry) => {
+              if (entry._id === editingId) {
+                return {
+                  ...entry,
+                  value: area,
+                  delivery_charges: deliveryNumber,
+                };
+              }
+              return entry;
+            });
+            setAllShipping(updatedAllShipping);
+            setEditingId(null); // Exit edit mode
+            setArea("");
+            setDelivery_charges("");
+          }
         } else {
           toast.error(result.message);
           setEditingId("");
@@ -150,8 +174,8 @@ function Shipping() {
     setArea("");
     setDelivery_charges("");
   };
-  return !allShipping ? (
-    <div
+  return loading ? (
+    <Box
       style={{
         display: "flex",
         alignItems: "center",
@@ -159,8 +183,8 @@ function Shipping() {
         width: "100%",
       }}
     >
-      <CircularProgress />
-    </div>
+      <CircularProgress sx={{ color: "#797C8C" }} />
+    </Box>
   ) : (
     <div
       style={{
@@ -278,55 +302,72 @@ function Shipping() {
                 spacing={3}
               >
                 <Grid item xs={12}>
-                  <Card
-                    className="main-order-table glass-morphism"
-                    sx={{ padding: "unset !important" }}
-                  >
-                    <Divider />
-                    <TableContainer>
-                      <Table aria-label="customized table">
-                        <TableHead>
-                          <TableRow>
-                            <TableCell align="left">Area</TableCell>
-                            <TableCell align="left">Deliver Charges</TableCell>
-                            <TableCell align="left"></TableCell>
-                            <TableCell align="left"></TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {allShipping &&
-                            allShipping?.map((e, index) => (
-                              <TableRow hover key={e?._id}>
-                                <TableCell align="left">{e.value}</TableCell>
-                                <TableCell align="left">
-                                  Rs {e.delivery_charges}
-                                </TableCell>
-                                <TableCell align="left">
-                                  <Button
-                                    variant="contained"
-                                    color="error"
-                                    onClick={() => Delete(e._id)}
-                                    style={{ marginTop: 5 }}
-                                  >
-                                    Delete
-                                  </Button>
-                                </TableCell>
-                                <TableCell align="left">
-                                  <Button
-                                    variant="contained"
-                                    color="success"
-                                    onClick={() => edit(e)}
-                                    style={{ marginTop: 5, marginLeft: 20 }}
-                                  >
-                                    Edit
-                                  </Button>
-                                </TableCell>
-                              </TableRow>
-                            ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </Card>
+                  {!allShipping.length ? (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        mt: 3,
+                      }}
+                    >
+                      <Typography component="h1" variant="h4">
+                        Data Not Found
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <Card
+                      className="main-order-table glass-morphism"
+                      sx={{ padding: "unset !important" }}
+                    >
+                      <Divider />
+                      <TableContainer>
+                        <Table aria-label="customized table">
+                          <TableHead>
+                            <TableRow>
+                              <TableCell align="left">Area</TableCell>
+                              <TableCell align="left">
+                                Deliver Charges
+                              </TableCell>
+                              <TableCell align="left"></TableCell>
+                              <TableCell align="left"></TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {allShipping &&
+                              allShipping?.map((e, index) => (
+                                <TableRow hover key={e?._id}>
+                                  <TableCell align="left">{e.value}</TableCell>
+                                  <TableCell align="left">
+                                    Rs {e.delivery_charges}
+                                  </TableCell>
+                                  <TableCell align="left">
+                                    <Button
+                                      variant="contained"
+                                      color="error"
+                                      onClick={() => Delete(e._id)}
+                                      style={{ marginTop: 5 }}
+                                    >
+                                      Delete
+                                    </Button>
+                                  </TableCell>
+                                  <TableCell align="left">
+                                    <Button
+                                      variant="contained"
+                                      color="success"
+                                      onClick={() => edit(e)}
+                                      style={{ marginTop: 5, marginLeft: 20 }}
+                                    >
+                                      Edit
+                                    </Button>
+                                  </TableCell>
+                                </TableRow>
+                              ))}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </Card>
+                  )}
                 </Grid>
               </Grid>
             </Container>

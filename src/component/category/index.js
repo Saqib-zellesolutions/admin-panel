@@ -62,7 +62,8 @@ function AddCategory() {
       )
         .then((response) => response.json())
         .then((result) => {
-          window.location.reload();
+          // window.location.reload();
+          console.log(result);
           setName("");
           setImageData("");
         })
@@ -363,6 +364,7 @@ function AddCategory() {
                                 alt=""
                                 width={50}
                                 height={50}
+                                style={{ borderRadius: "8px" }}
                               />
                             </Typography>
                           </TableCell>
@@ -378,6 +380,7 @@ function AddCategory() {
                                 alt=""
                                 width={50}
                                 height={50}
+                                style={{ borderRadius: "8px" }}
                               />
                             </Typography>
                           </TableCell>

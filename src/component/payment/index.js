@@ -30,9 +30,12 @@ function Payment() {
       .then((response) => response.json())
       .then((result) => {
         setMethod(result);
-        setLoading(false); // Set loading to false when data is fetched
+        setLoading(false);
       })
-      .catch((error) => console.log("error", error));
+      .catch((error) => {
+        setLoading(false);
+        console.log("error", error);
+      });
   }, []);
 
   const handleSwitchChange = (index) => {

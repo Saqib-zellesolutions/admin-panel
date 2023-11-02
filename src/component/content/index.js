@@ -112,11 +112,11 @@ function Content() {
     setSub_Heading(item.sub_heading);
   };
   const CancleEdit = () => {
-    setEditIndex("");
+    setEditIndex(null);
     setHeading("");
     setSub_Heading("");
   };
-  const handleSaveClick = (e) => {
+  const handleSaveClick = (item) => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -135,18 +135,31 @@ function Content() {
     fetch(
       `${
         branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
-      }/content/edit-content/${editIndex}`,
+      }/content/edit-content/${item._id}`,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
-        window.location.reload();
+        // Update the state with the edited data
+        if (result.updatedContent) {
+          setContent((prevContent) =>
+            prevContent.map((contentItem) =>
+              contentItem._id === item._id
+                ? { ...contentItem, ...result.updatedContent }
+                : contentItem
+            )
+          );
+          CancleEdit();
+        } else {
+          toast.error(result.message);
+        }
       })
       .catch((error) => {
         toast.error(error);
       });
   };
-  const handleDeleteClick = (e) => {
+
+  const handleDeleteClick = (item) => {
     var requestOptions = {
       method: "DELETE",
       redirect: "follow",
@@ -155,17 +168,75 @@ function Content() {
     fetch(
       `${
         branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
-      }/content/delete-content/${e._id}`,
+      }/content/delete-content/${item._id}`,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
-        window.location.reload();
+        // Update the state by removing the deleted item
+        if (result) {
+          setContent((prevContent) =>
+            prevContent.filter((contentItem) => contentItem._id !== item._id)
+          );
+        } else {
+          toast.error(result.message);
+        }
       })
       .catch((error) => {
         toast.error(error);
       });
   };
+
+  // const handleSaveClick = (e) => {
+  //   var myHeaders = new Headers();
+  //   myHeaders.append("Content-Type", "application/json");
+
+  //   var raw = JSON.stringify({
+  //     heading: heading,
+  //     sub_heading: sub_heading,
+  //   });
+
+  //   var requestOptions = {
+  //     method: "PUT",
+  //     headers: myHeaders,
+  //     body: raw,
+  //     redirect: "follow",
+  //   };
+
+  //   fetch(
+  //     `${
+  //       branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
+  //     }/content/edit-content/${editIndex}`,
+  //     requestOptions
+  //   )
+  //     .then((response) => response.json())
+  //     .then((result) => {
+  //       window.location.reload();
+  //     })
+  //     .catch((error) => {
+  //       toast.error(error);
+  //     });
+  // };
+  // const handleDeleteClick = (e) => {
+  //   var requestOptions = {
+  //     method: "DELETE",
+  //     redirect: "follow",
+  //   };
+
+  //   fetch(
+  //     `${
+  //       branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
+  //     }/content/delete-content/${e._id}`,
+  //     requestOptions
+  //   )
+  //     .then((response) => response.json())
+  //     .then((result) => {
+  //       window.location.reload();
+  //     })
+  //     .catch((error) => {
+  //       toast.error(error);
+  //     });
+  // };
   return isloading ? (
     <Box
       sx={{

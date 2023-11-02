@@ -252,7 +252,7 @@ function Dasboard() {
           <div className="profile-container">
             <p className="hello">Hello!</p>
             <div className="name-title-div">
-              <p className="name">Saqib</p>
+              <p className="name">Zammer Ansari</p>
               <p className="title"> Manager</p>
             </div>
             <img src={Profile} alt="" />
