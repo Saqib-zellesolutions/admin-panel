@@ -68,7 +68,18 @@ function VariableProduct() {
     setModalData(e);
     setOpen(true);
   };
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setName("");
+    setDescription("");
+    setSku("");
+    setCloudImage("");
+    setMultipleVariation([]);
+    setEditData({});
+    setSelectedGalleryImages([]);
+    setVariation(false);
+    setUpdateModal(false)
+    // setCategoryId(e.parent_id);
+  };
   const handleCloseUpdateModal = () => setUpdateModal(false);
   const [editData, setEditData] = useState({});
   let edit = (e) => {
@@ -349,10 +360,11 @@ function VariableProduct() {
     setDescription("");
     setSku("");
     setCloudImage("");
-    setMultipleVariation([{}]);
+    setMultipleVariation([]);
     setEditData({});
     setSelectedGalleryImages([]);
     setVariation(false);
+    setUpdateModal(false)
   };
   const theme = useTheme();
   return !categories && !allProduct ? (
@@ -520,7 +532,7 @@ function VariableProduct() {
                           <TableCell align="left">{e.name}</TableCell>
                           <TableCell align="left">{e.description}</TableCell>
                           <TableCell align="left">
-                            <img src={e.images[0]} width={50} height={50} style={{ borderRadius: "10px" }} />
+                            <img src={e.images && e.images[0]} width={50} height={50} style={{ borderRadius: "10px" }} />
                           </TableCell>
                           <TableCell align="left">{e.sku}</TableCell>
                           <TableCell align="left">{e.price}</TableCell>
