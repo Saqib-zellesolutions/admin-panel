@@ -57,7 +57,7 @@ function VariationUpdateModal({
   SaveImages,
   variationImageData,
   imageFile,
-  setCloudImage
+  setCloudImage,
 }) {
   const style = {
     position: "absolute",
@@ -121,7 +121,11 @@ function VariationUpdateModal({
                 component="form"
                 rowrpacing={1}
                 columnspacing={{ xs: 1, sm: 2, md: 3 }}
-                sx={{ maxHeight: "80%", overflow: "hidden", overflowY: "scroll" }}
+                sx={{
+                  maxHeight: "80%",
+                  overflow: "hidden",
+                  overflowY: "scroll",
+                }}
                 className="main-order-table glass-morphism"
               >
                 <Grid
@@ -171,7 +175,14 @@ function VariationUpdateModal({
                       variant="outlined"
                       fullWidth
                       type="number"
-                      onChange={(e) => setSku(e.target.value)}
+                      inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                      onChange={(e) => {
+                        const numericValue = e.target.value.replace(
+                          /[^0-9]/g,
+                          ""
+                        );
+                        setSku(numericValue);
+                      }}
                       value={sku}
                     />
                   </Grid>
@@ -250,18 +261,14 @@ function VariationUpdateModal({
                     )}
                   </Grid>
                   <Grid xs={6} item>
-                    <Typography component="p">
-                      Variation Description
-                    </Typography>
+                    <Typography component="p">Variation Description</Typography>
                     <TextField
                       required
                       id="outlined-basic"
                       placeholder="Variation Description"
                       variant="outlined"
                       fullWidth
-                      onChange={(e) =>
-                        setVariationDescription(e.target.value)
-                      }
+                      onChange={(e) => setVariationDescription(e.target.value)}
                       value={variationDescription}
                     />
                   </Grid>
@@ -276,10 +283,38 @@ function VariationUpdateModal({
                       variant="outlined"
                       fullWidth
                       type="number"
-                      onChange={(e) => setVariationSku(e.target.value)}
+                      inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                      onChange={(e) => {
+                        const numericValue = e.target.value.replace(
+                          /[^0-9]/g,
+                          ""
+                        );
+                        setVariationSku(numericValue);
+                      }}
                       value={variationSku}
                     />
                   </Grid>
+                  <Grid xs={6} item>
+                    <Typography component="p">Price</Typography>
+                    <TextField
+                      id="outlined-basic"
+                      variant="outlined"
+                      fullWidth
+                      placeholder="Variation Price"
+                      type="number"
+                      inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                      onChange={(e) => {
+                        const numericValue = e.target.value.replace(
+                          /[^0-9]/g,
+                          ""
+                        );
+                        setVariationPrice(numericValue);
+                      }}
+                      value={variationPrice}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2} style={{ marginTop: 10 }}>
                   <Grid xs={6} item>
                     <Typography component="p">Variation Image</Typography>
                     <TextField
@@ -292,7 +327,7 @@ function VariationUpdateModal({
                         accept: "image/*",
                       }}
                       onChange={handleGalleryImageChange}
-                    // multiple
+                      // multiple
                     />
                     {selectedGalleryImages &&
                       selectedGalleryImages.map((image, index) => (
@@ -309,8 +344,7 @@ function VariationUpdateModal({
                         </span>
                       ))}
                     <div>
-                      {selectedGalleryImages &&
-                        selectedGalleryImages.length ? (
+                      {selectedGalleryImages && selectedGalleryImages.length ? (
                         <Button
                           variant="contained"
                           value=""
@@ -323,19 +357,6 @@ function VariationUpdateModal({
                         </Button>
                       ) : null}
                     </div>
-                  </Grid>
-                </Grid>
-                <Grid container spacing={2} style={{ marginTop: 10 }}>
-                  <Grid xs={6} item>
-                    <Typography component="p">Price</Typography>
-                    <TextField
-                      id="outlined-basic"
-                      variant="outlined"
-                      fullWidth
-                      type="number"
-                      onChange={(e) => setVariationPrice(e.target.value)}
-                      value={variationPrice}
-                    />
                   </Grid>
                   <Grid xs={6} item>
                     <FormGroup>

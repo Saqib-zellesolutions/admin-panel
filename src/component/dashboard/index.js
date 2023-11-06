@@ -16,6 +16,7 @@ import {
   Writer,
   Sliders,
   TaxIcon,
+  ZameerLogo,
 } from "../../config/icon";
 import "./style.css";
 
@@ -54,7 +55,8 @@ function Dasboard() {
         <nav className="navigation">
           <div className="logo-div">
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbU1IK9aZSLEhdjfimG48GaU6RKmKxGp7UlaNBYMnN-g&s"
+              // src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbU1IK9aZSLEhdjfimG48GaU6RKmKxGp7UlaNBYMnN-g&s"
+              src={ZameerLogo}
               alt=""
               width={60}
               height={60}

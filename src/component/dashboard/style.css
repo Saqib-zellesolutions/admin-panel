@@ -33,6 +33,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #fff;
+  border-radius: 50%;
 }
 .logo-div p {
   color: #00698b;

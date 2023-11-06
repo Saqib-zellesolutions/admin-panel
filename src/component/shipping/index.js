@@ -243,7 +243,14 @@ function Shipping() {
                     placeholder="Delivery Charges"
                     fullWidth
                     type="number"
-                    onChange={(e) => setDelivery_charges(e.target.value)}
+                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                    onChange={(e) => {
+                      const numericValue = e.target.value.replace(
+                        /[^0-9]/g,
+                        ""
+                      );
+                      setDelivery_charges(numericValue);
+                    }}
                     value={delivery_charges}
                   />
                 </Grid>

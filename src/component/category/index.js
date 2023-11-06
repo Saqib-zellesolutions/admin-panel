@@ -287,50 +287,6 @@ function AddCategory() {
                   Add category
                 </Button>
               </Grid>
-              {/* {editingId && editingId ? (
-                <Grid
-                  container
-                  spacing={2}
-                  style={{ marginTop: 10, paddingLeft: "15px" }}
-                >
-                  <Grid xs={6} item>
-                    <Button
-                      variant="contained"
-                      fullWidth
-                      onClick={handleEditSubmit}
-                      color="secondary"
-                    >
-                      save
-                    </Button>
-                  </Grid>
-                  <Grid xs={6} item>
-                    <Button
-                      variant="contained"
-                      color="error"
-                      fullWidth
-                      onClick={() => cancelEdit()}
-                      style={{ marginTop: 5 }}
-                    >
-                      Cancel
-                    </Button>
-                  </Grid>
-                </Grid>
-              ) : (
-                <Grid
-                  container
-                  spacing={2}
-                  style={{ marginTop: 10, paddingLeft: "15px" }}
-                >
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    fullWidth
-                    onClick={addCategory}
-                  >
-                    Add category
-                  </Button>
-                </Grid>
-              )} */}
             </Box>
             <Card
               className="main-order-table glass-morphism"

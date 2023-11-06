@@ -304,7 +304,14 @@ function AddProduct() {
                     variant="outlined"
                     fullWidth
                     type="number"
-                    onChange={(e) => setSku(e.target.value)}
+                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                    onChange={(e) => {
+                      const numericValue = e.target.value.replace(
+                        /[^0-9]/g,
+                        ""
+                      );
+                      setSku(numericValue);
+                    }}
                     value={sku}
                   />
                 </Grid>
@@ -317,7 +324,14 @@ function AddProduct() {
                     variant="outlined"
                     fullWidth
                     type="number"
-                    onChange={(e) => setPrice(e.target.value)}
+                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                    onChange={(e) => {
+                      const numericValue = e.target.value.replace(
+                        /[^0-9]/g,
+                        ""
+                      );
+                      setPrice(numericValue);
+                    }}
                     value={price}
                   />
                 </Grid>

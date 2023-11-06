@@ -18,6 +18,7 @@ import Square from "../assets/square.png";
 import TaxIcon from "../assets/tax.png";
 import Variable from "../assets/variable.png";
 import Writer from "../assets/writer.png";
+import ZameerLogo from "../assets/Zameer-Logo-New.png";
 export {
   CancelDot,
   Coffee,
@@ -35,7 +36,9 @@ export {
   Product,
   Profile,
   Sliders,
-  Square, TaxIcon, Variable,
-  Writer
+  Square,
+  TaxIcon,
+  Variable,
+  Writer, ZameerLogo
 };
 

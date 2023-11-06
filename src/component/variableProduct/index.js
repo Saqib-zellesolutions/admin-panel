@@ -498,7 +498,14 @@ function VariableProduct() {
                       variant="outlined"
                       fullWidth
                       type="number"
-                      onChange={(e) => setSku(e.target.value)}
+                      inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                      onChange={(e) => {
+                        const numericValue = e.target.value.replace(
+                          /[^0-9]/g,
+                          ""
+                        );
+                        setSku(numericValue);
+                      }}
                       value={sku}
                     />
                   </Grid>
@@ -660,10 +667,44 @@ function VariableProduct() {
                           variant="outlined"
                           fullWidth
                           type="number"
-                          onChange={(e) => setVariationSku(e.target.value)}
+                          inputProps={{
+                            inputMode: "numeric",
+                            pattern: "[0-9]*",
+                          }}
+                          onChange={(e) => {
+                            const numericValue = e.target.value.replace(
+                              /[^0-9]/g,
+                              ""
+                            );
+                            setVariationSku(numericValue);
+                          }}
                           value={variationSku}
                         />
                       </Grid>
+                      <Grid xs={6} item>
+                        <Typography component="p">Price</Typography>
+                        <TextField
+                          id="outlined-basic"
+                          variant="outlined"
+                          placeholder="Variation Price"
+                          fullWidth
+                          type="number"
+                          inputProps={{
+                            inputMode: "numeric",
+                            pattern: "[0-9]*",
+                          }}
+                          onChange={(e) => {
+                            const numericValue = e.target.value.replace(
+                              /[^0-9]/g,
+                              ""
+                            );
+                            setVariationPrice(numericValue);
+                          }}
+                          value={variationPrice}
+                        />
+                      </Grid>
+                    </Grid>
+                    <Grid container spacing={2} style={{ marginTop: 10 }}>
                       <Grid xs={6} item>
                         <Typography component="p">Variation Image</Typography>
                         <TextField
@@ -710,19 +751,6 @@ function VariableProduct() {
                           ) : null}
                         </div>
                       </Grid>
-                    </Grid>
-                    <Grid container spacing={2} style={{ marginTop: 10 }}>
-                      <Grid xs={6} item>
-                        <Typography component="p">Price</Typography>
-                        <TextField
-                          id="outlined-basic"
-                          variant="outlined"
-                          fullWidth
-                          type="number"
-                          onChange={(e) => setVariationPrice(e.target.value)}
-                          value={variationPrice}
-                        />
-                      </Grid>
                       <Grid xs={6} item>
                         <FormGroup>
                           <RadioGroup
@@ -752,43 +780,6 @@ function VariableProduct() {
                         </FormGroup>
                       </Grid>
                     </Grid>
-                    {/* {editData && editData._id ? (
-                      <Grid
-                        container
-                        spacing={2}
-                        style={{ marginTop: 10, paddingLeft: "15px" }}
-                      >
-                        <Grid xs={6} item>
-                          <Button
-                            variant="contained"
-                            fullWidth
-                            onClick={async () => {
-                              if (!imageFile) {
-                                setCloudImage(editData.image);
-                                toast.error("upload a product image");
-                                return;
-                              }
-                              SaveImages("single", [imageFile]);
-                              // addVariableProduct();
-                            }}
-                            color="secondary"
-                          >
-                            save{" "}
-                          </Button>
-                        </Grid>
-                        <Grid xs={6} item>
-                          <Button
-                            variant="contained"
-                            color="error"
-                            fullWidth
-                            onClick={() => cancelEdit()}
-                            style={{ marginTop: 5 }}
-                          >
-                            Cancel
-                          </Button>
-                        </Grid>
-                      </Grid>
-                    ) : ( */}
                     <Grid container spacing={2} style={{ marginTop: 10 }}>
                       <Grid xs={6} item>
                         <Button

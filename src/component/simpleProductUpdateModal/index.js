@@ -95,15 +95,8 @@ function SimpleUpdateModal({
       .then((response) => response.json())
       .then((result) => {
         console.log(result);
-        // window.location.reload();
-        setCategoryId("");
-        setName("");
-        setDescription("");
-        setPrice("");
-        setSku("");
-        setStock("");
-        setImageData([]);
-        setEditData({});
+        window.location.reload();
+        cancelEdit();
       })
       .catch((error) => console.log("error", error));
   };
@@ -185,7 +178,6 @@ function SimpleUpdateModal({
           onClick={() => cancelEdit()}
           style={{
             float: "right",
-            // margin: "10px 0",
             cursor: "pointer",
           }}
         />
@@ -200,7 +192,6 @@ function SimpleUpdateModal({
             <Grid item xs={12}>
               <Box
                 component="form"
-                // component={Paper}
                 rowrpacing={1}
                 columnspacing={{ xs: 1, sm: 2, md: 3 }}
                 className="main-order-table glass-morphism"
@@ -274,7 +265,14 @@ function SimpleUpdateModal({
                       variant="outlined"
                       fullWidth
                       type="number"
-                      onChange={(e) => setSku(e.target.value)}
+                      inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                      onChange={(e) => {
+                        const numericValue = e.target.value.replace(
+                          /[^0-9]/g,
+                          ""
+                        );
+                        setSku(numericValue);
+                      }}
                       value={sku}
                     />
                   </Grid>
@@ -287,7 +285,14 @@ function SimpleUpdateModal({
                       variant="outlined"
                       fullWidth
                       type="number"
-                      onChange={(e) => setPrice(e.target.value)}
+                      inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                      onChange={(e) => {
+                        const numericValue = e.target.value.replace(
+                          /[^0-9]/g,
+                          ""
+                        );
+                        setPrice(numericValue);
+                      }}
                       value={price}
                     />
                   </Grid>

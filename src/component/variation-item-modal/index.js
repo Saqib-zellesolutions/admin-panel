@@ -108,6 +108,7 @@ export default function Variation({ data, open, handleClose }) {
                                 color="text.secondary"
                                 noWrap
                                 className="product-table-text"
+                                sx={{ textTransform: "capitalize" }}
                               >
                                 {e.name}
                               </Typography>
