@@ -199,9 +199,10 @@ function VariableProduct() {
         !description ||
           !skuNumber ||
           !cloudImage.length ||
-          !stock ||
+          // !stock ||
           !multipleVariation.length)
       ) {
+        console.log("he;lll");
         toast.error("Please Fill Input");
       } else {
         addVariableProduct();
@@ -798,16 +799,16 @@ function VariableProduct() {
                           variant="contained"
                           fullWidth
                           onClick={async () => {
-                            if (
-                              !name ||
-                              !description ||
-                              !sku ||
-                              !multipleVariation.length
-                            ) {
-                              toast.error("Please Fill Input");
-                            } else {
+                            // if (
+                            //   !name ||
+                            //   !description ||
+                            //   !sku ||
+                            //   !multipleVariation.length
+                            // ) {
+                            //   toast.error("Please Fill Input");
+                            // } else {
                               SaveImages("single", [imageFile]);
-                            }
+                            // }
                             // addVariableProduct();
                           }}
                           color="secondary"
