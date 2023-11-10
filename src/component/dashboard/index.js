@@ -23,7 +23,7 @@ import "./style.css";
 function Dasboard() {
   const location = useLocation();
   const navigate = useNavigate();
-
+const branch = localStorage.getItem("branchName")
   const isActive = (path) => location.pathname === path;
   let token = localStorage.getItem("token");
   useEffect(() => {
@@ -148,7 +148,7 @@ function Dasboard() {
                 onClick={() => navigate("/dashboard/beverages")}
               >
                 <img src={Coffee} alt="" className="navigation-icon" />
-                <p>Beverages</p>
+                <p>Feature</p>
               </div>
               <div
                 className={`${
@@ -249,7 +249,7 @@ function Dasboard() {
         <header className="dashboard-header">
           <div className="heading-subheading-div">
             <h1>Dashboard</h1>
-            <p>You Are On Dashboard </p>
+            <p>Zameeransari {branch} Branch </p>
           </div>
           <div className="profile-container">
             <p className="hello">Hello!</p>

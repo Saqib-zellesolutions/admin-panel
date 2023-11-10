@@ -176,7 +176,7 @@ function Order() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {order?.map((e) => {
+                    {order?.slice().reverse().map((e) => {
                       return (
                         <TableRow hover key={e._id}>
                           <TableCell>

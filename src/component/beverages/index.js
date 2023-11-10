@@ -243,7 +243,7 @@ function AddProduct() {
                   mb: "30px",
                 }}
               >
-                <Typography variant="h4">Beverages</Typography>
+                <Typography variant="h4">Feature Product</Typography>
               </Grid>
               <Grid container spacing={2} style={{ paddingLeft: "15px" }}>
                 <FormControl fullWidth>
