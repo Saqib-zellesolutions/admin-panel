@@ -22,6 +22,7 @@ import { toast } from "react-toastify";
 import { CliftonLocalUrl, LocalUrl } from "../../config/env";
 import NewTable from "../newtable";
 import SimpleUpdateModal from "../simpleProductUpdateModal";
+import SimpleProductImage from "../simpleProdcutImage";
 function AddProduct() {
   const theme = useTheme();
   const [categories, setCategories] = useState();
@@ -197,7 +198,16 @@ function AddProduct() {
     setEditData(e);
     setOpen(true);
   };
-
+  const [imageModalOpen, setImageModalOpen] = useState(false);
+  const [editImageData, setEditImageData] = useState({});
+  const OpenImageModal = (data) => {
+    setImageModalOpen(!imageModalOpen);
+    setEditImageData(data);
+  };
+  const handleCloseImageModal = () => {
+    setImageModalOpen(!imageModalOpen);
+    setEditImageData({});
+  };
   return isloading ? (
     <div
       style={{
@@ -481,6 +491,7 @@ function AddProduct() {
             </Box>
             {allProduct.length ? (
               <NewTable
+                OpenImageModal={OpenImageModal}
                 data={allProduct}
                 theme={theme}
                 edit={edit}
@@ -507,6 +518,15 @@ function AddProduct() {
               setEditData={setEditData}
               categories={categories}
             />
+            {editImageData && (
+              <SimpleProductImage
+                handleClose={handleCloseImageModal}
+                open={imageModalOpen}
+                editData={editImageData}
+                setEditData={setEditImageData}
+                categories={categories}
+              />
+            )}
           </Grid>
         </Grid>
       </Container>

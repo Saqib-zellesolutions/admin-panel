@@ -33,7 +33,7 @@ function BevergesUpdateModal({
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: "80%",
-    height: "100%",
+    height: "80%",
     padding: 4,
     borderRadius: "10px",
     backgroundColor: "#111633",

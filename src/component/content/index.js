@@ -186,57 +186,6 @@ function Content() {
         toast.error(error);
       });
   };
-
-  // const handleSaveClick = (e) => {
-  //   var myHeaders = new Headers();
-  //   myHeaders.append("Content-Type", "application/json");
-
-  //   var raw = JSON.stringify({
-  //     heading: heading,
-  //     sub_heading: sub_heading,
-  //   });
-
-  //   var requestOptions = {
-  //     method: "PUT",
-  //     headers: myHeaders,
-  //     body: raw,
-  //     redirect: "follow",
-  //   };
-
-  //   fetch(
-  //     `${
-  //       branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
-  //     }/content/edit-content/${editIndex}`,
-  //     requestOptions
-  //   )
-  //     .then((response) => response.json())
-  //     .then((result) => {
-  //       window.location.reload();
-  //     })
-  //     .catch((error) => {
-  //       toast.error(error);
-  //     });
-  // };
-  // const handleDeleteClick = (e) => {
-  //   var requestOptions = {
-  //     method: "DELETE",
-  //     redirect: "follow",
-  //   };
-
-  //   fetch(
-  //     `${
-  //       branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
-  //     }/content/delete-content/${e._id}`,
-  //     requestOptions
-  //   )
-  //     .then((response) => response.json())
-  //     .then((result) => {
-  //       window.location.reload();
-  //     })
-  //     .catch((error) => {
-  //       toast.error(error);
-  //     });
-  // };
   return isloading ? (
     <Box
       sx={{

@@ -13,7 +13,13 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-export default function NewTable({ data, theme, edit, Delete }) {
+export default function NewTable({
+  data,
+  theme,
+  edit,
+  Delete,
+  OpenImageModal,
+}) {
   return (
     <Card
       className="main-order-table glass-morphism"
@@ -59,11 +65,16 @@ export default function NewTable({ data, theme, edit, Delete }) {
                       <Typography variant="body2" color="text.secondary" noWrap>
                         {e?.images?.map((image, i) => (
                           <img
+                            onClick={() => OpenImageModal(e)}
                             key={i}
                             src={image}
                             width={50}
                             height={50}
-                            style={{ marginRight: 10, borderRadius: "8px" }}
+                            style={{
+                              marginRight: 10,
+                              borderRadius: "8px",
+                              cursor: "pointer",
+                            }}
                           />
                         ))}
                       </Typography>
