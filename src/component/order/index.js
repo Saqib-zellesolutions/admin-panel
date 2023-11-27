@@ -36,9 +36,17 @@ function Order() {
   const [customerDetailModal, setCustomerDetailModal] = useState(false);
   const [newOrderModal, setNewOrderModal] = useState(false);
   const [customerDetailData, setCustomerDetailData] = useState({});
-  const socket = io("http://localhost:4000", {
-    transports: ["websocket", "polling"],
-  });
+  // const socket = io("http://localhost:4000", {
+  const socket = io(
+    `${
+      branch === "Bahadurabad"
+        ? "https://zameer-ansari-backend.vercel.app/"
+        : "https://zameer-ansari-clifton-backend.vercel.app/"
+    }`,
+    {
+      transports: ["websocket", "polling"],
+    }
+  );
   useEffect(() => {
     socket.on("connect", () => {
       console.log("socket connect ", socket.id);
