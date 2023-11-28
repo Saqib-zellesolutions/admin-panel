@@ -38,11 +38,12 @@ function Order() {
   const [customerDetailData, setCustomerDetailData] = useState({});
   // const socket = io("http://localhost:4000", {
   const socket = io(
-    `${
-      branch === "Bahadurabad"
-        ? "https://zameer-ansari-backend.vercel.app"
-        : "https://zameer-ansari-clifton-backend.vercel.app"
-    }`,
+    "https://admin-panel-ashen-six.vercel.app/",
+    // `${
+    //   branch === "Bahadurabad"
+    //     ? "https://zameer-ansari-backend.vercel.app"
+    //     : "https://zameer-ansari-clifton-backend.vercel.app"
+    // }`,
     {
       transports: ["websocket", "polling"],
     }
