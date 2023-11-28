@@ -40,8 +40,8 @@ function Order() {
   const socket = io(
     `${
       branch === "Bahadurabad"
-        ? "https://zameer-ansari-backend.vercel.app/"
-        : "https://zameer-ansari-clifton-backend.vercel.app/"
+        ? "https://zameer-ansari-backend.vercel.app"
+        : "https://zameer-ansari-clifton-backend.vercel.app"
     }`,
     {
       transports: ["websocket", "polling"],
@@ -361,6 +361,8 @@ function Order() {
           open={newOrderModal}
           handleClose={handleNewOrderModalClose}
           handleAcceptReject={handleAcceptReject}
+          modalData={modalData}
+          branch={branch}
         />
       )}
     </div>
