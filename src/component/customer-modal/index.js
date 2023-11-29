@@ -4,21 +4,10 @@ import {
   Card,
   Container,
   Divider,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
   Grid,
   Modal,
-  Radio,
-  RadioGroup,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Typography,
-  useTheme,
+  useTheme
 } from "@mui/material";
 import React from "react";
 
@@ -45,7 +34,6 @@ export default function CustomerModal({
   status,
 }) {
   const theme = useTheme();
-  console.log(modalData);
   return (
     <Modal
       open={open}
@@ -117,7 +105,7 @@ export default function CustomerModal({
                     }}
                   >
                     <Typography component="h1" variant="h5">
-                     Name :{" "}
+                      Name :{" "}
                     </Typography>
                     <Typography component="p" variant="p">
                       {" "}

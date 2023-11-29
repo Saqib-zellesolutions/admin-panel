@@ -22,8 +22,11 @@ import { CliftonLocalUrl, LocalUrl } from "../../config/env";
 import CustomerModal from "../customer-modal";
 import OrderItemModal from "../order-item-modal";
 import { SeverityPill } from "../severity-pill.js";
-
+import { io } from "socket.io-client";
+import NewOrderModal from "../newOrderModal/index.js";
+import ringtoneSound from "../../assets/ringtones.mp3";
 function Order() {
+  const [ringtone] = useState(new Audio(ringtoneSound));
   const [order, setOrder] = useState([]);
   const [modalData, setModalData] = useState({});
   const [modalId, setModalId] = useState("");
@@ -31,7 +34,31 @@ function Order() {
   const branch = localStorage.getItem("branchName");
   const [status, setStatus] = React.useState("");
   const [customerDetailModal, setCustomerDetailModal] = useState(false);
+  const [newOrderModal, setNewOrderModal] = useState(false);
   const [customerDetailData, setCustomerDetailData] = useState({});
+  const socket = io("http://localhost:4000", {
+    transports: ["websocket", "polling"],
+  });
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("socket connect ", socket.id);
+    });
+    socket.on("newOrder", (newProduct) => {
+      console.log(newProduct, "new order");
+      setModalData(newProduct);
+      setOrder((prevOrder) => [newProduct, ...prevOrder]);
+      setNewOrderModal(true);
+      setModalId(newProduct._id);
+      ringtone.play();
+    });
+    return () => {
+      console.log("Unsubscribed from newOrder event");
+      socket.off("newOrder");
+      ringtone.pause();
+      ringtone.currentTime = 0;
+    };
+  }, []);
+
   useEffect(() => {
     var requestOptions = {
       method: "GET",
@@ -49,7 +76,7 @@ function Order() {
         setOrder(result);
       })
       .catch((error) => console.log("error", error));
-  }, []);
+  }, [branch]);
 
   const handleOpen = (e, order) => {
     setModalData(e);
@@ -66,7 +93,7 @@ function Order() {
   };
   const handleClose = () => setOpen(false);
   const handleCustomDeatilModalClose = () => setCustomerDetailModal(false);
-
+  const handleNewOrderModalClose = () => setNewOrderModal(false);
   // const handleChange = (event, id) => {
   const handleChange = (id) => {
     // setStatus(event.target.value);
@@ -104,6 +131,36 @@ function Order() {
     processing: "warning",
     completed: "success",
     cancled: "error",
+  };
+  const handleAcceptReject = (updateStatus) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      order: modalData,
+      status: updateStatus,
+    });
+
+    var requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(
+      `${
+        branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
+      }/OrderPlace/edit-order-place/${modalId}`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        toast.success("status updated");
+        window.location.reload();
+        handleNewOrderModalClose();
+      })
+      .catch((error) => console.log("error", error));
   };
   return order.length == 0 ? (
     <Box
@@ -176,74 +233,77 @@ function Order() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {order?.slice().reverse().map((e) => {
-                      return (
-                        <TableRow hover key={e._id}>
-                          <TableCell>
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              noWrap
-                              className="product-table-text"
-                            >
-                              {e.order_number}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              noWrap
-                            >
-                              {new Date(e.order_Date).toLocaleDateString()}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              noWrap
-                            >
-                              {new Date(e.order_Date).toLocaleTimeString()}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              noWrap
-                            >
-                              {e.name}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              noWrap
-                            >
-                              {e.mobile_number}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              noWrap
-                            >
-                              <SeverityPill color={statusMap[e.status]}>
-                                {e.status}
-                              </SeverityPill>
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              noWrap
-                              gap="5px"
-                            >
-                              {/* <Button
+                    {order
+                      ?.slice()
+                      .reverse()
+                      .map((e) => {
+                        return (
+                          <TableRow hover key={e._id}>
+                            <TableCell>
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                noWrap
+                                className="product-table-text"
+                              >
+                                {e.order_number}
+                              </Typography>
+                            </TableCell>
+                            <TableCell>
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                noWrap
+                              >
+                                {new Date(e.order_Date).toLocaleDateString()}
+                              </Typography>
+                            </TableCell>
+                            <TableCell>
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                noWrap
+                              >
+                                {new Date(e.order_Date).toLocaleTimeString()}
+                              </Typography>
+                            </TableCell>
+                            <TableCell>
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                noWrap
+                              >
+                                {e.name}
+                              </Typography>
+                            </TableCell>
+                            <TableCell>
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                noWrap
+                              >
+                                {e.mobile_number}
+                              </Typography>
+                            </TableCell>
+                            <TableCell>
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                noWrap
+                              >
+                                <SeverityPill color={statusMap[e.status]}>
+                                  {e.status}
+                                </SeverityPill>
+                              </Typography>
+                            </TableCell>
+                            <TableCell>
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                noWrap
+                                gap="5px"
+                              >
+                                {/* <Button
                                 variant="outlined"
                                 color="secondary"
                                 onClick={() => handleCustomModalOpen(e, e)}
@@ -251,18 +311,18 @@ function Order() {
                               >
                                 Customer Detail
                               </Button> */}
-                              <Button
-                                variant="outlined"
-                                color="secondary"
-                                onClick={() => handleOpen(e, e)}
-                              >
-                                View
-                              </Button>
-                            </Typography>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
+                                <Button
+                                  variant="outlined"
+                                  color="secondary"
+                                  onClick={() => handleOpen(e, e)}
+                                >
+                                  View
+                                </Button>
+                              </Typography>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
                   </TableBody>
                 </Table>
               </TableContainer>
@@ -288,6 +348,13 @@ function Order() {
         handleClose={handleCustomDeatilModalClose}
         handleChange={handleChange}
       />
+      {newOrderModal && (
+        <NewOrderModal
+          open={newOrderModal}
+          handleClose={handleNewOrderModalClose}
+          handleAcceptReject={handleAcceptReject}
+        />
+      )}
     </div>
   );
 }
