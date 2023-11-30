@@ -38,14 +38,19 @@ function Order() {
   const [customerDetailData, setCustomerDetailData] = useState({});
   // const socket = io("ws://localhost:4000", {
   const socket = io("https://zameer-ansari-backend.vercel.app", {
-    transports: ["websocket", "polling"],
-    path: "/socket.io/",
+    // transports: ["websocket", "polling"],
+    // path: "/socket.io/",
+    // credential: true,
+    // extraHeaders: {
+    //   "my-custom-header": "abcd",
+    // },
+    // path: '/socket.io',
+// transports: ['websocket'],
+withCredentials: true,
+secure: true,
+    origin: "*",
   });
-
-  // socket.on("connect_error", (error) => {
-  //   console.error("Socket connection error:", error.message);
-  // });
-
+// polling laga
   useEffect(() => {
     socket.on("connect", () => {
       console.log("socket connect ", socket.id);
@@ -107,7 +112,10 @@ function Order() {
   };
   const handleClose = () => setOpen(false);
   const handleCustomDeatilModalClose = () => setCustomerDetailModal(false);
-  const handleNewOrderModalClose = () => setNewOrderModal(false);
+  const handleNewOrderModalClose = () => {
+    setModalData({});
+    setNewOrderModal(false);
+  };
   // const handleChange = (event, id) => {
   const handleChange = (id) => {
     // setStatus(event.target.value);
