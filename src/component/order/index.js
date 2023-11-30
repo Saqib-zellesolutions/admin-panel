@@ -36,11 +36,13 @@ function Order() {
   const [customerDetailModal, setCustomerDetailModal] = useState(false);
   const [newOrderModal, setNewOrderModal] = useState(false);
   const [customerDetailData, setCustomerDetailData] = useState({});
-  const socketUrl = process.env.NODE_ENV === 'production'
-  ? 'http://zameer-ansari-backend.vercel.app'
-  : 'http://localhost:4000';
+  const URL =
+    process.env.NODE_ENV === "production"
+      ? "https://zameer-ansari-backend.vercel.app"
+      : "http://localhost:4000";
   // const socket = io("http://localhost:4000", {
-  const socket = io(socketUrl, {
+  // const socket = io("https://zameer-ansari-backend.vercel.app", {
+  const socket = io(URL, {
     // transports: ["websocket", "polling"],
     transports: ["websocket", "polling"],
     path: "/socket.io/",
