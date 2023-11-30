@@ -36,20 +36,26 @@ function Order() {
   const [customerDetailModal, setCustomerDetailModal] = useState(false);
   const [newOrderModal, setNewOrderModal] = useState(false);
   const [customerDetailData, setCustomerDetailData] = useState({});
-  const URL =
-    process.env.NODE_ENV === "production"
-      ? "https://zameer-ansari-backend.vercel.app"
-      : "http://localhost:4000";
-  // const socket = io("http://localhost:4000", {
-  // const socket = io("https://zameer-ansari-backend.vercel.app", {
-  const socket = io(URL, {
-    // transports: ["websocket", "polling"],
+  // const socket = io("ws://localhost:4000", {
+  const socket = io("https://zameer-ansari-backend.vercel.app", {
     transports: ["websocket", "polling"],
     path: "/socket.io/",
   });
+
+  // socket.on("connect_error", (error) => {
+  //   console.error("Socket connection error:", error.message);
+  // });
+
   useEffect(() => {
     socket.on("connect", () => {
       console.log("socket connect ", socket.id);
+    });
+    socket.on("connect_timeout", () => {
+      console.error("Socket connection timeout");
+    });
+
+    socket.on("disconnect", (reason) => {
+      console.warn("Socket disconnected:", reason);
     });
     socket.on("newOrder", (newProduct) => {
       console.log(newProduct, "new order");
