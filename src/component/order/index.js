@@ -38,28 +38,28 @@ function Order() {
   const [customerDetailData, setCustomerDetailData] = useState({});
   // const socket = io("ws://localhost:4000", {
   const socket = io("https://zameer-ansari-backend.vercel.app", {
-    // transports: ["websocket", "polling"],
+    transports: ["polling"],
     // path: "/socket.io/",
     // credential: true,
     // extraHeaders: {
     //   "my-custom-header": "abcd",
     // },
     // path: '/socket.io',
-// transports: ['websocket'],
-withCredentials: true,
+    // transports: ['websocket'],
+    withCredentials: true,
   });
-// polling laga
+  // polling laga
   useEffect(() => {
     socket.on("connect", () => {
       console.log("socket connect ", socket.id);
     });
-    socket.on("connect_timeout", () => {
-      console.error("Socket connection timeout");
-    });
+    // socket.on("connect_timeout", () => {
+    //   console.error("Socket connection timeout");
+    // });
 
-    socket.on("disconnect", (reason) => {
-      console.warn("Socket disconnected:", reason);
-    });
+    // socket.on("disconnect", (reason) => {
+    //   console.warn("Socket disconnected:", reason);
+    // });
     socket.on("newOrder", (newProduct) => {
       console.log(newProduct, "new order");
       setModalData(newProduct);
