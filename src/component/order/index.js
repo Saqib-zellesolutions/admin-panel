@@ -38,7 +38,7 @@ function Order() {
   const [customerDetailData, setCustomerDetailData] = useState({});
   // const socket = io("ws://localhost:4000", {
   const socket = io("https://zameer-ansari-backend.vercel.app", {
-    transports: ["polling"],
+    // transports: ["polling"],
     // path: "/socket.io/",
     // credential: true,
     // extraHeaders: {
@@ -48,7 +48,6 @@ function Order() {
     // transports: ['websocket'],
     withCredentials: true,
   });
-  // polling laga
   useEffect(() => {
     socket.on("connect", () => {
       console.log("socket connect ", socket.id);
