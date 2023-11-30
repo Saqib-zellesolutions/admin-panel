@@ -47,8 +47,6 @@ function Order() {
     // path: '/socket.io',
 // transports: ['websocket'],
 withCredentials: true,
-secure: true,
-    origin: "*",
   });
 // polling laga
   useEffect(() => {
