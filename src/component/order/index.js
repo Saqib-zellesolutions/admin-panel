@@ -40,7 +40,7 @@ function Order() {
   useEffect(() => {
     const socket = io("https://zameer-ansari-backend.vercel.app", {
       withCredentials: true,
-      transports: ["polling","websocket"],
+      transports: ["websocket"],
     });
     socket.on("connect", () => {
       console.log("socket connect ", socket.id);
