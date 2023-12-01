@@ -37,12 +37,11 @@ function Order() {
   const [newOrderModal, setNewOrderModal] = useState(false);
   const [customerDetailData, setCustomerDetailData] = useState({});
   // const socket = io("ws://localhost:4000", {
-  const socket = io("https://zameer-ansari-backend.vercel.app", {
-    withCredentials: true,
-    methods: ["GET", "POST"],
-    transports: ["polling"],
-  });
   useEffect(() => {
+    const socket = io("https://zameer-ansari-backend.vercel.app", {
+      withCredentials: true,
+      transports: ["polling","websocket"],
+    });
     socket.on("connect", () => {
       console.log("socket connect ", socket.id);
     });
