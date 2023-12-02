@@ -37,7 +37,7 @@ function Order() {
   const [newOrderModal, setNewOrderModal] = useState(false);
   const [customerDetailData, setCustomerDetailData] = useState({});
   useEffect(() => {
-    const socket = io("https://zameer-ansari-backend.vercel.app", {
+    const socket = io("https://api.zameeransari.com.pk", {
       transports: ["websocket"],
       debug: true,
       withCredentials: true,
