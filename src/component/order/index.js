@@ -38,9 +38,7 @@ function Order() {
   const [customerDetailData, setCustomerDetailData] = useState({});
   // const socket = io("ws://localhost:4000", {
   useEffect(() => {
-    const socket = io("https://zameer-ansari-backend.vercel.app", {
-      transports: ["websocket", "polling"],
-    });
+    const socket = io("https://zameer-ansari-backend.vercel.app");
     // const socket = io("https://zameer-ansari-backend.vercel.app", {
     //   withCredentials: true,
     // });
