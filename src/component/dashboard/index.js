@@ -19,11 +19,11 @@ import {
   ZameerLogo,
 } from "../../config/icon";
 import "./style.css";
-
+import AllProduct from "../product";
 function Dasboard() {
   const location = useLocation();
   const navigate = useNavigate();
-const branch = localStorage.getItem("branchName")
+  const branch = localStorage.getItem("branchName");
   const isActive = (path) => location.pathname === path;
   let token = localStorage.getItem("token");
   useEffect(() => {
@@ -261,6 +261,7 @@ const branch = localStorage.getItem("branchName")
           </div>
         </header>
         <DashboardRoutes />
+        {/* <AllProduct /> */}
       </section>
     </main>
   );

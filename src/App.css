@@ -111,3 +111,13 @@ body {
   background-color: #bc2423;
   border-radius: 10px;
 } */
+.image-upload-customize {
+  border: 2px dashed #fff;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 20px;
+  cursor: pointer;
+}

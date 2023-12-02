@@ -10,8 +10,9 @@ import {
   useTheme,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { CliftonLocalUrl, LocalUrl } from "../../config/env";
 import { toast } from "react-toastify";
+import { CliftonLocalUrl, LocalUrl } from "../../config/env";
+import { Upload } from "../../config/icon";
 function CategoryUpdateModal({ open, handleClose, setEditData, editData }) {
   const style = {
     position: "absolute",
@@ -19,7 +20,7 @@ function CategoryUpdateModal({ open, handleClose, setEditData, editData }) {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: "60%",
-    height: "75%",
+    height: "85%",
     padding: 4,
     borderRadius: "10px",
     backgroundColor: "#111633",
@@ -222,7 +223,7 @@ function CategoryUpdateModal({ open, handleClose, setEditData, editData }) {
                 </Grid>
                 <Grid container spacing={2} style={{ marginTop: 10 }}>
                   <Grid xs={6} item>
-                    <Typography component="p">Name</Typography>
+                    <Typography component="p" sx={{ marginBottom: "10px" }}>Name</Typography>
                     <TextField
                       required
                       id="outlined-basic"
@@ -235,27 +236,120 @@ function CategoryUpdateModal({ open, handleClose, setEditData, editData }) {
                     />
                   </Grid>
                   <Grid xs={6} item>
-                    <Typography component="p">Image</Typography>
-                    <TextField
+                    <Typography component="p" sx={{ marginBottom: "10px" }}>Image</Typography>
+                    {/* <TextField
                       id="outlined-basic"
                       variant="outlined"
                       fullWidth
                       type="file"
                       onChange={handleImageChange}
                       //   value={imageData}
-                    />
+                    /> */}
+                    <Box sx={{ display: "flex", flexDirection: "column" }}>
+                      <label
+                        for="upload-image"
+                        style={{
+                          border: "1px solid rgb(89 91 103)",
+                          width: "100%",
+                          padding: 10,
+                          borderRadius: 10,
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
+                        <img
+                          src={Upload}
+                          alt=""
+                          width="20"
+                          style={{ marginRight: 10 }}
+                        />
+                        Upload Image
+                      </label>
+                      <input
+                        id="upload-image"
+                        style={{ opacity: 0, position: "absolute", zIndex: -1 }}
+                        fullWidth
+                        type="file"
+                        onChange={handleImageChange}
+                      />
+                    </Box>
+                    {fileurl ? (
+                      <img
+                        // key={index}s
+                        src={fileurl.url ? fileurl.url : fileurl}
+                        alt=""
+                        style={{
+                          width: "130px",
+                          height: "80px",
+                          //   marginRight: "10px",
+                          borderRadius: "10px",
+                          marginTop: 5,
+                        }}
+                      />
+                    ) : null}
                   </Grid>
                 </Grid>
                 <Grid container spacing={2} style={{ marginTop: 10 }}>
                   <Grid xs={6} item>
-                    <Typography component="p">Banner Image</Typography>
-                    <TextField
+                    <Typography component="p" sx={{ marginBottom: "10px" }}>Banner Image</Typography>
+                    {/* <TextField
                       id="outlined-basic"
                       variant="outlined"
                       fullWidth
                       type="file"
                       onChange={handleBannerImageChange}
-                    />
+                    /> */}
+                    <Box sx={{ display: "flex", flexDirection: "column" }}>
+                      <label
+                        for="banner-image"
+                        style={{
+                          border: "1px solid rgb(89 91 103)",
+                          width: "100%",
+                          padding: 10,
+                          borderRadius: 10,
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
+                        <img
+                          src={Upload}
+                          alt=""
+                          width="20"
+                          style={{ marginRight: 10 }}
+                        />
+                        Upload Banner Image
+                      </label>
+                      {/* <TextField
+                    id="outlined-basic banner-image"
+                    variant="outlined"
+                    fullWidth
+                    type="file"
+                    onChange={handleBannerImageChange}
+                  /> */}
+                      <input
+                        id="banner-image"
+                        style={{ opacity: 0, position: "absolute", zIndex: -1 }}
+                        fullWidth
+                        type="file"
+                        onChange={handleBannerImageChange}
+                      />
+                    </Box>
+                    {bannerFileUrl ? (
+                      <img
+                        // key={index}s
+                        src={
+                          bannerFileUrl.url ? bannerFileUrl.url : bannerFileUrl
+                        }
+                        alt=""
+                        style={{
+                          width: "130px",
+                          height: "80px",
+                          //   marginRight: "10px",
+                          borderRadius: "10px",
+                          marginTop: 5,
+                        }}
+                      />
+                    ) : null}
                   </Grid>
                 </Grid>
                 <Grid

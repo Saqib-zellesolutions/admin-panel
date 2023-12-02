@@ -203,7 +203,7 @@ function Shipping() {
           alignItems="stretch"
           spacing={3}
         >
-          <Grid item xs={12}>
+          <Grid item xs={8}>
             <Box
               component="form"
               rowrpacing={1}

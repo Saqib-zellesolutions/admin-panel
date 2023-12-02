@@ -24,6 +24,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { CliftonLocalUrl, LocalUrl } from "../../config/env";
 import CategoryUpdateModal from "../categoryUpdateModal";
+import { Upload } from "../../config/icon";
 function AddCategory() {
   const [name, setName] = useState("");
   const [imageData, setImageData] = useState("");
@@ -237,7 +238,9 @@ function AddCategory() {
               </Grid>
               <Grid container spacing={2} style={{ marginTop: 10 }}>
                 <Grid xs={6} item>
-                  <Typography component="p">Name</Typography>
+                  <Typography component="p" sx={{ marginBottom: "10px" }}>
+                    Name
+                  </Typography>
                   <TextField
                     required
                     id="outlined-basic"
@@ -250,42 +253,140 @@ function AddCategory() {
                   />
                 </Grid>
                 <Grid xs={6} item>
-                  <Typography component="p">Image</Typography>
-                  <TextField
+                  <Typography component="p" sx={{ marginBottom: "10px" }}>
+                    Image
+                  </Typography>
+                  <Box sx={{ display: "flex", flexDirection: "column" }}>
+                    <label
+                      for="upload-image"
+                      style={{
+                        border: "1px solid rgb(89 91 103)",
+                        width: "100%",
+                        padding: 10,
+                        borderRadius: 10,
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <img
+                        src={Upload}
+                        alt=""
+                        width="20"
+                        style={{ marginRight: 10 }}
+                      />
+                      Upload Image
+                    </label>
+                    <input
+                      id="upload-image"
+                      style={{ opacity: 0, position: "absolute", zIndex: -1 }}
+                      fullWidth
+                      type="file"
+                      onChange={handleImageChange}
+                    />
+                  </Box>
+                  {fileurl ? (
+                    <img
+                      // key={index}s
+                      src={fileurl.url ? fileurl.url : fileurl}
+                      alt=""
+                      style={{
+                        width: "130px",
+                        height: "80px",
+                        //   marginRight: "10px",
+                        borderRadius: "10px",
+                        marginTop: 5,
+                      }}
+                    />
+                  ) : null}
+                  {/* <TextField
                     id="outlined-basic"
                     variant="outlined"
                     fullWidth
                     type="file"
                     onChange={handleImageChange}
                     // value={imageData}
-                  />
-                </Grid>
-              </Grid>
-              <Grid container spacing={2} style={{ marginTop: 10 }}>
-                <Grid xs={6} item>
-                  <Typography component="p">Banner Image</Typography>
-                  <TextField
-                    id="outlined-basic"
-                    variant="outlined"
-                    fullWidth
-                    type="file"
-                    onChange={handleBannerImageChange}
-                  />
+                  /> */}
                 </Grid>
               </Grid>
               <Grid
                 container
+                alignItems="start"
                 spacing={2}
-                style={{ marginTop: 10, paddingLeft: "15px" }}
+                style={{ marginTop: 10 }}
               >
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  fullWidth
-                  onClick={addCategory}
-                >
-                  Add category
-                </Button>
+                <Grid xs={6} item>
+                  <Typography component="p" sx={{ marginBottom: "10px" }}>
+                    Banner Image
+                  </Typography>
+                  <Box sx={{ display: "flex", flexDirection: "column" }}>
+                    <label
+                      for="banner-image"
+                      style={{
+                        border: "1px solid rgb(89 91 103)",
+                        width: "100%",
+                        padding: 10,
+                        borderRadius: 10,
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <img
+                        src={Upload}
+                        alt=""
+                        width="20"
+                        style={{ marginRight: 10 }}
+                      />
+                      Upload Banner Image
+                    </label>
+                    {/* <TextField
+                    id="outlined-basic banner-image"
+                    variant="outlined"
+                    fullWidth
+                    type="file"
+                    onChange={handleBannerImageChange}
+                  /> */}
+                    <input
+                      id="banner-image"
+                      style={{ opacity: 0, position: "absolute", zIndex: -1 }}
+                      fullWidth
+                      type="file"
+                      onChange={handleBannerImageChange}
+                    />
+                  </Box>
+                  {bannerFileUrl ? (
+                    <img
+                      // key={index}s
+                      src={
+                        bannerFileUrl.url ? bannerFileUrl.url : bannerFileUrl
+                      }
+                      alt=""
+                      style={{
+                        width: "130px",
+                        height: "80px",
+                        //   marginRight: "10px",
+                        borderRadius: "10px",
+                        marginTop: 5,
+                      }}
+                    />
+                  ) : null}
+                </Grid>
+                <Grid xs={6} item>
+                  <Typography
+                    component="p"
+                    sx={{ marginBottom: "10px", opacity: 0 }}
+                  >
+                    {" fs"}
+                  </Typography>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    fullWidth
+                    onClick={addCategory}
+                    sx={{ background: "transparent" }}
+                  >
+                    Add category
+                  </Button>
+                </Grid>
               </Grid>
             </Box>
             <Card

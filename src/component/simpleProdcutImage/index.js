@@ -17,6 +17,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { CliftonLocalUrl, LocalUrl } from "../../config/env";
+import { Upload } from "../../config/icon";
 function SimpleProductImage({
   open,
   handleClose,
@@ -29,8 +30,8 @@ function SimpleProductImage({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: "80%",
-    height: "40%",
+    width: "40%",
+    height: "32%",
     padding: "5px 10px",
     borderRadius: "10px",
     backgroundColor: "#111633",
@@ -186,16 +187,16 @@ function SimpleProductImage({
           ...style,
           [theme.breakpoints.down("md")]: {
             // Style for screens smaller than or equal to small breakpoint (e.g., mobile devices)
-            width: "90%",
-            height: "90%",
+            width: "40%",
+            height: "32%",
             // Add other styles for small screens here
           },
           [theme.breakpoints.down("sm")]: {
             // Style for screens smaller than or equal to small breakpoint (e.g., mobile devices)
             paddingLeft: "10px",
             paddingRight: "10px",
-            width: "90%",
-            height: "90%",
+            width: "40%",
+            height: "32%",
             // Add other styles for small screens here
           },
         }}
@@ -248,7 +249,45 @@ function SimpleProductImage({
                       <Box key={index}>
                         {editingIndex === index ? (
                           <Grid>
-                            <TextField
+                            <Box
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                width: "100%",
+                              }}
+                            >
+                              <label
+                                for="upload-image"
+                                style={{
+                                  border: "1px solid rgb(89 91 103)",
+                                  width: "100%",
+                                  padding: 10,
+                                  borderRadius: 10,
+                                  display: "flex",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <img
+                                  src={Upload}
+                                  alt=""
+                                  width="20"
+                                  style={{ marginRight: 10 }}
+                                />
+                                Upload Image
+                              </label>
+                              <input
+                                id="upload-image"
+                                style={{
+                                  opacity: 0,
+                                  position: "absolute",
+                                  zIndex: -1,
+                                }}
+                                fullWidth
+                                type="file"
+                                onChange={handleImageChange}
+                              />
+                            </Box>
+                            {/* <TextField
                               sx={{
                                 "& .MuiInputLabel-root": {
                                   color: "#A1A1A1", // Change the label color to green
@@ -283,7 +322,7 @@ function SimpleProductImage({
                               //   accept: "image/*",
                               // }}
                               onChange={handleImageChange}
-                            />
+                            /> */}
                             <Box>
                               <Tooltip title="Save Edit" arrow>
                                 <IconButton

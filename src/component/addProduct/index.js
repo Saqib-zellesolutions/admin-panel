@@ -23,6 +23,7 @@ import { CliftonLocalUrl, LocalUrl } from "../../config/env";
 import NewTable from "../newtable";
 import SimpleUpdateModal from "../simpleProductUpdateModal";
 import SimpleProductImage from "../simpleProdcutImage";
+import { useNavigate } from "react-router-dom";
 function AddProduct() {
   const theme = useTheme();
   const [categories, setCategories] = useState();
@@ -194,9 +195,10 @@ function AddProduct() {
       .catch((error) => console.log("error", error));
   };
   let edit = (e) => {
+    navigate("/dashboard/edit-product", { state: e });
     // setEditData()
-    setEditData(e);
-    setOpen(true);
+    // setEditData(e);
+    // setOpen(true);
   };
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [editImageData, setEditImageData] = useState({});
@@ -208,6 +210,7 @@ function AddProduct() {
     setImageModalOpen(!imageModalOpen);
     setEditImageData({});
   };
+  const navigate = useNavigate();
   return isloading ? (
     <div
       style={{
@@ -238,7 +241,7 @@ function AddProduct() {
           spacing={3}
         >
           <Grid item xs={12}>
-            <Box
+            {/* <Box
               component="form"
               // component={Paper}
               rowrpacing={1}
@@ -376,8 +379,12 @@ function AddProduct() {
                   </FormGroup>
                 </Grid>
                 <Grid xs={6} item>
-                  <Typography component="p">Image</Typography>
+                  <Typography for="upload-photo" component="p">
+                    Image
+                  </Typography>
                   <TextField
+                    // id="upload-photo"
+                    // style={{ opacity: 0, position: "absolute", zIndex: -1 }}
                     sx={{
                       "& .MuiInputLabel-root": {
                         color: "#A1A1A1", // Change the label color to green
@@ -450,7 +457,6 @@ function AddProduct() {
                 spacing={2}
                 style={{ marginTop: 10, paddingLeft: "15px" }}
               >
-                {/* {!editData._id ? ( */}
                 <Button
                   variant="contained"
                   color="secondary"
@@ -459,58 +465,54 @@ function AddProduct() {
                 >
                   Add Product
                 </Button>
-                {/* ) : (
-                  <Grid
-                    container
-                    spacing={2}
-                    style={{ marginTop: 10, paddingLeft: "15px" }}
-                  >
-                    <Grid xs={6} item>
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={saveEdit}
-                        fullWidth
-                      >
-                        Save
-                      </Button>
-                    </Grid>
-                    <Grid xs={6} item>
-                      <Button
-                        variant="contained"
-                        color="error"
-                        fullWidth
-                        onClick={() => cancelEdit()}
-                      >
-                        Cancel
-                      </Button>
-                    </Grid>
-                  </Grid>
-                )} */}
               </Grid>
-            </Box>
-            {allProduct.length ? (
-              <NewTable
-                OpenImageModal={OpenImageModal}
-                data={allProduct}
-                theme={theme}
-                edit={edit}
-                Delete={Delete}
-              />
-            ) : (
+            </Box> */}
+            <Box>
               <Box
+                className="main-order-table glass-morphism"
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center",
-                  mt: 3,
+                  justifyContent: "space-between",
+                  // position: "absolute",
+                  width: "100%",
+                  zIndex: 9999,
+                  mb: "-35px",
                 }}
               >
-                <Typography component="h1" variant="h4">
-                  Data Not Found
-                </Typography>
+                <Typography variant="h6">Add Simple Product</Typography>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => navigate("/dashboard/product")}
+                  sx={{ background: "transparent" }}
+                >
+                  Add New
+                </Button>
               </Box>
-            )}
+              {allProduct.length ? (
+                <NewTable
+                  OpenImageModal={OpenImageModal}
+                  data={allProduct}
+                  theme={theme}
+                  edit={edit}
+                  Delete={Delete}
+                />
+              ) : (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mt: 3,
+                  }}
+                >
+                  <Typography component="h1" variant="h4">
+                    Data Not Found
+                  </Typography>
+                </Box>
+              )}
+            </Box>
             <SimpleUpdateModal
               handleClose={handleClose}
               open={open}
