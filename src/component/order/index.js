@@ -40,6 +40,7 @@ function Order() {
     const socket = io("https://zameer-ansari-backend.vercel.app", {
       transports: ["websocket"],
       debug: true,
+      withCredentials: true,
     });
     socket.on("connect", () => {
       console.log("socket connect ", socket.id);
