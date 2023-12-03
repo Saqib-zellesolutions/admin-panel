@@ -38,7 +38,7 @@ function Order() {
   const [customerDetailData, setCustomerDetailData] = useState({});
   useEffect(() => {
     const socket = io("https://zameer-ansari-backend.vercel.app", {
-      transports: ["websocket", "polling"],
+      transports: ["websocket"],
       debug: true,
     });
     socket.on("connect", () => {
