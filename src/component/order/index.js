@@ -37,11 +37,16 @@ function Order() {
   const [newOrderModal, setNewOrderModal] = useState(false);
   const [customerDetailData, setCustomerDetailData] = useState({});
   useEffect(() => {
-    const socket = io("https://api.zameeransari.com.pk", {
-      transports: ["websocket"],
-      debug: true,
-      withCredentials: true,
-    });
+    const socket = io(
+      branch === "Bahadurabad"
+        ? "https://api.zameeransari.com.pk"
+        : "https://apiclifton.zameeransari.com.pk/",
+      {
+        transports: ["websocket"],
+        debug: true,
+        withCredentials: true,
+      }
+    );
     socket.on("connect", () => {
       console.log("socket connect ", socket.id);
     });
