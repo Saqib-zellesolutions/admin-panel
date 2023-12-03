@@ -39,6 +39,7 @@ function Order() {
   useEffect(() => {
     const socket = io("https://zameer-ansari-backend.vercel.app", {
       transports: ["polling"],
+      debug: true,
     });
     socket.on("connect", () => {
       console.log("socket connect ", socket.id);
