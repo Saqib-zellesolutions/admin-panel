@@ -40,6 +40,7 @@ function Order() {
   useEffect(() => {
     const socket = io("https://zameer-ansari-backend.vercel.app", {
       transports: ["websocket"],
+      path:"/socket.io/"
     });
     // const socket = io("https://zameer-ansari-backend.vercel.app", {
     //   withCredentials: true,
