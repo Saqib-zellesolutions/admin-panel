@@ -36,17 +36,17 @@ function Order() {
   const [customerDetailModal, setCustomerDetailModal] = useState(false);
   const [newOrderModal, setNewOrderModal] = useState(false);
   const [customerDetailData, setCustomerDetailData] = useState({});
+  const socket = io(
+    branch === "Bahadurabad"
+      ? "https://api.zameeransari.com.pk"
+      : "https://apiclifton.zameeransari.com.pk",
+    {
+      transports: ["websocket"],
+      debug: true,
+      withCredentials: true,
+    }
+  );
   useEffect(() => {
-    const socket = io(
-      branch === "Bahadurabad"
-        ? "https://api.zameeransari.com.pk"
-        : "https://apiclifton.zameeransari.com.pk/",
-      {
-        transports: ["websocket"],
-        debug: true,
-        withCredentials: true,
-      }
-    );
     socket.on("connect", () => {
       console.log("socket connect ", socket.id);
     });
@@ -57,22 +57,22 @@ function Order() {
     // socket.on("disconnect", (reason) => {
     //   console.warn("Socket disconnected:", reason);
     // });
-    socket.on("newOrder", (newProduct) => {
-      console.log(newProduct, "new order");
-      setModalData(newProduct);
-      setOrder((prevOrder) => [newProduct, ...prevOrder]);
-      setNewOrderModal(true);
-      setModalId(newProduct._id);
-      ringtone.play();
-    });
-    return () => {
-      console.log("Unsubscribed from newOrder event");
-      socket.off("newOrder");
-      ringtone.pause();
-      ringtone.currentTime = 0;
-    };
+    
   }, []);
-
+  socket.on("newOrder", (newProduct) => {
+    console.log(newProduct, "new order");
+    setModalData(newProduct);
+    setOrder((prevOrder) => [newProduct, ...prevOrder]);
+    setNewOrderModal(true);
+    setModalId(newProduct._id);
+    ringtone.play();
+  });
+  // return () => {
+  //   console.log("Unsubscribed from newOrder event");
+  //   socket.off("newOrder");
+  //   ringtone.pause();
+  //   ringtone.currentTime = 0;
+  // };
   useEffect(() => {
     var requestOptions = {
       method: "GET",
