@@ -36,16 +36,16 @@ function Order() {
   const [customerDetailModal, setCustomerDetailModal] = useState(false);
   const [newOrderModal, setNewOrderModal] = useState(false);
   const [customerDetailData, setCustomerDetailData] = useState({});
-  const socket = io(
-    branch === "Bahadurabad"
-      ? "https://api.zameeransari.com.pk"
-      : "https://apiclifton.zameeransari.com.pk",
-    {
-      transports: ["websocket"],
-      debug: true,
-      withCredentials: true,
-    }
-  );
+  // const SocketUrl =
+  //   branch === "Bahadurabad"
+  //     ? "https://api.zameeransari.com.pk"
+  //     : "https://apiclifton.zameeransari.com.pk";
+  const SocketUrl = "https://apiclifton.zameeransari.com.pk";
+  const socket = io(SocketUrl, {
+    transports: ["websocket"],
+    debug: true,
+    withCredentials: true,
+  });
   useEffect(() => {
     socket.on("connect", () => {
       console.log("socket connect ", socket.id);
@@ -57,7 +57,6 @@ function Order() {
     // socket.on("disconnect", (reason) => {
     //   console.warn("Socket disconnected:", reason);
     // });
-    
   }, []);
   socket.on("newOrder", (newProduct) => {
     console.log(newProduct, "new order");
