@@ -34,6 +34,7 @@ import { toast } from "react-toastify";
 import { CliftonLocalUrl, LocalUrl } from "../../config/env";
 import VariationItemModal from "../variation-item-modal";
 import VariationUpdateModal from "../VariableUpdateModal";
+import { useNavigate } from "react-router-dom";
 
 function VariableProduct() {
   const [categories, setCategories] = useState();
@@ -85,16 +86,17 @@ function VariableProduct() {
   };
   const [editData, setEditData] = useState({});
   let edit = (e) => {
-    setUpdateModal(true);
-    setCategoryId(e.parent_id);
-    setName(e.name);
-    setDescription(e.description);
-    setSku(e.sku);
-    setEditData(e);
-    setMultipleVariation(e.variation);
-    setVariationId(e._id);
-    setVariation(true);
-    setCategoryId(e.parent_id);
+    navigate("/dashboard/edit-variableProduct", { state: e });
+    // setUpdateModal(true);
+    // setCategoryId(e.parent_id);
+    // setName(e.name);
+    // setDescription(e.description);
+    // setSku(e.sku);
+    // setEditData(e);
+    // setMultipleVariation(e.variation);
+    // setVariationId(e._id);
+    // setVariation(true);
+    // setCategoryId(e.parent_id);
   };
   let saveVariation = () => {
     // const findImages=[]
@@ -382,6 +384,7 @@ function VariableProduct() {
     setUpdateModal(false);
   };
   const theme = useTheme();
+  const navigate = useNavigate();
   return !categories && !allProduct ? (
     <Box
       sx={{
@@ -424,7 +427,7 @@ function VariableProduct() {
             spacing={3}
           >
             <Grid item xs={12}>
-              <Box
+              {/* <Box
                 component="form"
                 rowrpacing={1}
                 columnspacing={{ xs: 1, sm: 2, md: 3 }}
@@ -817,11 +820,32 @@ function VariableProduct() {
                         </Button>
                       </Grid>
                     </Grid>
-                    {/* )} */}
                   </>
                 ) : (
                   <></>
                 )}
+              </Box> */}
+              <Box
+                className="main-order-table glass-morphism"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  // position: "absolute",
+                  width: "100%",
+                  zIndex: 9999,
+                  mb: "-35px",
+                }}
+              >
+                <Typography variant="h6">Add Variable Product</Typography>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => navigate("/dashboard/add-variableProduct")}
+                  sx={{ background: "transparent" }}
+                >
+                  Add New
+                </Button>
               </Box>
               <Card
                 className="main-order-table glass-morphism"

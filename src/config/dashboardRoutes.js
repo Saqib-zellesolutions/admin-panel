@@ -3,6 +3,7 @@ import { Outlet, Route, Routes } from "react-router-dom";
 import NotFound from "../component/404";
 import AddBeverages from "../component/AddBeverages";
 import AddCategory from "../component/AddCategory";
+import AddVariableProduct from "../component/AddVariableProduct";
 import EditBeverages from "../component/EditBeverages";
 import EditCategory from "../component/EditCategory";
 import EditProduct from "../component/EditProduct";
@@ -17,6 +18,7 @@ import Product from "../component/product";
 import Shipping from "../component/shipping";
 import Slider from "../component/slider";
 import VariableProduct from "../component/variableProduct";
+import EditVariationProduct from "../component/EditVariableProduct";
 
 function DashboardRoutes() {
   return (
@@ -38,6 +40,8 @@ function DashboardRoutes() {
         <Route path="editBeverages" element={<EditBeverages />} />
         <Route path="add-category" element={<AddCategory />} />
         <Route path="edit-category" element={<EditCategory />} />
+        <Route path="add-variableProduct" element={<AddVariableProduct />} />
+        <Route path="edit-variableProduct" element={<EditVariationProduct />} />
         {/* <Route path="tax" element={<Tax />} /> */}
         <Route path="*" element={<NotFound />} />
       </Route>

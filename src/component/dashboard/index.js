@@ -67,6 +67,8 @@ function Dasboard() {
     "/dashboard/edit-product": "Edit Simple Product",
     "/dashboard/add-category": "Add Category",
     "/dashboard/edit-category": "Edit Category",
+    "/dashboard/add-variableProduct": "Add Variable Product",
+    "/dashboard/edit-variableProduct": "Edit Variable Product",
     // Add more titles as needed
   };
 

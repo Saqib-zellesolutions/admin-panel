@@ -38,7 +38,6 @@
 }
 .logo-div p {
   color: #00698b;
-  font-family: "Poppins";
   font-size: 15px;
   font-style: normal;
   font-weight: 600;
@@ -76,7 +75,7 @@
 .nav-tab-div p {
   color: rgba(255, 255, 255, 0.7);
   /* color: #36454f; */
-  font-family: "Poppins";
+  
   font-size: 10px;
   font-style: normal;
   font-weight: 500;
@@ -92,7 +91,7 @@
 .nav-tab-div-2 p {
   color: rgba(255, 255, 255, 0.7);
   /* color: #36454f; */
-  font-family: "Poppins";
+  
   font-size: 10px;
   font-style: normal;
   font-weight: 500;
@@ -108,7 +107,7 @@
 .logout-div p {
   color: rgba(255, 255, 255, 0.5);
   /* color: #535353; */
-  font-family: "Poppins";
+  
   font-size: 10px;
   font-style: normal;
   font-weight: 500;
@@ -128,7 +127,7 @@
 }
 .heading-subheading-div h1 {
   color: #cbccd2;
-  font-family: "Poppins";
+  
   font-size: 32px;
   font-style: normal;
   font-weight: 500;
@@ -136,7 +135,7 @@
 }
 .heading-subheading-div p {
   color: rgba(203, 204, 210, 0.5);
-  font-family: "Poppins";
+  
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
@@ -155,7 +154,7 @@
 }
 .hello {
   color: #cbccd2;
-  font-family: "Poppins";
+  
   font-size: 18px;
   font-style: normal;
   font-weight: 600;
@@ -164,7 +163,7 @@
 }
 .name {
   color: #cbccd2;
-  font-family: "Poppins";
+  
   font-size: 18px;
   font-style: normal;
   font-weight: 500;
@@ -172,7 +171,7 @@
 }
 .title {
   color: rgba(203, 204, 210, 0.5);
-  font-family: "Poppins";
+  
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
