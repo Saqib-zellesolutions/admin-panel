@@ -25,6 +25,7 @@ function Dasboard() {
   const navigate = useNavigate();
   const branch = localStorage.getItem("branchName");
   const isActive = (path) => location.pathname === path;
+
   let token = localStorage.getItem("token");
   useEffect(() => {
     if (!token) {
@@ -49,6 +50,27 @@ function Dasboard() {
       })
       .catch((error) => console.log("error", error));
   };
+  const tabTitles = {
+    "/dashboard": "Dashboard",
+    "/dashboard/order": "Order",
+    "/dashboard/simple-product": "Simple Product",
+    "/dashboard/variable-product": "Variable Product",
+    "/dashboard/category": "Category",
+    "/dashboard/beverages": "Feature Product",
+    "/dashboard/shipping": "Shipping",
+    "/dashboard/payment": "Payment",
+    "/dashboard/content": "Description",
+    "/dashboard/slider": "Slider",
+    // Add more titles as needed
+  };
+
+  // Set the default title to "Dashboard"
+  let activeTabTitle = "Dashboard";
+  Object.keys(tabTitles).forEach((path) => {
+    if (isActive(path)) {
+      activeTabTitle = tabTitles[path];
+    }
+  });
   return (
     <main className="main-dashbaord">
       <div className="naviation-main-container">
@@ -248,7 +270,8 @@ function Dasboard() {
       <section className="main-dashboard-content">
         <header className="dashboard-header">
           <div className="heading-subheading-div">
-            <h1>Dashboard</h1>
+            {/* <h1>Dashboard</h1> */}
+            <h1>{activeTabTitle}</h1>
             <p>Zameeransari {branch} Branch </p>
           </div>
           <div className="profile-container">
