@@ -23,6 +23,7 @@ import { CliftonLocalUrl, LocalUrl } from "../../config/env";
 import NewTable from "../newtable";
 import BevergesUpdateModal from "../beveragesUpdateModal";
 import BeveragesImage from "../beveragesImage";
+import { useNavigate } from "react-router-dom";
 function AddProduct() {
   const theme = useTheme();
   const [categories, setCategories] = useState();
@@ -43,6 +44,7 @@ function AddProduct() {
   const [open, setOpen] = useState(false);
   const branch = localStorage.getItem("branchName");
   const handleClose = () => setOpen(false);
+  const navigate = useNavigate();
   useEffect(() => {
     const getCategory = () => {
       var requestOptions = {
@@ -193,9 +195,9 @@ function AddProduct() {
       .catch((error) => console.log("error", error));
   };
   let edit = (e) => {
-    // setEditData()
-    setEditData(e);
-    setOpen(true);
+    navigate("/dashboard/editBeverages", { state: e });
+    // setEditData(e);
+    // setOpen(true);
   };
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [editImageData, setEditImageData] = useState({});
@@ -237,7 +239,7 @@ function AddProduct() {
           spacing={3}
         >
           <Grid item xs={12}>
-            <Box
+            {/* <Box
               component="form"
               // component={Paper}
               rowrpacing={1}
@@ -277,6 +279,7 @@ function AddProduct() {
                   </Select>
                 </FormControl>
               </Grid>
+              
               <Grid container spacing={2} style={{ marginTop: 10 }}>
                 <Grid xs={6} item>
                   <Typography component="p">Name</Typography>
@@ -458,6 +461,28 @@ function AddProduct() {
                   Add Beverages
                 </Button>
               </Grid>
+            </Box> */}
+            <Box
+              className="main-order-table glass-morphism"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                // position: "absolute",
+                width: "100%",
+                zIndex: 9999,
+                mb: "-35px",
+              }}
+            >
+              <Typography variant="h6">Add Feature Product</Typography>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => navigate("/dashboard/addBeverages")}
+                sx={{ background: "transparent" }}
+              >
+                Add New
+              </Button>
             </Box>
             {allBeverages.length ? (
               <NewTable

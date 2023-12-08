@@ -207,28 +207,6 @@ function SimpleUpdateModal({
                 >
                   <Typography variant="h4">Edit Simple Product</Typography>
                 </Grid>
-                {/* <Grid container spacing={2} style={{ paddingLeft: "15px" }}>
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">
-                      Select Category
-                    </InputLabel>
-                    <Select
-                      required
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={categoryId}
-                      label="Category"
-                      onChange={(e) => setCategoryId(e.target.value)}
-                    >
-                      {categories &&
-                        categories.map((e, i) => (
-                          <MenuItem value={e.uniqueId} key={i}>
-                            {e.name}
-                          </MenuItem>
-                        ))}
-                    </Select>
-                  </FormControl>
-                </Grid> */}
                 <Grid container spacing={2} style={{ marginTop: 10 }}>
                   <Grid xs={6} item>
                     <Typography component="p">Name</Typography>

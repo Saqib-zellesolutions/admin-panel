@@ -61,6 +61,10 @@ function Dasboard() {
     "/dashboard/payment": "Payment",
     "/dashboard/content": "Description",
     "/dashboard/slider": "Slider",
+    "/dashboard/addBeverages": "Add Feature Product",
+    "/dashboard/editBeverages": "Edit Feature Product",
+    "/dashboard/product": "Add Simple Product",
+    "/dashboard/edit-product": "Edit Simple Product",
     // Add more titles as needed
   };
 

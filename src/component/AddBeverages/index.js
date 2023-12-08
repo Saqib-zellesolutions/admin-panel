@@ -2,58 +2,61 @@ import {
   Box,
   Button,
   Container,
+  FormControl,
   FormControlLabel,
   FormGroup,
   Grid,
+  InputLabel,
+  MenuItem,
   Radio,
   RadioGroup,
+  Select,
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
 import { CliftonLocalUrl, LocalUrl } from "../../config/env";
+import ProdcutImage from "../../assets/productImage.png";
 import { Gallery } from "../../config/icon";
-function EditProduct() {
-  const location = useLocation();
-  const [name, setName] = useState(location?.state?.name);
-  const [description, setDescription] = useState(location?.state?.description);
-  const [price, setPrice] = useState(location?.state?.price);
-  const [sku, setSku] = useState(location?.state?.sku);
-  const [stock, setStock] = useState(location?.state?.instock);
-  const [imageData, setImageData] = useState(location?.state?.images);
-  const [selectedGalleryImages, setSelectedGalleryImages] = useState(
-    location?.state?.images
-  );
-  const [cloudImage, setCloudImage] = useState(location?.state?.images);
+import { toast } from "react-toastify";
+function AddBeverages() {
+  const [categories, setCategories] = useState();
+  const [categoryId, setCategoryId] = useState("");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [sku, setSku] = useState("");
+  const [stock, setStock] = useState(true);
+  const [imageData, setImageData] = useState([]);
+  const [allProduct, setAllProduct] = useState([]);
+  const [selectedGalleryImages, setSelectedGalleryImages] = useState([]);
+  const [cloudImage, setCloudImage] = useState([]);
   const priceVariable = Number(price);
   const skuVariable = Number(sku);
   const branch = localStorage.getItem("branchName");
-  const navigate = useNavigate();
-  // useEffect(() => {
-  //   const getCategory = () => {
-  //     var requestOptions = {
-  //       method: "GET",
-  //       redirect: "follow",
-  //     };
+  useEffect(() => {
+    const getCategory = () => {
+      var requestOptions = {
+        method: "GET",
+        redirect: "follow",
+      };
 
-  //     fetch(
-  //       `${
-  //         branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
-  //       }/category/get-category`,
-  //       requestOptions
-  //     )
-  //       .then((response) => response.json())
-  //       .then((result) => {
-  //         setCategories(result);
-  //       })
-  //       .catch((error) => {
-  //         console.log("error", error);
-  //       });
-  //   };
-  //   getCategory();
-  // }, []);
+      fetch(
+        `${
+          branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
+        }/category/get-category`,
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          setCategories(result);
+        })
+        .catch((error) => {
+          console.log("error", error);
+        });
+    };
+    getCategory();
+  }, []);
   const handleGalleryImageChange = (e) => {
     const files = Array.from(e.target.files);
     const gFiles = e.target.files[0];
@@ -109,7 +112,7 @@ function EditProduct() {
       });
 
       var requestOptions = {
-        method: "PUT",
+        method: "POST",
         headers: myHeaders,
         body: raw,
         redirect: "follow",
@@ -118,20 +121,19 @@ function EditProduct() {
       fetch(
         `${
           branch === "Bahadurabad" ? LocalUrl : CliftonLocalUrl
-        }/SimpleProduct/edit-product/${location.state._id}`,
+        }/beverages/addBeverage/${categoryId}`,
         requestOptions
       )
         .then((response) => response.json())
         .then((result) => {
-          toast.success("Successfully edit product");
-          // window.location.reload();
+          toast.success("successfully product add");
+          window.location.reload();
           setName("");
           setDescription("");
           setImageData([]);
           setSku(0);
           setPrice(0);
           setStock(true);
-          navigate("/dashboard/simple-product");
         })
         .catch((error) => {
           toast.error(error);
@@ -141,7 +143,7 @@ function EditProduct() {
   return (
     <Container sx={{ mt: 5 }} maxWidth="lg">
       <Typography variant="h4" sx={{ mb: 2 }}>
-        Add Simple Product
+        Add Feature Product
       </Typography>
       <Grid
         container
@@ -156,8 +158,31 @@ function EditProduct() {
             columnspacing={{ xs: 1, sm: 2, md: 3 }}
             className="main-order-table glass-morphism"
           >
+            <Grid container>
+              <label style={{ marginBottom: "10px" }}>Select Category</label>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">
+                  Select Category
+                </InputLabel>
+                <Select
+                  required
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={categoryId}
+                  label="Category"
+                  onChange={(e) => setCategoryId(e.target.value)}
+                >
+                  {categories &&
+                    categories.map((e, i) => (
+                      <MenuItem value={e.uniqueId} key={i}>
+                        {e.name}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            </Grid>
             <Grid container sx={{ marginTop: 2 }}>
-              <label style={{ marginBottom: "10px" }}>Product Name</label>
+              <label style={{ marginBottom: "10px" }}>Feature Product Name</label>
               <TextField
                 required
                 id="outlined-basic"
@@ -170,7 +195,7 @@ function EditProduct() {
             </Grid>
             <Grid container sx={{ marginTop: 2 }}>
               <label style={{ marginBottom: "10px" }}>
-                Product Description
+              Feature Product Description
               </label>
               <TextField
                 required
@@ -183,7 +208,7 @@ function EditProduct() {
               />
             </Grid>
             <Grid container sx={{ marginTop: 2 }}>
-              <label style={{ marginBottom: "10px" }}>Product Sku</label>
+              <label style={{ marginBottom: "10px" }}>Feature Product Sku</label>
               <TextField
                 required
                 id="outlined-basic"
@@ -200,7 +225,7 @@ function EditProduct() {
               />
             </Grid>
             <Grid container sx={{ marginTop: 2 }}>
-              <label style={{ marginBottom: "10px" }}>Product Price</label>
+              <label style={{ marginBottom: "10px" }}>Feature Product Price</label>
               <TextField
                 required
                 id="outlined-basic"
@@ -223,11 +248,11 @@ function EditProduct() {
               }}
             >
               <Box>
-                <label style={{ marginBottom: "10px" }}>Product Stock</label>
+                <label style={{ marginBottom: "10px" }}>Feature Product Stock</label>
                 <FormGroup>
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
-                    // defaultValue="true"
+                    defaultValue="true"
                     name="radio-buttons-group"
                     style={{
                       display: "flex",
@@ -273,7 +298,7 @@ function EditProduct() {
                 onClick={addProduct}
                 fullWidth
               >
-                Save Edit
+                Add Feature Product
               </Button>
             </Grid>
           </Box>
@@ -286,7 +311,7 @@ function EditProduct() {
             columnspacing={{ xs: 1, sm: 2, md: 3 }}
             className="main-order-table glass-morphism"
           >
-            <Typography variant="h6">Product Images</Typography>
+            <Typography variant="h6">Feature Product Images</Typography>
             <div
               style={{
                 display: "flex",
@@ -299,12 +324,11 @@ function EditProduct() {
                 selectedGalleryImages.map((image, index) => (
                   <img
                     key={index}
-                    src={image.url ? image.url : image}
+                    src={image.url}
                     alt={`Selected ${index + 1}`}
                     style={{
                       width: "170px",
                       height: "120px",
-                      //   marginRight: "10px",
                       borderRadius: "10px",
                       marginTop: 5,
                     }}
@@ -314,7 +338,7 @@ function EditProduct() {
             <Grid container sx={{ marginTop: 2 }}>
               <label for="upload-photo" className="image-upload-customize">
                 <img src={Gallery} alt="" width={80} height={80} />
-                <Typography variant="h6">Upload Product Image</Typography>
+                <Typography variant="h6">Upload Feature Product Image</Typography>
               </label>
               <input
                 id="upload-photo"
@@ -341,7 +365,7 @@ function EditProduct() {
                   }}
                   onClick={SaveImages}
                 >
-                  Save New Images
+                  Save Images
                 </Button>
               ) : null}
             </Box>
@@ -351,4 +375,4 @@ function EditProduct() {
     </Container>
   );
 }
-export default EditProduct;
+export default AddBeverages;

@@ -14,6 +14,8 @@ import Slider from "../component/slider";
 import Tax from "../component/tax";
 import Product from "../component/product";
 import EditProduct from "../component/EditProduct";
+import AddBeverages from "../component/AddBeverages";
+import EditBeverages from "../component/EditBeverages";
 
 function DashboardRoutes() {
   return (
@@ -31,6 +33,8 @@ function DashboardRoutes() {
         <Route path="slider" element={<Slider />} />
         <Route path="product" element={<Product />} />
         <Route path="edit-product" element={<EditProduct />} />
+        <Route path="addBeverages" element={<AddBeverages />} />
+        <Route path="editBeverages" element={<EditBeverages />} />
         {/* <Route path="tax" element={<Tax />} /> */}
         <Route path="*" element={<NotFound />} />
       </Route>
