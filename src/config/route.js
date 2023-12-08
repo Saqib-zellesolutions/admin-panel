@@ -3,12 +3,14 @@ import NotFound from "../component/404";
 import Dashboard from "../component/dashboard";
 import Login from "../component/login";
 import DashboardRoutes from "./dashboardRoutes";
+import Signup from "../component/signup";
 
 function AppRouter() {
   return (
     <>
       <Router>
         <Routes>
+          {/* <Route path="/" element={<Signup />} /> */}
           <Route path="/" element={<Login />} />
           <Route path="/dashboard/*" element={<Dashboard />}>
             <Route index element={<DashboardRoutes />} />

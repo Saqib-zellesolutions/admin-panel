@@ -45,7 +45,7 @@ export default function Login() {
     event.preventDefault();
   };
   const login = () => {
-    if ((!email, !password, !selectedBranch)) {
+    if ((!email, !password)) {
       alert("please fill the input");
     } else {
       setLoader(true);
@@ -69,11 +69,17 @@ export default function Login() {
         .then((result) => {
           setEmail("");
           setPassword("");
-          setSelectedBranch("");
           setLoader(false);
           if (result.data) {
-            localStorage.setItem("token", result.data.token);
-            navigate("/dashboard");
+            if (result.data.email === "admin.ctn@gmail.com") {
+              localStorage.setItem("branchName", "Clifton");
+              localStorage.setItem("token", result.data.token);
+              navigate("/dashboard");
+            } else if (result.data.email === "admin.bhd@gmail.com") {
+              localStorage.setItem("branchName", "Bahadurabad");
+              localStorage.setItem("token", result.data.token);
+              navigate("/dashboard");
+            }
           } else {
             toast.error(result.message);
           }
@@ -82,7 +88,6 @@ export default function Login() {
           toast.error("Your Connection failed");
           setEmail("");
           setPassword("");
-          setSelectedBranch("");
           setLoader(false);
         });
     }
@@ -100,7 +105,7 @@ export default function Login() {
         justifyContent: "space-between",
         height: "100vh",
         flexDirection: "column",
-        padding:"10px"
+        padding: "10px",
       }}
     >
       <CssBaseline />
@@ -176,7 +181,7 @@ export default function Login() {
               value={password}
             />
           </FormControl>
-          <FormControl fullWidth margin="normal" variant="outlined">
+          {/* <FormControl fullWidth margin="normal" variant="outlined">
             <InputLabel id="demo-simple-select-label">Branch Name</InputLabel>
             <Select
               required
@@ -194,7 +199,7 @@ export default function Login() {
                 );
               })}
             </Select>
-          </FormControl>
+          </FormControl> */}
           <Button
             type="submit"
             fullWidth

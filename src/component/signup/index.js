@@ -21,7 +21,7 @@ export default function Signup() {
   const handleSubmit = (event) => {
     event.preventDefault();
   };
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const signup = () => {
     if ((!fullName, !password, !confirmPassword, !email)) {
       alert("please fill the input");
@@ -53,7 +53,7 @@ export default function Signup() {
             setEmail("");
             setFullName("");
             setPassword("");
-            navigate("/dashboard");
+            // navigate("/dashboard");
           })
           .catch((error) => {
             setConfirmPassword("");
