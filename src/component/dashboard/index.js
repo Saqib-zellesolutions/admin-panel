@@ -65,6 +65,8 @@ function Dasboard() {
     "/dashboard/editBeverages": "Edit Feature Product",
     "/dashboard/product": "Add Simple Product",
     "/dashboard/edit-product": "Edit Simple Product",
+    "/dashboard/add-category": "Add Category",
+    "/dashboard/edit-category": "Edit Category",
     // Add more titles as needed
   };
 

@@ -25,6 +25,7 @@ import { toast } from "react-toastify";
 import { CliftonLocalUrl, LocalUrl } from "../../config/env";
 import CategoryUpdateModal from "../categoryUpdateModal";
 import { Upload } from "../../config/icon";
+import { useNavigate } from "react-router-dom";
 function AddCategory() {
   const [name, setName] = useState("");
   const [imageData, setImageData] = useState("");
@@ -36,7 +37,7 @@ function AddCategory() {
   const [open, setOpen] = useState(false);
   const [isloading, setIsLoading] = useState(true);
   const handleClose = () => setOpen(false);
-
+  const navigate = useNavigate();
   const branch = localStorage.getItem("branchName");
   const addCategory = () => {
     if (!name || !fileurl || !bannerFileUrl) {
@@ -119,6 +120,7 @@ function AddCategory() {
       .then((response) => response.json())
       .then((data) => {
         // Handle the response from Cloudinary
+        console.log(data);
         if (data.url) {
           setBannerFileUrl(data?.url);
           toast.success(" uploaded Banner Image successfully");
@@ -185,8 +187,9 @@ function AddCategory() {
   };
   const [editData, setEditData] = useState({});
   const edit = (e) => {
-    setEditData(e);
-    setOpen(true);
+    navigate("/dashboard/edit-category", { state: e });
+    // setEditData(e);
+    // setOpen(true);
   };
   const theme = useTheme();
   return isloading ? (
@@ -219,7 +222,7 @@ function AddCategory() {
           spacing={3}
         >
           <Grid item xs={12}>
-            <Box
+            {/* <Box
               component="form"
               rowrpacing={1}
               columnspacing={{ xs: 1, sm: 2, md: 3 }}
@@ -298,14 +301,6 @@ function AddCategory() {
                       }}
                     />
                   ) : null}
-                  {/* <TextField
-                    id="outlined-basic"
-                    variant="outlined"
-                    fullWidth
-                    type="file"
-                    onChange={handleImageChange}
-                    // value={imageData}
-                  /> */}
                 </Grid>
               </Grid>
               <Grid
@@ -338,13 +333,6 @@ function AddCategory() {
                       />
                       Upload Banner Image
                     </label>
-                    {/* <TextField
-                    id="outlined-basic banner-image"
-                    variant="outlined"
-                    fullWidth
-                    type="file"
-                    onChange={handleBannerImageChange}
-                  /> */}
                     <input
                       id="banner-image"
                       style={{ opacity: 0, position: "absolute", zIndex: -1 }}
@@ -388,6 +376,28 @@ function AddCategory() {
                   </Button>
                 </Grid>
               </Grid>
+            </Box> */}
+            <Box
+              className="main-order-table glass-morphism"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                // position: "absolute",
+                width: "100%",
+                zIndex: 9999,
+                mb: "-35px",
+              }}
+            >
+              <Typography variant="h6">Add Category</Typography>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => navigate("/dashboard/add-category")}
+                sx={{ background: "transparent" }}
+              >
+                Add New
+              </Button>
             </Box>
             <Card
               className="main-order-table glass-morphism"

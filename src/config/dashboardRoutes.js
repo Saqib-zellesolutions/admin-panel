@@ -1,6 +1,11 @@
 import React from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 import NotFound from "../component/404";
+import AddBeverages from "../component/AddBeverages";
+import AddCategory from "../component/AddCategory";
+import EditBeverages from "../component/EditBeverages";
+import EditCategory from "../component/EditCategory";
+import EditProduct from "../component/EditProduct";
 import AddProduct from "../component/addProduct";
 import Beverages from "../component/beverages";
 import Category from "../component/category";
@@ -8,14 +13,10 @@ import Content from "../component/content";
 import Order from "../component/order";
 import OrderDetail from "../component/order-detail";
 import Payment from "../component/payment";
-import Shipping from "../component/shipping";
-import VariableProduct from "../component/variableProduct";
-import Slider from "../component/slider";
-import Tax from "../component/tax";
 import Product from "../component/product";
-import EditProduct from "../component/EditProduct";
-import AddBeverages from "../component/AddBeverages";
-import EditBeverages from "../component/EditBeverages";
+import Shipping from "../component/shipping";
+import Slider from "../component/slider";
+import VariableProduct from "../component/variableProduct";
 
 function DashboardRoutes() {
   return (
@@ -35,6 +36,8 @@ function DashboardRoutes() {
         <Route path="edit-product" element={<EditProduct />} />
         <Route path="addBeverages" element={<AddBeverages />} />
         <Route path="editBeverages" element={<EditBeverages />} />
+        <Route path="add-category" element={<AddCategory />} />
+        <Route path="edit-category" element={<EditCategory />} />
         {/* <Route path="tax" element={<Tax />} /> */}
         <Route path="*" element={<NotFound />} />
       </Route>
