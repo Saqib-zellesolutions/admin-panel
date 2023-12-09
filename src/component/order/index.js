@@ -36,11 +36,10 @@ function Order() {
   const [customerDetailModal, setCustomerDetailModal] = useState(false);
   const [newOrderModal, setNewOrderModal] = useState(false);
   const [customerDetailData, setCustomerDetailData] = useState({});
-  // const SocketUrl =
-  //   branch === "Bahadurabad"
-  //     ? "https://api.zameeransari.com.pk"
-  //     : "https://apiclifton.zameeransari.com.pk";
   const SocketUrl = "https://apiclifton.zameeransari.com.pk";
+  // branch === "Bahadurabad"
+  //   ? "https://apibahadurabad.zameeransari.com.pk"
+  //   : "https://apiclifton.zameeransari.com.pk";
   const socket = io(SocketUrl, {
     transports: ["websocket"],
     debug: true,
@@ -50,13 +49,6 @@ function Order() {
     socket.on("connect", () => {
       console.log("socket connect ", socket.id);
     });
-    // socket.on("connect_timeout", () => {
-    //   console.error("Socket connection timeout");
-    // });
-
-    // socket.on("disconnect", (reason) => {
-    //   console.warn("Socket disconnected:", reason);
-    // });
   }, []);
   socket.on("newOrder", (newProduct) => {
     console.log(newProduct, "new order");
