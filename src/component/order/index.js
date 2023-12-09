@@ -39,14 +39,14 @@ function Order() {
   // const SocketUrl = "https://apiclifton.zameeransari.com.pk";
   const SocketUrl =
     branch === "Bahadurabad"
-      ? "https://apibahadurabad.zameeransari.com.pk"
-      : "https://apiclifton.zameeransari.com.pk";
-      console.log(SocketUrl,"url");
-  const socket = io(SocketUrl, {
-    transports: ["websocket"],
-    debug: true,
-    withCredentials: true,
-  });
+      ? // ? "http://localhost:4000"
+        "https://apibahadurabad.zameeransari.com.pk"
+      : branch === "Clifton" // ? "http://localhost:4000"
+      ? "https://apiclifton.zameeransari.com.pk"
+      : ""; // Set to empty string if neither Bahadurabad nor Clifton
+
+  // console.log(SocketUrl, "url");
+  const socket = io(SocketUrl);
   useEffect(() => {
     socket.on("connect", () => {
       console.log("socket connect ", socket.id);
@@ -59,6 +59,9 @@ function Order() {
     setNewOrderModal(true);
     setModalId(newProduct._id);
     ringtone.play();
+  });
+  socket.on("disconnect", () => {
+    console.log("socket discount");
   });
   // return () => {
   //   console.log("Unsubscribed from newOrder event");
