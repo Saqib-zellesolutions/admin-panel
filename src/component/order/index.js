@@ -36,11 +36,12 @@ function Order() {
   const [customerDetailModal, setCustomerDetailModal] = useState(false);
   const [newOrderModal, setNewOrderModal] = useState(false);
   const [customerDetailData, setCustomerDetailData] = useState({});
-  const SocketUrl = "https://apiclifton.zameeransari.com.pk";
-  // const SocketUrl =
-  //   branch === "Bahadurabad"
-  //     ? "https://apibahadurabad.zameeransari.com.pk"
-  //     : "https://apiclifton.zameeransari.com.pk";
+  // const SocketUrl = "https://apiclifton.zameeransari.com.pk";
+  const SocketUrl =
+    branch === "Bahadurabad"
+      ? "https://apibahadurabad.zameeransari.com.pk"
+      : "https://apiclifton.zameeransari.com.pk";
+      console.log(SocketUrl,"url");
   const socket = io(SocketUrl, {
     transports: ["websocket"],
     debug: true,
