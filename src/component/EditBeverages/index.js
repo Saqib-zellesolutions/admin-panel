@@ -13,7 +13,7 @@ import {
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { CliftonLocalUrl, LocalUrl } from "../../config/env";
+import { CliftonLocalUrl, ImageCliftonLocalUrl, ImageLocalUrl, LocalUrl } from "../../config/env";
 import { Gallery } from "../../config/icon";
 function EditBeverages() {
   const location = useLocation();
@@ -26,70 +26,51 @@ function EditBeverages() {
   const [selectedGalleryImages, setSelectedGalleryImages] = useState(
     location?.state?.images
   );
-  const [cloudImage, setCloudImage] = useState(location?.state?.images);
   const priceVariable = Number(price);
   const skuVariable = Number(sku);
   const branch = localStorage.getItem("branchName");
   const navigate = useNavigate();
   const handleGalleryImageChange = (e) => {
     const files = Array.from(e.target.files);
-    const gFiles = e.target.files[0];
-    setImageData((gallery) => [...gallery, gFiles]);
     const images = files.map((file) => ({
       file,
       url: URL.createObjectURL(file),
     }));
-    setSelectedGalleryImages((prevImages) => [...prevImages, ...images]);
+    setSelectedGalleryImages([...selectedGalleryImages, ...images]);
   };
-  const uploadImages = async (e) => {
-    const formData = new FormData();
-    formData.append("file", e);
-    formData.append("upload_preset", "htjxlrii");
-    fetch("https://api.cloudinary.com/v1_1/dnwbw493d/image/upload", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setCloudImage((prevArray) => [...prevArray, data.url]);
-      })
-      .catch((error) => {
-        toast.error("image is not uploaded");
-      });
+
+  const removeGalleryImage = (index) => {
+    const updatedImages = [...selectedGalleryImages];
+    updatedImages.splice(index, 1);
+    setSelectedGalleryImages(updatedImages);
   };
   const SaveImages = () => {
-    let newUrl = [];
-    for (let i of imageData) {
-      newUrl.push(uploadImages(i));
-      toast.success("gallery images uploaded successfully!");
-    }
-
-    if (newUrl.length > 1) {
-      toast.success("gallery images uploaded successfully!");
-    }
+    toast.success("Gallery images saved successfully!");
   };
   const addProduct = async () => {
     if (
-      (!name, !description, !skuVariable, !priceVariable, !cloudImage.length)
+      (!name,
+      !description,
+      !skuVariable,
+      !priceVariable,
+      !selectedGalleryImages.length)
     ) {
       toast.error("Please Fill Inputs");
     } else {
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      var raw = JSON.stringify({
-        name: name,
-        description: description,
-        sku: skuVariable,
-        images: cloudImage,
-        price: priceVariable,
-        instock: stock,
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("sku", sku);
+      formData.append("price", price);
+      formData.append("instock", stock);
+
+      selectedGalleryImages.forEach((image, index) => {
+        formData.append("images", image.file);
       });
 
       var requestOptions = {
         method: "PUT",
-        headers: myHeaders,
-        body: raw,
-        redirect: "follow",
+        body: formData,
       };
 
       fetch(
@@ -118,7 +99,7 @@ function EditBeverages() {
   return (
     <Container sx={{ mt: 5 }} maxWidth="lg">
       <Typography variant="h4" sx={{ mb: 2 }}>
-        Add Feature Product
+        Add Beverages
       </Typography>
       <Grid
         container
@@ -134,13 +115,11 @@ function EditBeverages() {
             className="main-order-table glass-morphism"
           >
             <Grid container sx={{ marginTop: 2 }}>
-              <label style={{ marginBottom: "10px" }}>
-                Feature Product Name
-              </label>
+              <label style={{ marginBottom: "10px" }}>Beverages Name</label>
               <TextField
                 required
                 id="outlined-basic"
-                placeholder="Product Name"
+                placeholder="Beverages Name"
                 variant="outlined"
                 fullWidth
                 onChange={(e) => setName(e.target.value)}
@@ -149,12 +128,12 @@ function EditBeverages() {
             </Grid>
             <Grid container sx={{ marginTop: 2 }}>
               <label style={{ marginBottom: "10px" }}>
-                Feature Product Description
+                Beverages Description
               </label>
               <TextField
                 required
                 id="outlined-basic"
-                placeholder="Product Description"
+                placeholder="Beverages Description"
                 variant="outlined"
                 fullWidth
                 onChange={(e) => setDescription(e.target.value)}
@@ -162,13 +141,11 @@ function EditBeverages() {
               />
             </Grid>
             <Grid container sx={{ marginTop: 2 }}>
-              <label style={{ marginBottom: "10px" }}>
-                Feature Product Sku
-              </label>
+              <label style={{ marginBottom: "10px" }}>Beverages Sku</label>
               <TextField
                 required
                 id="outlined-basic"
-                placeholder="Product Sku"
+                placeholder="Beverages Sku"
                 variant="outlined"
                 fullWidth
                 type="number"
@@ -181,13 +158,11 @@ function EditBeverages() {
               />
             </Grid>
             <Grid container sx={{ marginTop: 2 }}>
-              <label style={{ marginBottom: "10px" }}>
-                Feature Product Price
-              </label>
+              <label style={{ marginBottom: "10px" }}>Beverages Price</label>
               <TextField
                 required
                 id="outlined-basic"
-                placeholder="Product Price"
+                placeholder="Beverages Price"
                 variant="outlined"
                 fullWidth
                 type="number"
@@ -206,9 +181,7 @@ function EditBeverages() {
               }}
             >
               <Box>
-                <label style={{ marginBottom: "10px" }}>
-                  Feature Product Stock
-                </label>
+                <label style={{ marginBottom: "10px" }}>Beverages Stock</label>
                 <FormGroup>
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
@@ -265,13 +238,11 @@ function EditBeverages() {
         </Grid>
         <Grid item xs={4}>
           <Box
-            // component="form"
-            // component={Paper}
             rowrpacing={1}
             columnspacing={{ xs: 1, sm: 2, md: 3 }}
             className="main-order-table glass-morphism"
           >
-            <Typography variant="h6">Feature Product Images</Typography>
+            <Typography variant="h6">Beverages Images</Typography>
             <div
               style={{
                 display: "flex",
@@ -282,26 +253,35 @@ function EditBeverages() {
             >
               {selectedGalleryImages &&
                 selectedGalleryImages.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image.url ? image.url : image}
-                    alt={`Selected ${index + 1}`}
-                    style={{
-                      width: "170px",
-                      height: "120px",
-                      //   marginRight: "10px",
-                      borderRadius: "10px",
-                      marginTop: 5,
-                    }}
-                  />
+                  <div key={index}>
+                    <img
+                      src={
+                        image.url
+                          ? image.url
+                          : `${
+                              branch === "Bahadurabad"
+                                ? ImageLocalUrl
+                                : ImageCliftonLocalUrl
+                            }/${image}`
+                      }
+                      alt={`Selected ${index + 1}`}
+                      style={{
+                        width: "170px",
+                        height: "120px",
+                        borderRadius: "10px",
+                        marginTop: 5,
+                      }}
+                    />
+                    <Button onClick={() => removeGalleryImage(index)}>
+                      Remove
+                    </Button>
+                  </div>
                 ))}
             </div>
             <Grid container sx={{ marginTop: 2 }}>
               <label for="upload-photo" className="image-upload-customize">
                 <img src={Gallery} alt="" width={80} height={80} />
-                <Typography variant="h6">
-                  Upload Feature Product Image
-                </Typography>
+                <Typography variant="h6">Upload Beverages Image</Typography>
               </label>
               <input
                 id="upload-photo"

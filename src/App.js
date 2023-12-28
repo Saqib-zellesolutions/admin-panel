@@ -5,7 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import AppRouter from "./config/route";
 import ThemeProviderWrapper from "./config/themeProvider";
-import Signup from "./component/signup";
 function App() {
   return (
     <ThemeProviderWrapper>

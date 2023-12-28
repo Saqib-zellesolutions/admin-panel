@@ -39,10 +39,11 @@ function Order() {
   // const SocketUrl = "https://apiclifton.zameeransari.com.pk";
   const SocketUrl =
     branch === "Bahadurabad"
-      ? // ? "http://localhost:4000"
-        "https://apibahadurabad.zameeransari.com.pk"
-      : branch === "Clifton" // ? "http://localhost:4000"
-      ? "https://apiclifton.zameeransari.com.pk"
+      ? "https://apibahadurabad.zameeransari.com.pk"
+      : // "http://localhost:4000"
+      branch === "Clifton" // ? "http://localhost:4000"
+      ? // ?  "http://localhost:4000"
+        "https://apiclifton.zameeransari.com.pk"
       : ""; // Set to empty string if neither Bahadurabad nor Clifton
 
   // console.log(SocketUrl, "url");

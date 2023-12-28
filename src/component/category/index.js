@@ -22,7 +22,12 @@ import TableRow from "@mui/material/TableRow";
 import { useTheme } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { CliftonLocalUrl, LocalUrl } from "../../config/env";
+import {
+  CliftonLocalUrl,
+  ImageCliftonLocalUrl,
+  ImageLocalUrl,
+  LocalUrl,
+} from "../../config/env";
 import CategoryUpdateModal from "../categoryUpdateModal";
 import { Upload } from "../../config/icon";
 import { useNavigate } from "react-router-dom";
@@ -135,13 +140,6 @@ function AddCategory() {
         // setIsLoading(false);
         toast.error("Upload error");
       });
-  };
-  const handleBannerImageChange = (e) => {
-    // setIsLoading(true);
-    const file = e.target.files[0];
-    setBanner(URL.createObjectURL(file));
-    // setFile(file)
-    BannerImageUploader(file);
   };
 
   useEffect(() => {
@@ -427,7 +425,11 @@ function AddCategory() {
                               className="product-table-text"
                             >
                               <img
-                                src={e.image}
+                                src={`${
+                                  branch === "Bahadurabad"
+                                    ? ImageLocalUrl
+                                    : ImageCliftonLocalUrl
+                                }/${e.image}`}
                                 alt=""
                                 width={50}
                                 height={50}
@@ -443,7 +445,11 @@ function AddCategory() {
                               className="product-table-text"
                             >
                               <img
-                                src={e.banner_image}
+                                src={`${
+                                  branch === "Bahadurabad"
+                                    ? ImageLocalUrl
+                                    : ImageCliftonLocalUrl
+                                }/${e.banner_image}`}
                                 alt=""
                                 width={50}
                                 height={50}
